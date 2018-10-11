@@ -24,7 +24,7 @@ export const getTotalDaysInEventArray = events => {
 export const getTotalDaysInEventArrayWithStatus = (events, status) => {
   if (!events) return;
   let totalDays = 0;
-  events.forEach(event => {
+  events.filter(event => event.eventType.description === 'Annual Leave').forEach(event => {
     totalDays +=
       event.eventStatus.eventStatusId === status ? getEventDayAmount(event) : 0;
   });
