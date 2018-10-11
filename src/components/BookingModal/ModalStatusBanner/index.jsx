@@ -15,71 +15,71 @@ class ModalStatusBanner extends Component {
     };
   }
 
-  handleCancel = event => {
-    if (!this.state.cancelConfirm) {
-      this.setState({ cancelConfirm: true });
-    } else {
-      this.props.cancelEvent(event);
-    }
-  };
+ handleCancel = event => {
+   if (!this.state.cancelConfirm) {
+     this.setState({ cancelConfirm: true });
+   } else {
+     this.props.cancelEvent(event);
+   }
+ };
 
-  render() {
-    const {
-      userName,
-      eventStatus: { eventStatusId },
-      eventType: { eventTypeId },
-      rejectionReason,
-      toggleLegacyHolidayMessageView,
-      toggleRejectionMessageView,
-    } = this.props;
-    const { cancelConfirm } = this.state;
+ render() {
+   const {
+     userName,
+     eventStatus: { eventStatusId },
+     eventType: { eventTypeId },
+     rejectionReason,
+     toggleLegacyHolidayMessageView,
+     toggleRejectionMessageView,
+   } = this.props;
+   const { cancelConfirm } = this.state;
 
-    let isCancelled = eventStatusId === holidayStatus.CANCELLED;
-    let bannerId;
-    let bannerDescription;
-    let category;
-    if (eventTypeId === eventTypes.ANNUAL_LEAVE) {
-      bannerId = eventStatusId;
-      bannerDescription = statusText[eventStatusId];
-      category = eventCategory.HOLIDAY_STATUS;
-    } else {
-      bannerId = eventTypeId;
-      bannerDescription = typeText[eventTypeId];
-      category = eventCategory.EVENT_TYPE;
-    }
+   let isCancelled = eventStatusId === holidayStatus.CANCELLED;
+   let bannerId;
+   let bannerDescription;
+   let category;
+   if (eventTypeId === eventTypes.ANNUAL_LEAVE) {
+     bannerId = eventStatusId;
+     bannerDescription = statusText[eventStatusId];
+     category = eventCategory.HOLIDAY_STATUS;
+   } else {
+     bannerId = eventTypeId;
+     bannerDescription = typeText[eventTypeId];
+     category = eventCategory.EVENT_TYPE;
+   }
 
-    return (
-      <Banner status={bannerId} className={category}>
-        <div>
-          <h4>{userName}</h4>
-          <p>{bannerDescription}</p>
-        </div>
-        {rejectionReason && (
-          <div>
-            <h4>Rejection Reason</h4>
-            <p>{rejectionReason}</p>
-          </div>
-        )}
-        {rejectionReason && (
-          <div className="cancelEvent" onClick={toggleLegacyHolidayMessageView}>
-            <span>
-              {toggleRejectionMessageView ? 'Hide Messages' : 'Display Messages'}
-            </span>
-          </div>
-        )}
-        <div>
-          {!isCancelled && (
-            <div className="cancelEvent" onClick={this.handleCancel}>
-              <FontAwesomeIcon icon={faTrash} />
-              <span>
-                {cancelConfirm ? 'Confirm? (Click Again)' : 'Cancel Event'}
-              </span>
-            </div>
-          )}
-        </div>
-      </Banner>
-    );
-  }
+   return (
+     <Banner status={bannerId} className={category}>
+       <div>
+         <h4>{userName}</h4>
+         <p>{bannerDescription}</p>
+       </div>
+       {rejectionReason && (
+         <div>
+           <h4>Rejection Reason</h4>
+           <p>{rejectionReason}</p>
+         </div>
+       )}
+       {rejectionReason && (
+         <div className="cancelEvent" onClick={toggleLegacyHolidayMessageView}>
+           <span>
+             {toggleRejectionMessageView ? 'Hide Messages' : 'Display Messages'}
+           </span>
+         </div>
+       )}
+       <div>
+         {!rejectionReason && !isCancelled && (
+           <div className="cancelEvent" onClick={this.handleCancel}>
+             <FontAwesomeIcon icon={faTrash} />
+             <span>
+               {cancelConfirm ? 'Confirm? (Click Again)' : 'Cancel Event'}
+             </span>
+           </div>
+         )}
+       </div>
+     </Banner>
+   );
+ }
 }
 
 ModalStatusBanner.propTypes = {
