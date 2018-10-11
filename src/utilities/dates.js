@@ -61,14 +61,3 @@ export const calculateDaysNotice = daysRequested => {
   }
 };
 
-export const excludeWeekends = function (startDate, endDate) {
-  const now = startDate.clone(), dates = [];
-  if (startDate.isSame(endDate)) {
-    return dates;
-  }
-  while (now.isSameOrBefore(endDate)) {
-    dates.push(moment(now.format('YYYY-MM-DD')));
-    now.add(1, 'days');
-  }
-  return dates.filter(date => date.isoWeekday() <= 5);
-};
