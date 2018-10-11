@@ -1,0 +1,15 @@
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+node_modules/
+coverage/
+.env
+dist/
+/BackEnd/target
+.idea/
+.vscode/
+/BackEnd/*.iml
+/BackEnd/docs
