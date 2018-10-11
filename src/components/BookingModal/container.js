@@ -8,6 +8,8 @@ import {
   getBooking,
   bookingModalOpen,
   getBookingDuration,
+  getUser,
+  getAllEvents,
 } from '../../reducers';
 import {
   updateHoliday,
@@ -17,6 +19,9 @@ import {
 } from '../../services/holidayService';
 import { requestWFH } from '../../services/wfhService';
 import eventTypes from '../../utilities/eventTypes';
+import HolidayStatus from '../../utilities/holidayStatus';
+import { getTotalDaysInEventArrayWithStatus } from '../../utilities/dates';
+import { checkSameDate } from '../../utilities/dashboardEvents';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -25,9 +30,11 @@ const Container = Wrapped =>
       updateTakenEvents: PT.func,
       isEventBeingUpdated: PT.bool,
       booking: PT.object,
+      userDetails: PT.object.isRequired,
       bookingModalOpen: PT.bool,
       toggleBookingModal: PT.func,
       bookingDuration: PT.number,
+      allEvents: PT.array.isRequired,
     };
 
     constructor(props) {
@@ -39,6 +46,7 @@ const Container = Wrapped =>
         rejectionResponseText: '',
         toggleRejectionMessageView: false,
         loading: false,
+        formData: {},
       };
     }
 
@@ -169,11 +177,35 @@ const Container = Wrapped =>
         });
     };
 
+    getApprovedDays = () => {
+      return getTotalDaysInEventArrayWithStatus(
+        this.props.allEvents,
+        HolidayStatus.APPROVED
+      );
+    };
+
+    getPendingDays = () => {
+      return getTotalDaysInEventArrayWithStatus(
+        this.props.allEvents,
+        HolidayStatus.PENDING
+      );
+    };
+
+    onFormUpdate = formData => {
+      this.setState({formData});
+    }
+
     render() {
       const { toggleRejectionMessageView, toggleRejectionResponseView, loading } = this.state;
+      const { booking: { start } } = this.props;
       return (
         this.props.employeeId && (
           <Wrapped
+            workingFromHomeBooking={checkSameDate(start)}
+            formData={this.state.formData}
+            userDetails={this.props.userDetails}
+            pendingDays={this.getPendingDays()}
+            approvedDays={this.getApprovedDays()}
             legacyHolidayMessagelist={this.legacyHolidayMessagelist}
             submitRejectionResponse={this.submitRejectionResponse}
             toggleRejectionMessageView={toggleRejectionMessageView}
@@ -193,6 +225,7 @@ const Container = Wrapped =>
             updateEvent={this.updateEvent}
             cancelEvent={this.cancelEvent}
             loading={loading}
+            onFormUpdate={this.onFormUpdate}
           />
         )
       );
@@ -201,6 +234,8 @@ const Container = Wrapped =>
 
 const mapStateToProps = state => {
   return {
+    userDetails: getUser(state),
+    allEvents: getAllEvents(state),
     booking: getBooking(state),
     bookingModalOpen: bookingModalOpen(state),
     bookingDuration: getBookingDuration(state),
