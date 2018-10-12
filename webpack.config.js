@@ -106,6 +106,8 @@ module.exports = {
       template: './src/index.template.ejs',
       inject: 'body',
     }),
-    new Dotenv(),
+    new Dotenv({
+      systemvars: !( typeof process.env.JENKINS == "undefined" )
+    }),
   ],
 };
