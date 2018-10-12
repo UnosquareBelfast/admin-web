@@ -56,7 +56,7 @@ const Container = Wrapped =>
         submitButtonDisabled: false,
         formIsValid: true,
         capturedRejectionReponseText: '',
-        workingFromHomeBooking: this.wFhBooking(),
+        workingFromHomeBooking: this.WFHBooking(),
       };
     }
     componentDidMount = () => {
@@ -83,7 +83,7 @@ const Container = Wrapped =>
       );
     };
 
-    wFhBooking() {
+    WFHBooking() {
       const {
         workingFromHomeBooking,
         booking: { start, end },
@@ -155,7 +155,7 @@ const Container = Wrapped =>
 
       if (isEventBeingUpdated) {
         this.setState({
-          submitButtonDisabled: this.shouldDisableUpdateButton(formData),
+          submitButtonDisabled: !this.isValidBooking(formData),
         });
       }
 
@@ -173,8 +173,10 @@ const Container = Wrapped =>
       });
     };
 
-    shouldDisableUpdateButton = formData => {
+    isValidBooking = formData => {
       const { booking, availableDays } = this.props;
+      const isExistingBooking = booking.employee !== null;
+
       const originalBookingLength = getDurationBetweenDates(
         booking.start,
         booking.end
@@ -183,9 +185,11 @@ const Container = Wrapped =>
         formData.start,
         formData.end
       );
-      const daysRemaining = availableDays + originalBookingLength;
+      const daysRemaining =
+        availableDays + (isExistingBooking ? originalBookingLength : 0);
       const validBooking = formBookingLength <= daysRemaining;
-      return !validBooking;
+
+      return validBooking;
     };
 
     render() {
