@@ -94,13 +94,21 @@ const Container = Wrapped =>
     };
 
     toggleLegacyHolidayMessageView = () => {
-      this.setState({ toggleRejectionMessageView: !this.state.toggleRejectionMessageView });
-    }
+      this.setState({
+        toggleRejectionMessageView: !this.state.toggleRejectionMessageView,
+      });
+    };
 
     updateEvent = (event, formData) => {
       this.setState({ loading: true });
       event.preventDefault();
-      const { start, end, isHalfday, employeeRejectionMessage, updateMessage } = formData;
+      const {
+        start,
+        end,
+        isHalfday,
+        employeeRejectionMessage,
+        updateMessage,
+      } = formData;
       const eventTypeId = parseInt(formData.eventTypeId);
       const {
         updateTakenEvents,
@@ -112,7 +120,9 @@ const Container = Wrapped =>
         halfDay: isHalfday,
         eventId: eventId,
         startDate: start.format(this.dateFormat),
-        message: employeeRejectionMessage ? employeeRejectionMessage : updateMessage,
+        message: employeeRejectionMessage
+          ? employeeRejectionMessage
+          : updateMessage,
       };
 
       if (eventTypeId) {
@@ -192,12 +202,14 @@ const Container = Wrapped =>
     };
 
     onFormUpdate = formData => {
-      this.setState({formData});
-    }
+      this.setState({ formData });
+    };
 
     render() {
       const { toggleRejectionMessageView, loading } = this.state;
-      const { booking: { start } } = this.props;
+      const {
+        booking: { start },
+      } = this.props;
       return (
         this.props.employeeId && (
           <Wrapped
@@ -206,23 +218,23 @@ const Container = Wrapped =>
             userDetails={this.props.userDetails}
             pendingDays={this.getPendingDays()}
             approvedDays={this.getApprovedDays()}
-            legacyHolidayMessagelist={this.legacyHolidayMessagelist}
-            toggleRejectionMessageView={toggleRejectionMessageView}
-            rejectionResponseText={this.state.rejectionResponseText}
-            assignRejectionResponseText={this.assignRejectionResponseText}
             booking={this.props.booking}
-            toggleLegacyHolidayMessageView={this.toggleLegacyHolidayMessageView}
             employeeId={this.props.employeeId}
             bookingModalOpen={this.props.bookingModalOpen}
             closeBookingModal={this.closeBookingModal}
-            updateTakenEvents={this.props.updateTakenEvents}
-            isEventBeingUpdated={this.props.isEventBeingUpdated}
-            bookingDuration={this.props.bookingDuration}
             createEvent={this.createEvent}
             updateEvent={this.updateEvent}
             cancelEvent={this.cancelEvent}
             loading={loading}
             onFormUpdate={this.onFormUpdate}
+            updateTakenEvents={this.props.updateTakenEvents}
+            bookingDuration={this.props.bookingDuration}
+            isEventBeingUpdated={this.props.isEventBeingUpdated}
+            legacyHolidayMessagelist={this.legacyHolidayMessagelist}
+            toggleRejectionMessageView={toggleRejectionMessageView}
+            rejectionResponseText={this.state.rejectionResponseText}
+            assignRejectionResponseText={this.assignRejectionResponseText}
+            toggleLegacyHolidayMessageView={this.toggleLegacyHolidayMessageView}
           />
         )
       );

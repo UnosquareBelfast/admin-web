@@ -43,7 +43,7 @@ const Container = Wrapped =>
     constructor(props) {
       super(props);
       const { workingFromHomeBooking } = this.props;
-     
+
       this.state = {
         formData: {
           end: moment(),
@@ -64,23 +64,31 @@ const Container = Wrapped =>
         booking: { start, end, eventType, halfDay },
         onFormUpdate,
       } = this.props;
-      this.setState({
-        formData: {
-          start: start,
-          end: end,
-          eventTypeId: this.state.workingFromHomeBooking ? 2 : eventType.eventTypeId,
-          isHalfday: halfDay || false,
-          employeeRejectionMessage: '',
-          updateMessage: '',
+      this.setState(
+        {
+          formData: {
+            start: start,
+            end: end,
+            eventTypeId: this.state.workingFromHomeBooking
+              ? 2
+              : eventType.eventTypeId,
+            isHalfday: halfDay || false,
+            employeeRejectionMessage: '',
+            updateMessage: '',
+          },
         },
-      }, () => {
-        onFormUpdate(this.state.formData);
-      });
+        () => {
+          onFormUpdate(this.state.formData);
+        }
+      );
     };
 
     wFhBooking() {
-      const { workingFromHomeBooking, booking: { start, end } } = this.props;
-      const holidayBookingDuration = end.diff(start, 'days') + 1 ; 
+      const {
+        workingFromHomeBooking,
+        booking: { start, end },
+      } = this.props;
+      const holidayBookingDuration = end.diff(start, 'days') + 1;
       return workingFromHomeBooking && holidayBookingDuration === 1;
     }
 
@@ -130,7 +138,7 @@ const Container = Wrapped =>
       } else if (name === 'eventTypeId') {
         formData[name] = parseInt(value);
       }
-      
+
       if (name === 'start' || name === 'end') {
         const calendarValidationResults = this.handleCalendarValidation(
           formData
@@ -144,10 +152,10 @@ const Container = Wrapped =>
           });
         }
       }
-      
+
       if (isEventBeingUpdated) {
         this.setState({
-          submitButtonDisabled: this.shouldDisableUpdateButton(formData), 
+          submitButtonDisabled: this.shouldDisableUpdateButton(formData),
         });
       }
 
@@ -163,16 +171,22 @@ const Container = Wrapped =>
           eventTypeId: formData.eventTypeId,
         },
       });
-    }
+    };
 
     shouldDisableUpdateButton = formData => {
-      const {  booking,  availableDays } = this.props;
-      const originalBookingLength = getDurationBetweenDates(booking.start, booking.end);
-      const formBookingLength = getDurationBetweenDates(formData.start, formData.end);
+      const { booking, availableDays } = this.props;
+      const originalBookingLength = getDurationBetweenDates(
+        booking.start,
+        booking.end
+      );
+      const formBookingLength = getDurationBetweenDates(
+        formData.start,
+        formData.end
+      );
       const daysRemaining = availableDays + originalBookingLength;
       const validBooking = formBookingLength <= daysRemaining;
       return !validBooking;
-    }
+    };
 
     render() {
       const {
@@ -215,7 +229,6 @@ const Container = Wrapped =>
 
 const mapStateToProps = state => {
   return {
-
     allEvents: getAllEvents(state),
     isEventBeingUpdated: eventBeingUpdated(state),
   };

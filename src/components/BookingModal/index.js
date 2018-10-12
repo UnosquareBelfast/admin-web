@@ -45,7 +45,7 @@ const BookingModal = props => {
     formData,
     workingFromHomeBooking,
   } = props;
-  
+
   const renderSpinner = () => {
     return (
       <SpinnerContainer>
@@ -55,16 +55,16 @@ const BookingModal = props => {
   };
   const renderLegacyMessage = () => {
     if (toggleRejectionMessageView) {
-      return <LegacyMessageList eventId={booking.eventId}/>;
+      return <LegacyMessageList eventId={booking.eventId} />;
     }
     return null;
   };
- 
+
   const renderBookingModalForm = () => {
     const { totalHolidays } = userDetails;
-    const availableDays = (totalHolidays - approvedDays - pendingDays);
+    const availableDays = totalHolidays - approvedDays - pendingDays;
     const hasAvailableDays = bookingDuration <= availableDays;
-    
+
     if (!toggleRejectionMessageView) {
       return (
         <div>
@@ -84,15 +84,16 @@ const BookingModal = props => {
               createEvent={createEvent}
               updateEvent={updateEvent}
             />
-          </FormContainer> 
-        </div>);
+          </FormContainer>
+        </div>
+      );
     }
     return null;
   };
   const renderModalContent = () => {
     const daysNotice = calculateDaysNotice(bookingDuration);
     const { totalHolidays } = userDetails;
-    const availableDays = (totalHolidays - approvedDays - pendingDays);
+    const availableDays = totalHolidays - approvedDays - pendingDays;
     const hasAvailableDays = bookingDuration <= availableDays;
     const alert = {};
     const today = new moment();
@@ -100,13 +101,14 @@ const BookingModal = props => {
     if (!isEmpty(formData)) {
       const fromTodayToStartDateRequested = getDurationBetweenDates(
         today,
-        formData.start,
+        formData.start
       );
       isWorkingFromHome = formData.eventTypeId === eventTypes.WFH;
-      
+
       if (!hasAvailableDays) {
         alert.title = `${availableDays} Holidays Remaining`;
-        alert.body = 'You\'re unable to book this holiday due to not having enough available hoildays. Please contact HR.';
+        alert.body =
+          'You\'re unable to book this holiday due to not having enough available hoildays. Please contact HR.';
       } else if (fromTodayToStartDateRequested < daysNotice) {
         alert.title = 'This booking could be declined.';
         alert.body = `You should give ${daysNotice} working/business days notice to request
@@ -115,12 +117,12 @@ const BookingModal = props => {
     }
     return (
       <StyleContainer>
-        <h1>
-          {isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}
-        </h1>
-        {!isEventBeingUpdated && !isEmpty(alert) && !isWorkingFromHome && <AlertMessage title={alert.title}>
-          {alert.body}
-        </AlertMessage>}
+        <h1>{isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}</h1>
+        {!isEventBeingUpdated &&
+          !isEmpty(alert) &&
+          !isWorkingFromHome && (
+          <AlertMessage title={alert.title}>{alert.body}</AlertMessage>
+        )}
         {isEventBeingUpdated && (
           <ModalStatusBanner
             toggleRejectionMessageView={toggleRejectionMessageView}
@@ -142,7 +144,8 @@ const BookingModal = props => {
       <Modal closeModal={closeBookingModal}>
         {!loading ? renderModalContent() : renderSpinner()}
       </Modal>
-    ));
+    )
+  );
 };
 BookingModal.propTypes = {
   booking: PT.object.isRequired,
