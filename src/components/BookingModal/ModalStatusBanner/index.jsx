@@ -47,7 +47,7 @@ class ModalStatusBanner extends Component {
       bannerDescription = typeText[eventTypeId];
       category = eventCategory.EVENT_TYPE;
     }
-
+    
     return (
       <Banner status={bannerId} className={category}>
         <div>
@@ -87,9 +87,7 @@ ModalStatusBanner.propTypes = {
   eventStatus: PT.object.isRequired,
   eventType: PT.object.isRequired,
   cancelEvent: PT.func.isRequired,
-  toggleRejectionMessageInputView: PT.func.isRequired,
   rejectionReason: PT.string,
-  toggleRejectionResponseView: PT.bool.isRequired,
   toggleLegacyHolidayMessageView: PT.func.isRequired,
   toggleRejectionMessageView: PT.bool.isRequired,
 };

@@ -28,8 +28,6 @@ const Container = Wrapped =>
       bookingDuration: PT.number,
       createEvent: PT.func.isRequired,
       updateEvent: PT.func.isRequired,
-      toggleRejectionResponseView: PT.bool.isRequired,
-      toggleRejectionMessageView: PT.bool.isRequired,
       isSameDay: PT.bool.isRequired,
     };
 
@@ -150,16 +148,13 @@ const Container = Wrapped =>
       const {
         formData,
         formIsValid,
-        capturedRejectionReponseText,
       } = this.state;
       const {
         bookingDuration,
         createEvent,
         updateEvent,
         isEventBeingUpdated,
-        toggleRejectionResponseView,
         booking,
-        toggleRejectionMessageView,
         isSameDay,
       } = this.props;
       return (
@@ -167,10 +162,6 @@ const Container = Wrapped =>
           isSameDay={isSameDay}
           formData={formData}
           booking={booking}
-          toggleRejectionMessageView={toggleRejectionMessageView}
-          capturedRejectionReponseText={capturedRejectionReponseText}
-          assignRejectionResponseText={this.assignRejectionResponseText}
-          toggleRejectionResponseView={toggleRejectionResponseView}
           isEventBeingUpdated={isEventBeingUpdated}
           bookingDuration={bookingDuration}
           formIsValid={formIsValid}

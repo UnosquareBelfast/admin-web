@@ -29,13 +29,11 @@ const BookingModal = props => {
     createEvent,
     updateEvent,
     cancelEvent,
-    toggleRejectionMessageInputView,
-    toggleRejectionResponseView,
     toggleLegacyHolidayMessageView,
     toggleRejectionMessageView,
     loading,
   } = props;
- 
+
   const renderSpinner = () => {
     return (
       <SpinnerContainer>
@@ -50,7 +48,7 @@ const BookingModal = props => {
     }
     return null;
   };
-
+ 
   const renderBookingModalForm = () => {
     if (!toggleRejectionMessageView) {
       return (
@@ -61,8 +59,6 @@ const BookingModal = props => {
           <FormContainer>
             <BookingModalForm
               isSameDay={checkSameDate(booking.start)}
-              toggleRejectionMessageView={toggleRejectionMessageView}
-              toggleRejectionResponseView={toggleRejectionResponseView}
               updateTakenEvents={updateTakenEvents}
               employeeId={employeeId}
               booking={booking}
@@ -83,13 +79,11 @@ const BookingModal = props => {
           <ModalStatusBanner
             toggleRejectionMessageView={toggleRejectionMessageView}
             toggleLegacyHolidayMessageView={toggleLegacyHolidayMessageView}
-            toggleRejectionResponseView={toggleRejectionResponseView}
             userName={booking.title}
             eventStatus={booking.eventStatus}
             eventType={booking.eventType}
             cancelEvent={cancelEvent}
             rejectionReason={rejectionReason(booking)}
-            toggleRejectionMessageInputView={toggleRejectionMessageInputView}
           />
         )}
         {renderLegacyMessage()}
