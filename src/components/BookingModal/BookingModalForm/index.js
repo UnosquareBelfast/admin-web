@@ -8,6 +8,7 @@ import {
   getDurationBetweenDates,
   calculateDaysNotice,
 } from '../../../utilities/dates';
+import holidayStatus from '../../../utilities/holidayStatus';
 import { NoticeAlert } from './styled';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/fontawesome-free-solid';
@@ -24,7 +25,8 @@ const BookingModalForm = props => {
     booking,
     isSameDay,
   } = props;
-  const isEventCancelled = booking.eventStatus.eventStatusId === 4;
+  const { eventStatus: {eventStatusId} } = booking;
+  const isEventCancelled = eventStatusId === holidayStatus.CANCELLED;
   const rejectionMessages = booking.messages && !isEventCancelled;
   const { eventTypeId } = formData;
   const buttonTextValue =
