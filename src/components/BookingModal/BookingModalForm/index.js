@@ -38,7 +38,7 @@ const BookingModalForm = props => {
     if (isEventBeingUpdated) {
       return [
         {
-          label: `Update to ${
+          label: isEventCancelled ? 'Cancelled' : rejectionMessages ? 'Submit' : `Update to ${
             bookingDuration === 0.5 ? 'Half' : bookingDuration
           } ${bookingDuration > 1 ? 'Days' : 'Day'}`,
           event: updateEvent,
@@ -48,7 +48,7 @@ const BookingModalForm = props => {
     } else {
       return [
         {
-          label: `Request ${buttonTextValue} `,
+          label: rejectionMessages ? 'Submit' : `Request ${buttonTextValue} `,
           event: createEvent,
           disabled: isButtonDisabled,
         },
