@@ -25,7 +25,7 @@ const BookingModalForm = props => {
     isSameDay,
   } = props;
   const isEventCancelled = booking.eventStatus.eventStatusId === 4;
-  const rejectionMessages = booking.messages;
+  const rejectionMessages = booking.messages && !isEventCancelled;
   const { eventTypeId } = formData;
   const buttonTextValue =
   `${eventTypeId !== eventTypes.ANNUAL_LEAVE ? '' : bookingDuration === 0.5 ? 'Half' : bookingDuration}
