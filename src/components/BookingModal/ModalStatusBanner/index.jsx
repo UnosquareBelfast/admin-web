@@ -68,7 +68,7 @@ class ModalStatusBanner extends Component {
          </div>
        )}
        <div>
-         {!rejectionReason && !isCancelled && (
+         {!isCancelled && (
            <div className="cancelEvent" onClick={this.handleCancel}>
              <FontAwesomeIcon icon={faTrash} />
              <span>
@@ -87,9 +87,7 @@ ModalStatusBanner.propTypes = {
   eventStatus: PT.object.isRequired,
   eventType: PT.object.isRequired,
   cancelEvent: PT.func.isRequired,
-  toggleRejectionMessageInputView: PT.func.isRequired,
   rejectionReason: PT.string,
-  toggleRejectionResponseView: PT.bool.isRequired,
   toggleLegacyHolidayMessageView: PT.func.isRequired,
   toggleRejectionMessageView: PT.bool.isRequired,
 };

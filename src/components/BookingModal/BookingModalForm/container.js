@@ -29,7 +29,6 @@ const Container = Wrapped =>
       bookingDuration: PT.number,
       createEvent: PT.func.isRequired,
       updateEvent: PT.func.isRequired,
-      toggleRejectionResponseView: PT.bool.isRequired,
       toggleRejectionMessageView: PT.bool.isRequired,
       onFormUpdate: PT.func.isRequired,
       hasAvailableDays: PT.bool.isRequired,
@@ -179,7 +178,6 @@ const Container = Wrapped =>
       const {
         formData,
         formIsValid,
-        capturedRejectionReponseText,
         workingFromHomeBooking,
         submitButtonDisabled,
       } = this.state;
@@ -188,9 +186,7 @@ const Container = Wrapped =>
         createEvent,
         updateEvent,
         isEventBeingUpdated,
-        toggleRejectionResponseView,
         booking,
-        toggleRejectionMessageView,
         totalHolidays,
         hasAvailableDays,
         availableDays,
@@ -204,10 +200,6 @@ const Container = Wrapped =>
           workingFromHomeBooking={workingFromHomeBooking}
           formData={formData}
           booking={booking}
-          toggleRejectionMessageView={toggleRejectionMessageView}
-          capturedRejectionReponseText={capturedRejectionReponseText}
-          assignRejectionResponseText={this.assignRejectionResponseText}
-          toggleRejectionResponseView={toggleRejectionResponseView}
           isEventBeingUpdated={isEventBeingUpdated}
           bookingDuration={bookingDuration}
           formIsValid={formIsValid}

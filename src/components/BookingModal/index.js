@@ -36,8 +36,6 @@ const BookingModal = props => {
     createEvent,
     updateEvent,
     cancelEvent,
-    toggleRejectionMessageInputView,
-    toggleRejectionResponseView,
     toggleLegacyHolidayMessageView,
     toggleRejectionMessageView,
     loading,
@@ -61,6 +59,7 @@ const BookingModal = props => {
     }
     return null;
   };
+ 
   const renderBookingModalForm = () => {
     const { totalHolidays } = userDetails;
     const availableDays = (totalHolidays - approvedDays - pendingDays);
@@ -78,7 +77,6 @@ const BookingModal = props => {
               onFormUpdate={onFormUpdate}
               userDetails={userDetails}
               toggleRejectionMessageView={toggleRejectionMessageView}
-              toggleRejectionResponseView={toggleRejectionResponseView}
               updateTakenEvents={updateTakenEvents}
               employeeId={employeeId}
               booking={booking}
@@ -127,13 +125,11 @@ const BookingModal = props => {
           <ModalStatusBanner
             toggleRejectionMessageView={toggleRejectionMessageView}
             toggleLegacyHolidayMessageView={toggleLegacyHolidayMessageView}
-            toggleRejectionResponseView={toggleRejectionResponseView}
             userName={booking.title}
             eventStatus={booking.eventStatus}
             eventType={booking.eventType}
             cancelEvent={cancelEvent}
             rejectionReason={rejectionReason(booking)}
-            toggleRejectionMessageInputView={toggleRejectionMessageInputView}
           />
         )}
         {renderLegacyMessage()}
