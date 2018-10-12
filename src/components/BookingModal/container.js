@@ -170,19 +170,16 @@ const Container = Wrapped =>
     };
 
     render() {
-      const { toggleRejectionMessageView, toggleRejectionResponseView, loading } = this.state;
+      const { toggleRejectionMessageView, loading } = this.state;
       return (
         this.props.employeeId && (
           <Wrapped
             legacyHolidayMessagelist={this.legacyHolidayMessagelist}
-            submitRejectionResponse={this.submitRejectionResponse}
             toggleRejectionMessageView={toggleRejectionMessageView}
             rejectionResponseText={this.state.rejectionResponseText}
             assignRejectionResponseText={this.assignRejectionResponseText}
             booking={this.props.booking}
             toggleLegacyHolidayMessageView={this.toggleLegacyHolidayMessageView}
-            toggleRejectionResponseView={toggleRejectionResponseView}
-            toggleRejectionMessageInputView={this.toggleRejectionMessageInputView}
             employeeId={this.props.employeeId}
             bookingModalOpen={this.props.bookingModalOpen}
             closeBookingModal={this.closeBookingModal}
