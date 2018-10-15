@@ -34,7 +34,7 @@ const BookingModalForm = props => {
   ${eventTypeId !== eventTypes.ANNUAL_LEAVE ? 'WFH' : bookingDuration > 1 ? 'Days' : 'Day'}`;
 
   const createCtas = () => {
-    const isButtonDisabled = isEventCancelled ? isEventCancelled : !formIsValid;
+    const isButtonDisabled = isEventCancelled || !formIsValid;
     if (isEventBeingUpdated) {
       return [
         {
