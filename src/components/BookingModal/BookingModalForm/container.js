@@ -16,6 +16,8 @@ import { Toast } from '../../../utilities/Notifications';
 import moment from 'moment';
 import { getAllEvents, eventBeingUpdated } from '../../../reducers';
 import { getDurationBetweenDates } from '../../../utilities/dates';
+import eventTypes  from '../../../utilities/eventTypes';
+
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -47,7 +49,7 @@ const Container = Wrapped =>
       this.state = {
         formData: {
           end: moment(),
-          eventTypeId: workingFromHomeBooking ? 2 : 1,
+          eventTypeId: workingFromHomeBooking ? eventTypes.WFH : eventTypes.ANNUAL_LEAVE,
           isHalfday: false,
           start: moment(),
           employeeRejectionMessage: '',
@@ -70,7 +72,7 @@ const Container = Wrapped =>
             start: start,
             end: end,
             eventTypeId: this.state.workingFromHomeBooking
-              ? 2
+              ? eventTypes.WFH
               : eventType.eventTypeId,
             isHalfday: halfDay || false,
             employeeRejectionMessage: '',
