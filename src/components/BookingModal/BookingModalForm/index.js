@@ -95,7 +95,7 @@ const BookingModalForm = props => {
     <Fragment>
       {composeErrorMessage()}
       <Form formData={formData} formStatus={formStatus} actions={createCtas()}>
-        {!rejectionMessages ? <Input
+        {!rejectionMessages && <Input
           type="select"
           htmlAttrs={{
             name: 'eventTypeId',
@@ -105,8 +105,8 @@ const BookingModalForm = props => {
           disabled={isEventCancelled}
           value={formData.eventTypeId}
           label="Reason:"
-        /> : <div />}
-        {!rejectionMessages ? <Input
+        /> }
+        {!rejectionMessages && <Input
           type="date"
           htmlAttrs={{
             type: 'input',
@@ -120,8 +120,8 @@ const BookingModalForm = props => {
           }}
           
           label={formData.isHalfday ? 'Date' : 'Start Date:'}
-        /> : <div />}
-        {!rejectionMessages ? <Input
+        /> }
+        {!rejectionMessages && <Input
           type="date"
           htmlAttrs={{
             type: 'input',
@@ -135,8 +135,8 @@ const BookingModalForm = props => {
             dateNotInPast: true,
           }}
           label="End Date:"
-        /> : <div />}
-        {rejectionMessages ? <Input
+        /> }
+        {rejectionMessages && <Input
           type="input"
           htmlAttrs={{
             type: 'input',
@@ -145,8 +145,8 @@ const BookingModalForm = props => {
           }}
           value={formData.employeeRejectionMessage}
           label="Rejection Response:"
-        /> : <div />}
-        {!rejectionMessages && !isEventCancelled ? <Input
+        /> }
+        {!rejectionMessages && !isEventCancelled && <Input
           type="checkbox"
           htmlAttrs={{
             type: 'checkbox',
@@ -154,8 +154,8 @@ const BookingModalForm = props => {
           }}
           value={formData.isHalfday}
           label="Request a halfday"
-        /> : <div />}
-        {!rejectionMessages && !isEventCancelled ? <Input
+        /> }
+        {!rejectionMessages && !isEventCancelled && <Input
           type="input"
           className={isEventBeingUpdated ? null : 'hide'}
           htmlAttrs={{
@@ -167,7 +167,7 @@ const BookingModalForm = props => {
           label="Reason for updating holiday:"
           labelClass={isEventBeingUpdated ? null : 'hide'}
           disabled={!formIsValid}
-        /> : <div />}
+        /> }
       </Form>
     </Fragment>
   );
