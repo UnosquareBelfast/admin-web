@@ -1,17 +1,9 @@
 import React, { Fragment } from 'react';
-import moment from 'moment';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Form, Input } from '../../common';
 import eventTypes from '../../../utilities/eventTypes';
-import {
-  getDurationBetweenDates,
-  calculateDaysNotice,
-} from '../../../utilities/dates';
 import holidayStatus from '../../../utilities/holidayStatus';
-import { NoticeAlert } from './styled';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { faExclamationCircle } from '@fortawesome/fontawesome-free-solid';
 
 const BookingModalForm = props => {
   const {
@@ -23,18 +15,26 @@ const BookingModalForm = props => {
     formIsValid,
     bookingDuration,
     booking,
-    isSameDay,
+    workingFromHomeBooking,
+    submitButtonDisabled,
+    availableDays,
   } = props;
+
   const { eventStatus: {eventStatusId} } = booking;
   const isEventCancelled = eventStatusId === holidayStatus.CANCELLED;
   const rejectionMessages = booking.messages && !isEventCancelled;
   const { eventTypeId } = formData;
-  const buttonTextValue =
-  `${eventTypeId !== eventTypes.ANNUAL_LEAVE ? '' : bookingDuration === 0.5 ? 'Half' : bookingDuration}
-  ${eventTypeId !== eventTypes.ANNUAL_LEAVE ? 'WFH' : bookingDuration > 1 ? 'Days' : 'Day'}`;
 
   const createCtas = () => {
-    const isButtonDisabled = isEventCancelled || !formIsValid;
+    const buttonTextValue =
+      `${eventTypeId !== eventTypes.ANNUAL_LEAVE ? '' : bookingDuration === 0.5 ? 'Half' : bookingDuration}
+       ${eventTypeId !== eventTypes.ANNUAL_LEAVE ? 'WFH' : bookingDuration > 1 ? 'Days' : 'Day'}`;
+
+    let isDisabled = false;
+    if (!isEventBeingUpdated) {
+      isDisabled = bookingDuration > availableDays;
+    }
+
     if (isEventBeingUpdated) {
       return [
         {
@@ -42,7 +42,7 @@ const BookingModalForm = props => {
             bookingDuration === 0.5 ? 'Half' : bookingDuration
           } ${bookingDuration > 1 ? 'Days' : 'Day'}`,
           event: updateEvent,
-          disabled: isButtonDisabled,
+          disabled: isEventCancelled ? isEventCancelled : submitButtonDisabled,
         },
       ];
     } else {
@@ -50,50 +50,23 @@ const BookingModalForm = props => {
         {
           label: rejectionMessages ? 'Submit' : `Request ${buttonTextValue} `,
           event: createEvent,
-          disabled: isButtonDisabled,
+          disabled: isDisabled,
         },
       ];
     }
   };
 
-  const composeErrorMessage = () => {
-    const { eventTypeId, start } = formData;
-    if (isEventBeingUpdated || eventTypeId !== eventTypes.ANNUAL_LEAVE) {
-      return null;
-    } else {
-      const today = new moment();
-      const fromTodayToStartDateRequested = getDurationBetweenDates(
-        today,
-        start
-      );
-      const daysNotice = calculateDaysNotice(bookingDuration);
-      return fromTodayToStartDateRequested < daysNotice && isSameDay ? (
-        <NoticeAlert>
-          <p>
-            <FontAwesomeIcon icon={faExclamationCircle} />
-            <span>This booking could be declined.</span>
-          </p>
-          <p>
-            You should give {daysNotice} working/business days notice to request
-            {' ' + bookingDuration} {bookingDuration > 1 ? 'days' : 'day'} off.
-          </p>
-        </NoticeAlert>
-      ) : null;
-    }
-  };
-
   const renderWFH = () => {
     const options = [
-      { value: 1, displayValue: 'Annual Leave' } ,
+      { value: 1, displayValue: 'Annual Leave' },
       { value: 2, displayValue: 'Working from home' },
     ];
-    isSameDay ? options.shift() : '' ;
+    workingFromHomeBooking ? options.shift() : '';
     return options;
   };
 
   return (
     <Fragment>
-      {composeErrorMessage()}
       <Form formData={formData} formStatus={formStatus} actions={createCtas()}>
         {!rejectionMessages && <Input
           type="select"
@@ -141,7 +114,7 @@ const BookingModalForm = props => {
           htmlAttrs={{
             type: 'input',
             name: 'employeeRejectionMessage',
-            disabled: !booking.messages,
+            disabled: !rejectionMessages,
           }}
           value={formData.employeeRejectionMessage}
           label="Rejection Response:"
@@ -174,7 +147,7 @@ const BookingModalForm = props => {
 };
 
 BookingModalForm.propTypes = {
-  bookingDuration: PT.number,
+  bookingDuration: PT.number.isRequired,
   formData: PT.object.isRequired,
   isEventBeingUpdated: PT.bool,
   formStatus: PT.func.isRequired,
@@ -182,7 +155,9 @@ BookingModalForm.propTypes = {
   createEvent: PT.func.isRequired,
   updateEvent: PT.func.isRequired,
   booking: PT.object,
-  isSameDay: PT.bool.isRequired,
+  workingFromHomeBooking: PT.bool.isRequired,
+  availableDays: PT.number.isRequired,
+  submitButtonDisabled: PT.bool.isRequired,
 };
 
 BookingModalForm.defaultProps = {

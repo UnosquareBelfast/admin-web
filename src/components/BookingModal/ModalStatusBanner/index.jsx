@@ -63,7 +63,9 @@ class ModalStatusBanner extends Component {
         {rejectionReason && (
           <div className="cancelEvent" onClick={toggleLegacyHolidayMessageView}>
             <span>
-              {toggleRejectionMessageView ? 'Hide Messages' : 'Display Messages'}
+              {toggleRejectionMessageView
+                ? 'Hide Messages'
+                : 'Display Messages'}
             </span>
           </div>
         )}
@@ -87,9 +89,7 @@ ModalStatusBanner.propTypes = {
   eventStatus: PT.object.isRequired,
   eventType: PT.object.isRequired,
   cancelEvent: PT.func.isRequired,
-  toggleRejectionMessageInputView: PT.func.isRequired,
   rejectionReason: PT.string,
-  toggleRejectionResponseView: PT.bool.isRequired,
   toggleLegacyHolidayMessageView: PT.func.isRequired,
   toggleRejectionMessageView: PT.bool.isRequired,
 };

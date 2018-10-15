@@ -8,6 +8,8 @@ import {
   getBooking,
   bookingModalOpen,
   getBookingDuration,
+  getUser,
+  getAllEvents,
 } from '../../reducers';
 import {
   updateHoliday,
@@ -17,6 +19,9 @@ import {
 } from '../../services/holidayService';
 import { requestWFH } from '../../services/wfhService';
 import eventTypes from '../../utilities/eventTypes';
+import HolidayStatus from '../../utilities/holidayStatus';
+import { getTotalDaysInEventArrayWithStatus } from '../../utilities/dates';
+import { checkSameDate } from '../../utilities/dashboardEvents';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -25,9 +30,11 @@ const Container = Wrapped =>
       updateTakenEvents: PT.func,
       isEventBeingUpdated: PT.bool,
       booking: PT.object,
+      userDetails: PT.object.isRequired,
       bookingModalOpen: PT.bool,
       toggleBookingModal: PT.func,
       bookingDuration: PT.number,
+      allEvents: PT.array.isRequired,
     };
 
     constructor(props) {
@@ -39,6 +46,7 @@ const Container = Wrapped =>
         rejectionResponseText: '',
         toggleRejectionMessageView: false,
         loading: false,
+        formData: {},
       };
     }
 
@@ -86,13 +94,21 @@ const Container = Wrapped =>
     };
 
     toggleLegacyHolidayMessageView = () => {
-      this.setState({ toggleRejectionMessageView: !this.state.toggleRejectionMessageView });
-    }
+      this.setState({
+        toggleRejectionMessageView: !this.state.toggleRejectionMessageView,
+      });
+    };
 
     updateEvent = (event, formData) => {
       this.setState({ loading: true });
       event.preventDefault();
-      const { start, end, isHalfday, employeeRejectionMessage, updateMessage } = formData;
+      const {
+        start,
+        end,
+        isHalfday,
+        employeeRejectionMessage,
+        updateMessage,
+      } = formData;
       const eventTypeId = parseInt(formData.eventTypeId);
       const {
         updateTakenEvents,
@@ -104,7 +120,9 @@ const Container = Wrapped =>
         halfDay: isHalfday,
         eventId: eventId,
         startDate: start.format(this.dateFormat),
-        message: employeeRejectionMessage ? employeeRejectionMessage : updateMessage,
+        message: employeeRejectionMessage
+          ? employeeRejectionMessage
+          : updateMessage,
       };
 
       if (eventTypeId) {
@@ -169,30 +187,54 @@ const Container = Wrapped =>
         });
     };
 
+    getApprovedDays = () => {
+      return getTotalDaysInEventArrayWithStatus(
+        this.props.allEvents,
+        HolidayStatus.APPROVED
+      );
+    };
+
+    getPendingDays = () => {
+      return getTotalDaysInEventArrayWithStatus(
+        this.props.allEvents,
+        HolidayStatus.PENDING
+      );
+    };
+
+    onFormUpdate = formData => {
+      this.setState({ formData });
+    };
+
     render() {
-      const { toggleRejectionMessageView, toggleRejectionResponseView, loading } = this.state;
+      const { toggleRejectionMessageView, loading } = this.state;
+      const {
+        booking: { start },
+      } = this.props;
       return (
         this.props.employeeId && (
           <Wrapped
-            legacyHolidayMessagelist={this.legacyHolidayMessagelist}
-            submitRejectionResponse={this.submitRejectionResponse}
-            toggleRejectionMessageView={toggleRejectionMessageView}
-            rejectionResponseText={this.state.rejectionResponseText}
-            assignRejectionResponseText={this.assignRejectionResponseText}
+            workingFromHomeBooking={checkSameDate(start)}
+            formData={this.state.formData}
+            userDetails={this.props.userDetails}
+            pendingDays={this.getPendingDays()}
+            approvedDays={this.getApprovedDays()}
             booking={this.props.booking}
-            toggleLegacyHolidayMessageView={this.toggleLegacyHolidayMessageView}
-            toggleRejectionResponseView={toggleRejectionResponseView}
-            toggleRejectionMessageInputView={this.toggleRejectionMessageInputView}
             employeeId={this.props.employeeId}
             bookingModalOpen={this.props.bookingModalOpen}
             closeBookingModal={this.closeBookingModal}
-            updateTakenEvents={this.props.updateTakenEvents}
-            isEventBeingUpdated={this.props.isEventBeingUpdated}
-            bookingDuration={this.props.bookingDuration}
             createEvent={this.createEvent}
             updateEvent={this.updateEvent}
             cancelEvent={this.cancelEvent}
             loading={loading}
+            onFormUpdate={this.onFormUpdate}
+            updateTakenEvents={this.props.updateTakenEvents}
+            bookingDuration={this.props.bookingDuration}
+            isEventBeingUpdated={this.props.isEventBeingUpdated}
+            legacyHolidayMessagelist={this.legacyHolidayMessagelist}
+            toggleRejectionMessageView={toggleRejectionMessageView}
+            rejectionResponseText={this.state.rejectionResponseText}
+            assignRejectionResponseText={this.assignRejectionResponseText}
+            toggleLegacyHolidayMessageView={this.toggleLegacyHolidayMessageView}
           />
         )
       );
@@ -201,6 +243,8 @@ const Container = Wrapped =>
 
 const mapStateToProps = state => {
   return {
+    userDetails: getUser(state),
+    allEvents: getAllEvents(state),
     booking: getBooking(state),
     bookingModalOpen: bookingModalOpen(state),
     bookingDuration: getBookingDuration(state),

@@ -14,7 +14,10 @@ import {
 } from '../../../utilities/dashboardEvents';
 import { Toast } from '../../../utilities/Notifications';
 import moment from 'moment';
-import { getUser, getAllEvents, eventBeingUpdated } from '../../../reducers';
+import { getAllEvents, eventBeingUpdated } from '../../../reducers';
+import { getDurationBetweenDates } from '../../../utilities/dates';
+import eventTypes  from '../../../utilities/eventTypes';
+
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -28,49 +31,68 @@ const Container = Wrapped =>
       bookingDuration: PT.number,
       createEvent: PT.func.isRequired,
       updateEvent: PT.func.isRequired,
-      toggleRejectionResponseView: PT.bool.isRequired,
       toggleRejectionMessageView: PT.bool.isRequired,
-      isSameDay: PT.bool.isRequired,
+      onFormUpdate: PT.func.isRequired,
+      hasAvailableDays: PT.bool.isRequired,
+      totalHolidays: PT.number.isRequired,
+      availableDays: PT.number.isRequired,
+      workingFromHomeBooking: PT.bool.isRequired,
     };
-
     static defaultProps = {
       isEventBeingUpdated: false,
       bookingDuration: 1,
     };
-
     constructor(props) {
       super(props);
-      const { isSameDay } = this.props;
+      const { workingFromHomeBooking } = this.props;
+
       this.state = {
         formData: {
           end: moment(),
-          eventTypeId: isSameDay ? 2 : 1 ,
+          eventTypeId: workingFromHomeBooking ? eventTypes.WFH : eventTypes.ANNUAL_LEAVE,
           isHalfday: false,
           start: moment(),
           employeeRejectionMessage: '',
           updateMessage: '',
         },
+        submitButtonDisabled: false,
         formIsValid: true,
         capturedRejectionReponseText: '',
+        workingFromHomeBooking: this.WFHBooking(),
       };
     }
-
     componentDidMount = () => {
       const {
         booking: { start, end, eventType, halfDay },
-        isSameDay,
+        onFormUpdate,
       } = this.props;
-      this.setState({
-        formData: {
-          start: start,
-          end: end,
-          eventTypeId: isSameDay ? 2 : eventType.eventTypeId,
-          isHalfday: halfDay || false,
-          employeeRejectionMessage: '',
-          updateMessage: '',
+      this.setState(
+        {
+          formData: {
+            start: start,
+            end: end,
+            eventTypeId: this.state.workingFromHomeBooking
+              ? eventTypes.WFH
+              : eventType.eventTypeId,
+            isHalfday: halfDay || false,
+            employeeRejectionMessage: '',
+            updateMessage: '',
+          },
         },
-      });
+        () => {
+          onFormUpdate(this.state.formData);
+        }
+      );
     };
+
+    WFHBooking() {
+      const {
+        workingFromHomeBooking,
+        booking: { start, end },
+      } = this.props;
+      const holidayBookingDuration = end.diff(start, 'days') + 1;
+      return workingFromHomeBooking && holidayBookingDuration === 1;
+    }
 
     assignRejectionResponseText = e => {
       this.setState({ capturedRejectionReponseText: e.target.value });
@@ -89,7 +111,6 @@ const Container = Wrapped =>
           allEvents,
           booking: { eventId },
         } = this.props;
-
         const datesOverlapExisting = checkIfSelectedDatesOverlapExisting(
           allEvents,
           employeeId,
@@ -105,8 +126,10 @@ const Container = Wrapped =>
       }
     }
 
-    handleFormStatus(name, value, formIsValid) {
+    handleFormStatus = (name, value, formIsValid) => {
+      const { onFormUpdate, isEventBeingUpdated } = this.props;
       let formData = { ...this.state.formData };
+      onFormUpdate(formData);
       formData[name] = value;
       if (name === 'start') {
         formData = startDateValidation(formData);
@@ -132,6 +155,12 @@ const Container = Wrapped =>
         }
       }
 
+      if (isEventBeingUpdated) {
+        this.setState({
+          submitButtonDisabled: !this.isValidBooking(formData),
+        });
+      }
+
       this.setState({
         formData,
         formIsValid,
@@ -144,33 +173,53 @@ const Container = Wrapped =>
           eventTypeId: formData.eventTypeId,
         },
       });
-    }
+    };
+
+    isValidBooking = formData => {
+      const { booking, availableDays } = this.props;
+      const isExistingBooking = booking.employee !== null;
+
+      const originalBookingLength = getDurationBetweenDates(
+        booking.start,
+        booking.end
+      );
+      const formBookingLength = getDurationBetweenDates(
+        formData.start,
+        formData.end
+      );
+      const daysRemaining =
+        availableDays + (isExistingBooking ? originalBookingLength : 0);
+      const validBooking = formBookingLength <= daysRemaining;
+
+      return validBooking;
+    };
 
     render() {
       const {
         formData,
         formIsValid,
-        capturedRejectionReponseText,
+        workingFromHomeBooking,
+        submitButtonDisabled,
       } = this.state;
       const {
         bookingDuration,
         createEvent,
         updateEvent,
         isEventBeingUpdated,
-        toggleRejectionResponseView,
         booking,
-        toggleRejectionMessageView,
-        isSameDay,
+        totalHolidays,
+        hasAvailableDays,
+        availableDays,
       } = this.props;
       return (
         <Wrapped
-          isSameDay={isSameDay}
+          submitButtonDisabled={submitButtonDisabled}
+          hasAvailableDays={hasAvailableDays}
+          totalHolidays={totalHolidays}
+          availableDays={availableDays}
+          workingFromHomeBooking={workingFromHomeBooking}
           formData={formData}
           booking={booking}
-          toggleRejectionMessageView={toggleRejectionMessageView}
-          capturedRejectionReponseText={capturedRejectionReponseText}
-          assignRejectionResponseText={this.assignRejectionResponseText}
-          toggleRejectionResponseView={toggleRejectionResponseView}
           isEventBeingUpdated={isEventBeingUpdated}
           bookingDuration={bookingDuration}
           formIsValid={formIsValid}
@@ -186,7 +235,6 @@ const Container = Wrapped =>
 
 const mapStateToProps = state => {
   return {
-    userDetails: getUser(state),
     allEvents: getAllEvents(state),
     isEventBeingUpdated: eventBeingUpdated(state),
   };
