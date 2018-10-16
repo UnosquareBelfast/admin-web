@@ -21,9 +21,20 @@ const BookingModalForm = props => {
 
   const { eventTypeId } = formData;
   const createCtas = () => {
-    const buttonTextValue =
-      `${eventTypeId !== eventTypes.ANNUAL_LEAVE ? '' : bookingDuration === 0.5 ? 'Half' : bookingDuration}
-       ${eventTypeId !== eventTypes.ANNUAL_LEAVE ? 'WFH' : bookingDuration > 1 ? 'Days' : 'Day'}`;
+    const buttonTextValue = `${
+      eventTypeId !== eventTypes.ANNUAL_LEAVE
+        ? ''
+        : bookingDuration === 0.5
+          ? 'Half'
+          : bookingDuration
+    }
+       ${
+  eventTypeId !== eventTypes.ANNUAL_LEAVE
+    ? 'WFH'
+    : bookingDuration > 1
+      ? 'Days'
+      : 'Day'
+}`;
 
     let isDisabled = false;
     if (!isEventBeingUpdated) {
@@ -33,9 +44,11 @@ const BookingModalForm = props => {
     if (isEventBeingUpdated) {
       return [
         {
-          label: booking.messages ? 'Submit' : `Update to ${
-            bookingDuration === 0.5 ? 'Half' : bookingDuration
-          } ${bookingDuration > 1 ? 'Days' : 'Day'}`,
+          label: booking.messages
+            ? 'Submit'
+            : `Update to ${
+              bookingDuration === 0.5 ? 'Half' : bookingDuration
+            } ${bookingDuration > 1 ? 'Days' : 'Day'}`,
           event: updateEvent,
           disabled: submitButtonDisabled,
         },
@@ -69,10 +82,9 @@ const BookingModalForm = props => {
             name: 'eventTypeId',
             options: renderWFH(),
           }}
-
           value={formData.eventTypeId}
           label="Reason:"
-        /> 
+        />
         <Input
           type="date"
           htmlAttrs={{
@@ -85,7 +97,7 @@ const BookingModalForm = props => {
             dateNotInPast: true,
           }}
           label={formData.isHalfday ? 'Date' : 'Start Date:'}
-        /> 
+        />
         <Input
           type="date"
           htmlAttrs={{
@@ -99,7 +111,7 @@ const BookingModalForm = props => {
             dateNotInPast: true,
           }}
           label="End Date:"
-        /> 
+        />
         <Input
           type="input"
           htmlAttrs={{
