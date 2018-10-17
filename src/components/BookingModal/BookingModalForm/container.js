@@ -16,8 +16,7 @@ import { Toast } from '../../../utilities/Notifications';
 import moment from 'moment';
 import { getAllEvents, eventBeingUpdated } from '../../../reducers';
 import { getDurationBetweenDates } from '../../../utilities/dates';
-import eventTypes  from '../../../utilities/eventTypes';
-
+import eventTypes from '../../../utilities/eventTypes';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -49,7 +48,9 @@ const Container = Wrapped =>
       this.state = {
         formData: {
           end: moment(),
-          eventTypeId: workingFromHomeBooking ? eventTypes.WFH : eventTypes.ANNUAL_LEAVE,
+          eventTypeId: workingFromHomeBooking
+            ? eventTypes.WFH
+            : eventTypes.ANNUAL_LEAVE,
           isHalfday: false,
           start: moment(),
           employeeRejectionMessage: '',
@@ -58,7 +59,7 @@ const Container = Wrapped =>
         submitButtonDisabled: false,
         formIsValid: true,
         capturedRejectionReponseText: '',
-        workingFromHomeBooking: this.WFHBooking(),
+        workingFromHomeBooking: this.isWFHBooking(),
       };
     }
     componentDidMount = () => {
@@ -74,7 +75,7 @@ const Container = Wrapped =>
             eventTypeId: this.state.workingFromHomeBooking
               ? eventTypes.WFH
               : eventType.eventTypeId,
-            isHalfday: halfDay || false,
+            isHalfday: halfDay,
             employeeRejectionMessage: '',
             updateMessage: '',
           },
@@ -85,7 +86,7 @@ const Container = Wrapped =>
       );
     };
 
-    WFHBooking() {
+    isWFHBooking() {
       const {
         workingFromHomeBooking,
         booking: { start, end },

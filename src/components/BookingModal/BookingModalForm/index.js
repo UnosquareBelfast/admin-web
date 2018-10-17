@@ -26,9 +26,20 @@ const BookingModalForm = props => {
   const { eventTypeId } = formData;
 
   const createCtas = () => {
-    const buttonTextValue =
-      `${eventTypeId !== eventTypes.ANNUAL_LEAVE ? '' : bookingDuration === 0.5 ? 'Half' : bookingDuration}
-       ${eventTypeId !== eventTypes.ANNUAL_LEAVE ? 'WFH' : bookingDuration > 1 ? 'Days' : 'Day'}`;
+    const buttonTextValue = `${
+      eventTypeId !== eventTypes.ANNUAL_LEAVE
+        ? ''
+        : bookingDuration === 0.5
+          ? 'Half'
+          : bookingDuration
+    }
+       ${
+  eventTypeId !== eventTypes.ANNUAL_LEAVE
+    ? 'WFH'
+    : bookingDuration > 1
+      ? 'Days'
+      : 'Day'
+}`;
 
     let isDisabled = false;
     if (!isEventBeingUpdated) {
