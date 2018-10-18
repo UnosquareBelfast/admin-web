@@ -120,19 +120,6 @@ const BookingForm = props => {
           }}
           label="End Date:"
         />
-
-        {/* {rejectionMessages && (
-          <Input
-            type="input"
-            htmlAttrs={{
-              type: 'input',
-              name: 'employeeRejectionMessage',
-              disabled: !rejectionMessages,
-            }}
-            value={formData.employeeRejectionMessage}
-            label="Rejection Response:"
-          />
-        )} */}
         <Input
           type="checkbox"
           htmlAttrs={{

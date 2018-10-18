@@ -31,3 +31,9 @@ export const rejectHoliday = (eventId, message) => {
 export const cancelHoliday = eventId => {
   return axios.put('/holidays/cancelHoliday', { eventId });
 };
+
+export const sendMessage = (eventId, messageType, message) => {
+  console.log(
+    `Message ${message} sent with message type ${messageType} for event ${eventId}`
+  );
+};
