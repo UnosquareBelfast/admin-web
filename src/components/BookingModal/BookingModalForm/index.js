@@ -20,7 +20,9 @@ const BookingModalForm = props => {
     availableDays,
   } = props;
 
-  const { eventStatus: {eventStatusId} } = booking;
+  const {
+    eventStatus: { eventStatusId },
+  } = booking;
   const isEventCancelled = eventStatusId === holidayStatus.CANCELLED;
   const rejectionMessages = booking.messages && !isEventCancelled;
   const { eventTypeId } = formData;
@@ -41,6 +43,15 @@ const BookingModalForm = props => {
       : 'Day'
 }`;
 
+    const labelTextValue = `${
+      isEventCancelled
+        ? 'Cancelled'
+        : rejectionMessages
+          ? 'Submit'
+          : `Update to ${bookingDuration === 0.5 ? 'Half' : bookingDuration}
+      ${bookingDuration > 1 ? 'Days' : 'Day'}`
+    }`;
+
     let isDisabled = false;
     if (!isEventBeingUpdated) {
       isDisabled = bookingDuration > availableDays;
@@ -49,11 +60,9 @@ const BookingModalForm = props => {
     if (isEventBeingUpdated) {
       return [
         {
-          label: isEventCancelled ? 'Cancelled' : rejectionMessages ? 'Submit' : `Update to ${
-            bookingDuration === 0.5 ? 'Half' : bookingDuration
-          } ${bookingDuration > 1 ? 'Days' : 'Day'}`,
+          label: labelTextValue,
           event: updateEvent,
-          disabled: isEventCancelled ? isEventCancelled : submitButtonDisabled,
+          disabled: isEventCancelled || submitButtonDisabled,
         },
       ];
     } else {
@@ -102,7 +111,7 @@ const BookingModalForm = props => {
           rules={{
             dateNotInPast: true,
           }}
-          
+
           label={formData.isHalfday ? 'Date' : 'Start Date:'}
         /> }
         {!rejectionMessages && <Input
