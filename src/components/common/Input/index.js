@@ -88,6 +88,7 @@ const Input = props => {
             value={value}
             id={id}
             onChange={changed}
+            disabled={disabled}
           >
             {htmlAttrs.options.map(option => (
               <option key={option.value} value={option.value}>
@@ -107,6 +108,7 @@ const Input = props => {
             onChange={changed}
             placeholderText={htmlAttrs.placeholder}
             disabledKeyboardNavigation
+            disabled={disabled}
             readOnly
             minDate={new Date()}
             filterDate={date => {
