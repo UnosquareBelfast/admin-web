@@ -28,29 +28,25 @@ const BookingModalForm = props => {
   const { eventTypeId } = formData;
 
   const createCtas = () => {
-    const buttonTextValue = `${
-      eventTypeId !== eventTypes.ANNUAL_LEAVE
-        ? ''
-        : bookingDuration === 0.5
-          ? 'Half'
-          : bookingDuration
-    }
-       ${
-  eventTypeId !== eventTypes.ANNUAL_LEAVE
-    ? 'WFH'
-    : bookingDuration > 1
-      ? 'Days'
-      : 'Day'
-}`;
+    const buttonTextValue = () => {
+      const durationText = bookingDuration === 0.5 ? 'Half' : bookingDuration;
+      const dayText = bookingDuration > 1 ? 'Days' : 'Day';
 
-    const labelTextValue = `${
-      isEventCancelled
-        ? 'Cancelled'
-        : rejectionMessages
-          ? 'Submit'
-          : `Update to ${bookingDuration === 0.5 ? 'Half' : bookingDuration}
-      ${bookingDuration > 1 ? 'Days' : 'Day'}`
-    }`;
+      if (isEventBeingUpdated) {
+        if (isEventCancelled) {
+          return 'Cancelled';
+        }
+        if (rejectionMessages) {
+          return 'Submit';
+        }
+        return `Update to ${durationText} ${dayText}`;
+      } else {
+        if (eventTypeId !== eventTypes.ANNUAL_LEAVE) {
+          return 'Request WFH';
+        }
+        return `Request ${durationText} ${dayText}`;
+      }
+    };
 
     let isDisabled = false;
     if (!isEventBeingUpdated) {
@@ -60,7 +56,7 @@ const BookingModalForm = props => {
     if (isEventBeingUpdated) {
       return [
         {
-          label: labelTextValue,
+          label: buttonTextValue(),
           event: updateEvent,
           disabled: isEventCancelled || submitButtonDisabled,
         },
@@ -68,7 +64,7 @@ const BookingModalForm = props => {
     } else {
       return [
         {
-          label: rejectionMessages ? 'Submit' : `Request ${buttonTextValue} `,
+          label: buttonTextValue(),
           event: createEvent,
           disabled: isDisabled,
         },
@@ -88,79 +84,91 @@ const BookingModalForm = props => {
   return (
     <Fragment>
       <Form formData={formData} formStatus={formStatus} actions={createCtas()}>
-        {!rejectionMessages && <Input
-          type="select"
-          htmlAttrs={{
-            name: 'eventTypeId',
-            options: renderWFH(),
-            
-          }}
-          disabled={isEventCancelled}
-          value={formData.eventTypeId}
-          label="Reason:"
-        /> }
-        {!rejectionMessages && <Input
-          type="date"
-          htmlAttrs={{
-            type: 'input',
-            name: 'start',
-            placeholder: 'Enter a start date',
-          }}
-          value={formData.start}
-          disabled={isEventCancelled}
-          rules={{
-            dateNotInPast: true,
-          }}
-
-          label={formData.isHalfday ? 'Date' : 'Start Date:'}
-        /> }
-        {!rejectionMessages && <Input
-          type="date"
-          htmlAttrs={{
-            type: 'input',
-            name: 'end',
-            placeholder: 'Enter an end date',
-            disabled: formData.isHalfday,
-          }}
-          disabled={isEventCancelled}
-          value={formData.end}
-          rules={{
-            dateNotInPast: true,
-          }}
-          label="End Date:"
-        /> }
-        {rejectionMessages && <Input
-          type="input"
-          htmlAttrs={{
-            type: 'input',
-            name: 'employeeRejectionMessage',
-            disabled: !rejectionMessages,
-          }}
-          value={formData.employeeRejectionMessage}
-          label="Rejection Response:"
-        /> }
-        {!rejectionMessages && !isEventCancelled && <Input
-          type="checkbox"
-          htmlAttrs={{
-            type: 'checkbox',
-            name: 'isHalfday',
-          }}
-          value={formData.isHalfday}
-          label="Request a halfday"
-        /> }
-        {!rejectionMessages && !isEventCancelled && <Input
-          type="input"
-          className={isEventBeingUpdated ? null : 'hide'}
-          htmlAttrs={{
-            type: 'input',
-            name: 'updateMessage',
-            placeholder: 'optional',
-          }}
-          value={formData.updateMessage}
-          label="Reason for updating holiday:"
-          labelClass={isEventBeingUpdated ? null : 'hide'}
-          disabled={!formIsValid}
-        /> }
+        {!rejectionMessages && (
+          <Input
+            type="select"
+            htmlAttrs={{
+              name: 'eventTypeId',
+              options: renderWFH(),
+            }}
+            disabled={isEventCancelled}
+            value={formData.eventTypeId}
+            label="Reason:"
+          />
+        )}
+        {!rejectionMessages && (
+          <Input
+            type="date"
+            htmlAttrs={{
+              type: 'input',
+              name: 'start',
+              placeholder: 'Enter a start date',
+            }}
+            value={formData.start}
+            disabled={isEventCancelled}
+            rules={{
+              dateNotInPast: true,
+            }}
+            label={formData.isHalfday ? 'Date' : 'Start Date:'}
+          />
+        )}
+        {!rejectionMessages && (
+          <Input
+            type="date"
+            htmlAttrs={{
+              type: 'input',
+              name: 'end',
+              placeholder: 'Enter an end date',
+              disabled: formData.isHalfday,
+            }}
+            disabled={isEventCancelled}
+            value={formData.end}
+            rules={{
+              dateNotInPast: true,
+            }}
+            label="End Date:"
+          />
+        )}
+        {rejectionMessages && (
+          <Input
+            type="input"
+            htmlAttrs={{
+              type: 'input',
+              name: 'employeeRejectionMessage',
+              disabled: !rejectionMessages,
+            }}
+            value={formData.employeeRejectionMessage}
+            label="Rejection Response:"
+          />
+        )}
+        {!rejectionMessages &&
+          !isEventCancelled && (
+          <Input
+            type="checkbox"
+            htmlAttrs={{
+              type: 'checkbox',
+              name: 'isHalfday',
+            }}
+            value={formData.isHalfday}
+            label="Request a halfday"
+          />
+        )}
+        {!rejectionMessages &&
+          !isEventCancelled && (
+          <Input
+            type="input"
+            className={isEventBeingUpdated ? null : 'hide'}
+            htmlAttrs={{
+              type: 'input',
+              name: 'updateMessage',
+              placeholder: 'optional',
+            }}
+            value={formData.updateMessage}
+            label="Reason for updating holiday:"
+            labelClass={isEventBeingUpdated ? null : 'hide'}
+            disabled={!formIsValid}
+          />
+        )}
       </Form>
     </Fragment>
   );
