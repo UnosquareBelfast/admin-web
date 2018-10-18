@@ -4,7 +4,7 @@ import container from './container';
 import moment from 'moment';
 import { isEmpty } from 'lodash';
 import ModalStatusBanner from './ModalStatusBanner';
-import BookingModalForm from './BookingModalForm';
+import BookingForm from './BookingForm';
 import { Modal } from '../common';
 import AlertMessage from './AlertMessage';
 import { StyleContainer, FormContainer } from './styled';
@@ -60,7 +60,7 @@ const BookingModal = props => {
     return null;
   };
 
-  const renderBookingModalForm = () => {
+  const renderBookingForm = () => {
     const { totalHolidays } = userDetails;
     const availableDays = totalHolidays - approvedDays - pendingDays;
     const hasAvailableDays = bookingDuration <= availableDays;
@@ -69,7 +69,7 @@ const BookingModal = props => {
       return (
         <div>
           <FormContainer>
-            <BookingModalForm
+            <BookingForm
               workingFromHomeBooking={workingFromHomeBooking}
               totalHolidays={totalHolidays}
               hasAvailableDays={hasAvailableDays}
@@ -135,7 +135,7 @@ const BookingModal = props => {
           />
         )}
         {renderLegacyMessage()}
-        {renderBookingModalForm()}
+        {renderBookingForm()}
       </StyleContainer>
     );
   };
