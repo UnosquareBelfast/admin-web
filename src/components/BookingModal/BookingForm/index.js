@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Form, Input } from '../../common';
-import eventTypes from '../../../utilities/eventTypes';
 import holidayStatus from '../../../utilities/holidayStatus';
 
 const BookingForm = props => {
@@ -15,9 +14,10 @@ const BookingForm = props => {
     formIsValid,
     bookingDuration,
     booking,
-    workingFromHomeBooking,
+    getOptions,
     submitButtonDisabled,
     availableDays,
+    buttonTextValue,
   } = props;
 
   const {
@@ -25,43 +25,22 @@ const BookingForm = props => {
   } = booking;
   const isEventCancelled = eventStatusId === holidayStatus.CANCELLED;
 
-  const { eventTypeId } = formData;
-
   const createCtas = () => {
-    const buttonTextValue = () => {
-      const durationText = bookingDuration === 0.5 ? 'Half' : bookingDuration;
-      const dayText = bookingDuration > 1 ? 'Days' : 'Day';
-
-      if (isEventBeingUpdated) {
-        if (isEventCancelled) {
-          return 'Cancelled';
-        }
-        return `Update to ${durationText} ${dayText}`;
-      } else {
-        if (eventTypeId !== eventTypes.ANNUAL_LEAVE) {
-          return 'Request WFH';
-        }
-        return `Request ${durationText} ${dayText}`;
-      }
-    };
-
     let isDisabled = false;
-    if (!isEventBeingUpdated) {
-      isDisabled = bookingDuration > availableDays;
-    }
 
     if (isEventBeingUpdated) {
       return [
         {
-          label: buttonTextValue(),
+          label: buttonTextValue,
           event: updateEvent,
           disabled: isEventCancelled || submitButtonDisabled,
         },
       ];
     } else {
+      isDisabled = bookingDuration > availableDays;
       return [
         {
-          label: buttonTextValue(),
+          label: buttonTextValue,
           event: createEvent,
           disabled: isDisabled,
         },
@@ -69,81 +48,70 @@ const BookingForm = props => {
     }
   };
 
-  const renderWFH = () => {
-    const options = [
-      { value: 1, displayValue: 'Annual Leave' },
-      { value: 2, displayValue: 'Working from home' },
-    ];
-    workingFromHomeBooking ? options.shift() : '';
-    return options;
-  };
-
   return (
-    <Fragment>
-      <Form formData={formData} formStatus={formStatus} actions={createCtas()}>
-        <Input
-          type="select"
-          htmlAttrs={{
-            name: 'eventTypeId',
-            options: renderWFH(),
-          }}
-          disabled={isEventCancelled}
-          value={formData.eventTypeId}
-          label="Reason:"
-        />
-        <Input
-          type="date"
-          htmlAttrs={{
-            type: 'input',
-            name: 'start',
-            placeholder: 'Enter a start date',
-          }}
-          value={formData.start}
-          disabled={isEventCancelled}
-          rules={{
-            dateNotInPast: true,
-          }}
-          label={formData.isHalfday ? 'Date' : 'Start Date:'}
-        />
-        <Input
-          type="date"
-          htmlAttrs={{
-            type: 'input',
-            name: 'end',
-            placeholder: 'Enter an end date',
-            disabled: formData.isHalfday,
-          }}
-          disabled={isEventCancelled}
-          value={formData.end}
-          rules={{
-            dateNotInPast: true,
-          }}
-          label="End Date:"
-        />
-        <Input
-          type="checkbox"
-          htmlAttrs={{
-            type: 'checkbox',
-            name: 'isHalfday',
-          }}
-          value={formData.isHalfday}
-          label="Request a halfday"
-        />
-        <Input
-          type="input"
-          className={isEventBeingUpdated ? null : 'hide'}
-          htmlAttrs={{
-            type: 'input',
-            name: 'updateMessage',
-            placeholder: 'optional',
-          }}
-          value={formData.updateMessage}
-          label="Reason for updating holiday:"
-          labelClass={isEventBeingUpdated ? null : 'hide'}
-          disabled={!formIsValid}
-        />
-      </Form>
-    </Fragment>
+    <Form formData={formData} formStatus={formStatus} actions={createCtas()}>
+      <Input
+        type="select"
+        htmlAttrs={{
+          name: 'eventTypeId',
+          options: getOptions,
+        }}
+        disabled={isEventCancelled}
+        value={formData.eventTypeId}
+        label="Reason:"
+      />
+      <Input
+        type="date"
+        htmlAttrs={{
+          type: 'input',
+          name: 'start',
+          placeholder: 'Enter a start date',
+        }}
+        value={formData.start}
+        disabled={isEventCancelled}
+        rules={{
+          dateNotInPast: true,
+        }}
+        label={formData.isHalfday ? 'Date' : 'Start Date:'}
+      />
+      <Input
+        type="date"
+        htmlAttrs={{
+          type: 'input',
+          name: 'end',
+          placeholder: 'Enter an end date',
+          disabled: formData.isHalfday,
+        }}
+        disabled={isEventCancelled}
+        value={formData.end}
+        rules={{
+          dateNotInPast: true,
+        }}
+        label="End Date:"
+      />
+      <Input
+        type="checkbox"
+        htmlAttrs={{
+          type: 'checkbox',
+          name: 'isHalfday',
+        }}
+        value={formData.isHalfday}
+        label="Request a halfday"
+      />
+      <Input
+        type="input"
+        className={isEventBeingUpdated ? null : 'hide'}
+        htmlAttrs={{
+          type: 'input',
+          name: 'updateMessage',
+          placeholder: 'optional',
+        }}
+        value={formData.updateMessage}
+        label="Reason for updating holiday:"
+        labelClass={isEventBeingUpdated ? null : 'hide'}
+        disabled={!formIsValid}
+      />
+    </Form>
   );
 };
 
@@ -159,6 +127,8 @@ BookingForm.propTypes = {
   workingFromHomeBooking: PT.bool.isRequired,
   availableDays: PT.number.isRequired,
   submitButtonDisabled: PT.bool.isRequired,
+  getOptions: PT.array.isRequired,
+  buttonTextValue: PT.string.isRequired,
 };
 
 BookingForm.defaultProps = {

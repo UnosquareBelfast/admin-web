@@ -25,7 +25,7 @@ export default class RejectionForm extends Component {
   handleSubmit = () => {
     const { rejectionMessage } = this.state;
     const { eventId } = this.props;
-    if (rejectionMessage !== '') {
+    if (rejectionMessage) {
       sendMessage(eventId, messageType.GENERAL, rejectionMessage);
     }
   };
@@ -42,7 +42,7 @@ export default class RejectionForm extends Component {
         />
         <Button
           onClick={this.handleSubmit}
-          disabled={rejectionMessage === ''}
+          disabled={!rejectionMessage}
           label="Submit"
         />
       </Fragment>

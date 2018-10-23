@@ -144,7 +144,7 @@ const BookingModal = props => {
           />
         )}
         {renderLegacyMessage()}
-        {!isRejectedHoliday ? renderBookingForm() : renderRejectionForm()}
+        {isRejectedHoliday ? renderRejectionForm() : renderBookingForm()}
       </StyleContainer>
     );
   };
