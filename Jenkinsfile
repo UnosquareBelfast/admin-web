@@ -4,7 +4,9 @@ pipeline {
             label 'mac-mini'
         }
     }
-    // environment {}
+    environment {
+        ENV_TYPE = "prod" // [prod,dev,test]
+    }
     stages {
         // stage('Get Repo') {
         //     steps {
@@ -16,7 +18,7 @@ pipeline {
         // }
         stage("Set environmental vars"){
             steps {
-                withAWSParameterStore(credentialsId: 'uno-aws-global-creds', naming: 'relative', path: '/unosquare/project/internal/PROD', recursive: true, regionName: 'eu-west-1', namePrefixes:'') {
+                withAWSParameterStore(credentialsId: 'uno-aws-global-creds', naming: 'relative', path: "/unosquare/project/internal/${env.ENV_TYPE}/", recursive: true, regionName: 'eu-west-1', namePrefixes:'') {
                     script {
                         env.BUCKET_NAME = "${env.PARAM_S3_S3BUCKET}"
                         env.DOMAIN = "http://${env.PARAM_ELB_ECSALBDNS}"
