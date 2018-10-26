@@ -24,6 +24,7 @@ const BookingModalForm = props => {
     eventStatus: { eventStatusId },
   } = booking;
   const isEventCancelled = eventStatusId === holidayStatus.CANCELLED;
+  const isEventApproved = eventStatusId === holidayStatus.APPROVED;
   const rejectionMessages = booking.messages && !isEventCancelled;
   const { eventTypeId } = formData;
 
@@ -58,7 +59,7 @@ const BookingModalForm = props => {
         {
           label: buttonTextValue(),
           event: updateEvent,
-          disabled: isEventCancelled || submitButtonDisabled,
+          disabled: isEventCancelled || submitButtonDisabled || isEventApproved,
         },
       ];
     } else {
