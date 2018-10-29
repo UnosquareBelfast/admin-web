@@ -4,7 +4,8 @@ import container from './container';
 import moment from 'moment';
 import { isEmpty } from 'lodash';
 import ModalStatusBanner from './ModalStatusBanner';
-import BookingModalForm from './BookingModalForm';
+import BookingForm from './BookingForm';
+import RejectionForm from './RejectionForm';
 import { Modal } from '../common';
 import AlertMessage from './AlertMessage';
 import { StyleContainer, FormContainer } from './styled';
@@ -16,6 +17,7 @@ import {
   getDurationBetweenDates,
 } from '../../utilities/dates';
 import eventTypes from '../../utilities/eventTypes';
+import holidayStatus from '../../utilities/holidayStatus';
 
 const rejectionReason = booking => {
   if (booking.messages) {
@@ -60,7 +62,11 @@ const BookingModal = props => {
     return null;
   };
 
-  const renderBookingModalForm = () => {
+  const renderRejectionForm = () => {
+    return <RejectionForm eventId={booking.eventId} />;
+  };
+
+  const renderBookingForm = () => {
     const { totalHolidays } = userDetails;
     const availableDays = totalHolidays - approvedDays - pendingDays;
     const hasAvailableDays = bookingDuration <= availableDays;
@@ -69,7 +75,7 @@ const BookingModal = props => {
       return (
         <div>
           <FormContainer>
-            <BookingModalForm
+            <BookingForm
               workingFromHomeBooking={workingFromHomeBooking}
               totalHolidays={totalHolidays}
               hasAvailableDays={hasAvailableDays}
@@ -90,7 +96,10 @@ const BookingModal = props => {
     }
     return null;
   };
+
   const renderModalContent = () => {
+    const isRejectedHoliday =
+      booking.eventStatus.eventStatusId === holidayStatus.REJECTED;
     const daysNotice = calculateDaysNotice(bookingDuration);
     const { totalHolidays } = userDetails;
     const availableDays = totalHolidays - approvedDays - pendingDays;
@@ -135,10 +144,11 @@ const BookingModal = props => {
           />
         )}
         {renderLegacyMessage()}
-        {renderBookingModalForm()}
+        {isRejectedHoliday ? renderRejectionForm() : renderBookingForm()}
       </StyleContainer>
     );
   };
+
   return (
     bookingModalOpen && (
       <Modal closeModal={closeBookingModal}>

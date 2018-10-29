@@ -17,6 +17,7 @@ import moment from 'moment';
 import { getAllEvents, eventBeingUpdated } from '../../../reducers';
 import { getDurationBetweenDates } from '../../../utilities/dates';
 import eventTypes from '../../../utilities/eventTypes';
+import holidayStatus from '../../../utilities/holidayStatus';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -195,6 +196,39 @@ const Container = Wrapped =>
       return validBooking;
     };
 
+    getOptions = () => {
+      const options = [
+        { value: 1, displayValue: 'Annual Leave' },
+        { value: 2, displayValue: 'Working from home' },
+      ];
+      this.state.workingFromHomeBooking ? options.shift() : '';
+      return options;
+    };
+
+    buttonTextValue = () => {
+      const { bookingDuration, isEventBeingUpdated, booking } = this.props;
+      const {
+        eventStatus: { eventStatusId },
+      } = booking;
+      let formData = { ...this.state.formData };
+      const { eventTypeId } = formData;
+      const isEventCancelled = eventStatusId === holidayStatus.CANCELLED;
+      const durationText = bookingDuration === 0.5 ? 'Half' : bookingDuration;
+      const dayText = bookingDuration > 1 ? 'Days' : 'Day';
+
+      if (isEventBeingUpdated) {
+        if (isEventCancelled) {
+          return 'Cancelled';
+        }
+        return `Update to ${durationText} ${dayText}`;
+      } else {
+        if (eventTypeId !== eventTypes.ANNUAL_LEAVE) {
+          return 'Request WFH';
+        }
+        return `Request ${durationText} ${dayText}`;
+      }
+    };
+
     render() {
       const {
         formData,
@@ -221,6 +255,8 @@ const Container = Wrapped =>
           workingFromHomeBooking={workingFromHomeBooking}
           formData={formData}
           booking={booking}
+          getOptions={this.getOptions()}
+          buttonTextValue={this.buttonTextValue()}
           isEventBeingUpdated={isEventBeingUpdated}
           bookingDuration={bookingDuration}
           formIsValid={formIsValid}
