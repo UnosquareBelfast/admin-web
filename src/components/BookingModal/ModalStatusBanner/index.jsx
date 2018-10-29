@@ -35,6 +35,7 @@ class ModalStatusBanner extends Component {
     const { cancelConfirm } = this.state;
 
     let isCancelled = eventStatusId === holidayStatus.CANCELLED;
+    let isApproved = eventStatusId === holidayStatus.APPROVED;
     let bannerId;
     let bannerDescription;
     let category;
@@ -70,7 +71,8 @@ class ModalStatusBanner extends Component {
           </div>
         )}
         <div>
-          {!isCancelled && (
+          {!isCancelled &&
+            !isApproved && (
             <div className="cancelEvent" onClick={this.handleCancel}>
               <FontAwesomeIcon icon={faTrash} />
               <span>
