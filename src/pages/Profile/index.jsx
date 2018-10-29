@@ -26,7 +26,7 @@ const Profile = props => {
     holidaysLoading,
   } = props;
   const { forename, surname, totalHolidays } = userDetails;
-
+  const daysRemaining = totalHolidays - daysBooked - daysPending;
   return (
     <Fragment>
       <HolidayModal holiday={selectedHoliday} closeModal={closeModal} />
@@ -39,7 +39,7 @@ const Profile = props => {
         <div className="holidayinfo">
           <div className="columns">
             <div>
-              <h1>{totalHolidays - daysBooked} Days</h1>
+              <h1>{daysRemaining} Days</h1>
               <h4>
                 <FontAwesomeIcon icon={faCalendar} /> Remaining
               </h4>
