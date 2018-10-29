@@ -214,11 +214,15 @@ const Container = Wrapped =>
       const { eventTypeId } = formData;
       const isEventCancelled = eventStatusId === holidayStatus.CANCELLED;
       const durationText = bookingDuration === 0.5 ? 'Half' : bookingDuration;
+      const rejectionMessages = booking.messages && !isEventCancelled;
       const dayText = bookingDuration > 1 ? 'Days' : 'Day';
 
       if (isEventBeingUpdated) {
         if (isEventCancelled) {
           return 'Cancelled';
+        }
+        if (rejectionMessages) {
+          return 'Submit';
         }
         return `Update to ${durationText} ${dayText}`;
       } else {
