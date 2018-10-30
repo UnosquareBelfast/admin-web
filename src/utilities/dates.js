@@ -26,7 +26,7 @@ export const getTotalDaysInEventArrayWithStatus = (events, status) => {
   let totalDays = 0;
   events.filter(event => event.eventType.description === 'Annual Leave').forEach(event => {
     totalDays +=
-      event.eventStatus.eventStatusId === status ? getEventDayAmount(event) : 0;
+      event.eventStatus.eventStatusId === status ? getDurationBetweenDates(event.start, event.end) : 0;
   });
   return totalDays;
 };
@@ -60,3 +60,4 @@ export const calculateDaysNotice = daysRequested => {
     return 0;
   }
 };
+

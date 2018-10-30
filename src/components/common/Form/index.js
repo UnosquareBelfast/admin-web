@@ -69,9 +69,11 @@ export class Form extends Component {
 
   render() {
     const childWithProp = React.Children.map(this.props.children, child => {
-      return React.cloneElement(child, {
-        validateForm: this.handleCheckInputValid,
-      });
+      if (child) {
+        return React.cloneElement(child, {
+          validateForm: this.handleCheckInputValid,
+        });
+      }
     });
 
     return (

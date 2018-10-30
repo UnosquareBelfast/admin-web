@@ -35,6 +35,7 @@ class ModalStatusBanner extends Component {
     const { cancelConfirm } = this.state;
 
     let isCancelled = eventStatusId === holidayStatus.CANCELLED;
+    let isApproved = eventStatusId === holidayStatus.APPROVED;
     let bannerId;
     let bannerDescription;
     let category;
@@ -47,7 +48,7 @@ class ModalStatusBanner extends Component {
       bannerDescription = typeText[eventTypeId];
       category = eventCategory.EVENT_TYPE;
     }
-    
+
     return (
       <Banner status={bannerId} className={category}>
         <div>
@@ -63,12 +64,15 @@ class ModalStatusBanner extends Component {
         {rejectionReason && (
           <div className="cancelEvent" onClick={toggleLegacyHolidayMessageView}>
             <span>
-              {toggleRejectionMessageView ? 'Hide Messages' : 'Display Messages'}
+              {toggleRejectionMessageView
+                ? 'Hide Messages'
+                : 'Display Messages'}
             </span>
           </div>
         )}
         <div>
-          {!isCancelled && (
+          {!isCancelled &&
+            !isApproved && (
             <div className="cancelEvent" onClick={this.handleCancel}>
               <FontAwesomeIcon icon={faTrash} />
               <span>

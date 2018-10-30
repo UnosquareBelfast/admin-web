@@ -1,14 +1,23 @@
 import React from 'react';
-import container from './container';
-import ModalStatusBanner from './ModalStatusBanner';
 import { PropTypes as PT } from 'prop-types';
-import BookingModalForm from './BookingModalForm';
+import container from './container';
+import moment from 'moment';
+import { isEmpty } from 'lodash';
+import ModalStatusBanner from './ModalStatusBanner';
+import BookingForm from './BookingForm';
+import RejectionForm from './RejectionForm';
 import { Modal } from '../common';
+import AlertMessage from './AlertMessage';
 import { StyleContainer, FormContainer } from './styled';
 import { Spinner } from '../common';
 import { SpinnerContainer } from '../../hoc/AuthUserAndStore/styled';
 import LegacyMessageList from './LegacyMessageList';
-import { checkSameDate } from '../../utilities/dashboardEvents';
+import {
+  calculateDaysNotice,
+  getDurationBetweenDates,
+} from '../../utilities/dates';
+import eventTypes from '../../utilities/eventTypes';
+import holidayStatus from '../../utilities/holidayStatus';
 
 const rejectionReason = booking => {
   if (booking.messages) {
@@ -16,9 +25,9 @@ const rejectionReason = booking => {
   }
   return undefined;
 };
-
 const BookingModal = props => {
   const {
+    userDetails,
     booking,
     employeeId,
     closeBookingModal,
@@ -32,6 +41,11 @@ const BookingModal = props => {
     toggleLegacyHolidayMessageView,
     toggleRejectionMessageView,
     loading,
+    pendingDays,
+    approvedDays,
+    onFormUpdate,
+    formData,
+    workingFromHomeBooking,
   } = props;
 
   const renderSpinner = () => {
@@ -41,24 +55,34 @@ const BookingModal = props => {
       </SpinnerContainer>
     );
   };
-
   const renderLegacyMessage = () => {
     if (toggleRejectionMessageView) {
-      return <LegacyMessageList eventId={booking.eventId}/>;
+      return <LegacyMessageList eventId={booking.eventId} />;
     }
     return null;
   };
- 
-  const renderBookingModalForm = () => {
+
+  const renderRejectionForm = () => {
+    return <RejectionForm eventId={booking.eventId} />;
+  };
+
+  const renderBookingForm = () => {
+    const { totalHolidays } = userDetails;
+    const availableDays = totalHolidays - approvedDays - pendingDays;
+    const hasAvailableDays = bookingDuration <= availableDays;
+
     if (!toggleRejectionMessageView) {
       return (
         <div>
-          <h1>
-            {isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}
-          </h1>
           <FormContainer>
-            <BookingModalForm
-              isSameDay={checkSameDate(booking.start)}
+            <BookingForm
+              workingFromHomeBooking={workingFromHomeBooking}
+              totalHolidays={totalHolidays}
+              hasAvailableDays={hasAvailableDays}
+              availableDays={availableDays}
+              onFormUpdate={onFormUpdate}
+              userDetails={userDetails}
+              toggleRejectionMessageView={toggleRejectionMessageView}
               updateTakenEvents={updateTakenEvents}
               employeeId={employeeId}
               booking={booking}
@@ -66,15 +90,48 @@ const BookingModal = props => {
               createEvent={createEvent}
               updateEvent={updateEvent}
             />
-          </FormContainer> 
-        </div>);
+          </FormContainer>
+        </div>
+      );
     }
     return null;
   };
 
   const renderModalContent = () => {
+    const isRejectedHoliday =
+      booking.eventStatus.eventStatusId === holidayStatus.REJECTED;
+    const daysNotice = calculateDaysNotice(bookingDuration);
+    const { totalHolidays } = userDetails;
+    const availableDays = totalHolidays - approvedDays - pendingDays;
+    const hasAvailableDays = bookingDuration <= availableDays;
+    const alert = {};
+    const today = new moment();
+    let isWorkingFromHome = false;
+    if (!isEmpty(formData)) {
+      const fromTodayToStartDateRequested = getDurationBetweenDates(
+        today,
+        formData.start
+      );
+      isWorkingFromHome = formData.eventTypeId === eventTypes.WFH;
+
+      if (!hasAvailableDays) {
+        alert.title = `${availableDays} Holidays Remaining`;
+        alert.body =
+          'You\'re unable to book this holiday due to not having enough available hoildays. Please contact HR.';
+      } else if (fromTodayToStartDateRequested < daysNotice) {
+        alert.title = 'This booking could be declined.';
+        alert.body = `You should give ${daysNotice} working/business days notice to request
+        ${' ' + bookingDuration} ${bookingDuration > 1 ? 'days' : 'day'} off.`;
+      }
+    }
     return (
       <StyleContainer>
+        <h1>{isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}</h1>
+        {!isEventBeingUpdated &&
+          !isEmpty(alert) &&
+          !isWorkingFromHome && (
+          <AlertMessage title={alert.title}>{alert.body}</AlertMessage>
+        )}
         {isEventBeingUpdated && (
           <ModalStatusBanner
             toggleRejectionMessageView={toggleRejectionMessageView}
@@ -87,7 +144,7 @@ const BookingModal = props => {
           />
         )}
         {renderLegacyMessage()}
-        {renderBookingModalForm()}
+        {isRejectedHoliday ? renderRejectionForm() : renderBookingForm()}
       </StyleContainer>
     );
   };
@@ -97,9 +154,9 @@ const BookingModal = props => {
       <Modal closeModal={closeBookingModal}>
         {!loading ? renderModalContent() : renderSpinner()}
       </Modal>
-    ));
+    )
+  );
 };
-
 BookingModal.propTypes = {
   booking: PT.object.isRequired,
   employeeId: PT.number,
@@ -111,5 +168,4 @@ BookingModal.propTypes = {
   updateEvent: PT.func.isRequired,
   cancelEvent: PT.func.isRequired,
 };
-
 export default container(BookingModal);

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const NoticeAlert = styled.div`
+export const StyleContainer = styled.div`
   margin-top: 20px;
   margin-bottom: 10px;
   span {

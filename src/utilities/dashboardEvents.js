@@ -4,7 +4,6 @@ import eventTypes from './eventTypes';
 import mandatoryEvents from './mandatoryEvents';
 import { flow } from 'lodash/fp';
 import { uniqBy } from 'lodash';
-
 import store from '../store';
 import { getAllEvents } from '../reducers';
 
@@ -12,8 +11,7 @@ export const transformEvents = allEvents => {
   return new Promise(resolve => {
     const transformedEvents = flow(
       _formatEventsForCalendar,
-      _appendExistingEvents,
-      _appendMandatoryEvents
+      _appendExistingEvents
     )(allEvents);
     resolve(transformedEvents);
   });
@@ -31,7 +29,7 @@ const _formatEventsForCalendar = events => {
       employee: event.employee,
       eventStatus: event.eventStatus,
       eventType: event.eventType,
-      messages: event.latestMessage ? event.latestMessage : undefined ,
+      messages: event.latestMessage ? event.latestMessage : undefined,
     };
   });
 };
