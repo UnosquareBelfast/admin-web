@@ -4,12 +4,27 @@ pipeline {
             label 'mac-mini'
         }
     }
-    environment {
-        // Multi-branch :
-        // script : if env.BRANCH_NAME ==
-        ENV_TYPE = "prod" // [prod,dev,test]
-    }
+    // environment {
+    //     // Multi-branch :
+    //     // script : if env.BRANCH_NAME ==
+    //     ENV_TYPE = "prod" // [prod,dev,test]
+    // }
     stages {
+        stage("Set env Type"){
+            steps {
+                script {
+                    if(env.BRANCH_NAME=='branch/production'){
+                        env.ENV_TYPE='prod'
+                    }
+                    if(env.BRANCH_NAME=='branch/develop'){
+                        env.ENV_TYPE='dev'
+                    }
+                    if(env.BRANCH_NAME=='branch/testing'){
+                        env.ENV_TYPE='test'
+                    }
+                }
+            }
+        }
         // stage('Get Repo') {
         //     steps {
         //         checkout([
