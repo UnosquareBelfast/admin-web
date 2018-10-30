@@ -5,6 +5,8 @@ pipeline {
         }
     }
     environment {
+        // Multi-branch :
+        // script : if env.BRANCH_NAME ==
         ENV_TYPE = "prod" // [prod,dev,test]
     }
     stages {
@@ -12,7 +14,7 @@ pipeline {
         //     steps {
         //         checkout([
         //             $class: 'GitSCM', 
-        //             branches: [[name: 'ops/jenkins']], 
+        //             branches: [[name: 'ops/deploy']], 
         //             userRemoteConfigs: [[url: 'https://github.com/UnosquareBelfast/admin-web/']]])
         //     }
         // }
@@ -47,6 +49,7 @@ pipeline {
                 message "Should we deploy the project?"
             }
             steps {
+                sh "env"
                 sh "sed -ie 's/bundle.js/bundle.js?v=${env.BUILD_ID}/' dist/index.html"
                 withAWS(region:'eu-west-1', credentials:'uno-aws-global-creds') {
                     s3Upload(file:'dist', bucket:"${env.BUCKET_NAME}", path:'', acl:'PublicRead')
