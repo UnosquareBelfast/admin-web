@@ -24,6 +24,7 @@ const BookingForm = props => {
     eventStatus: { eventStatusId },
   } = booking;
   const isEventCancelled = eventStatusId === holidayStatus.CANCELLED;
+  const isEventApproved = eventStatusId === holidayStatus.APPROVED;
 
   const createCtas = () => {
     let isDisabled = false;
@@ -33,7 +34,7 @@ const BookingForm = props => {
         {
           label: buttonTextValue,
           event: updateEvent,
-          disabled: isEventCancelled || submitButtonDisabled,
+          disabled: isEventCancelled || submitButtonDisabled || isEventApproved,
         },
       ];
     } else {
