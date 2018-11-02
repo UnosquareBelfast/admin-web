@@ -3,6 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Form, Input } from '../../common';
 import holidayStatus from '../../../utilities/holidayStatus';
+import eventTypes from '../../../utilities/eventTypes';
 
 const BookingForm = props => {
   const {
@@ -25,6 +26,7 @@ const BookingForm = props => {
   } = booking;
   const isEventCancelled = eventStatusId === holidayStatus.CANCELLED;
   const isEventApproved = eventStatusId === holidayStatus.APPROVED;
+  const isWFHEvent = eventTypes.WFH;
 
   const createCtas = () => {
     let isDisabled = false;
@@ -34,7 +36,7 @@ const BookingForm = props => {
         {
           label: buttonTextValue,
           event: updateEvent,
-          disabled: isEventCancelled || submitButtonDisabled || isEventApproved,
+          disabled: isEventCancelled || submitButtonDisabled || isEventApproved || isWFHEvent,
         },
       ];
     } else {
