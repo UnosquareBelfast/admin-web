@@ -197,11 +197,31 @@ const Container = Wrapped =>
     };
 
     getOptions = () => {
-      const options = [
+      const { booking, isEventBeingUpdated } = this.props;
+      const {
+        eventType: { eventTypeId },
+        eventStatus: { eventStatusId },
+      } = booking;
+      const isWFH = eventTypeId === eventTypes.WFH;
+
+      let options = [
         { value: 1, displayValue: 'Annual Leave' },
         { value: 2, displayValue: 'Working from home' },
       ];
-      this.state.workingFromHomeBooking ? options.shift() : '';
+
+      if (isEventBeingUpdated) {
+        if (isWFH) {
+          options = options.filter(option => option.value === eventTypes.WFH);
+        } else if (
+          eventStatusId === holidayStatus.PENDING ||
+          eventStatusId === holidayStatus.REJECTED
+        ) {
+          options = options.filter(
+            option => option.value === eventTypes.ANNUAL_LEAVE
+          );
+        }
+      }
+
       return options;
     };
 
