@@ -10,6 +10,7 @@ export const initialState = {
   employeeStatusId: null,
   startDate: null,
   totalHolidays: null,
+  holidays: {},
 };
 
 // Reducer
@@ -31,3 +32,5 @@ const ACTION_HANDLERS = {
 
 // Private Selectors
 export const getUser = store => store;
+export const getUserId = store => store.employeeId;
+export const getHolidayStats = store => store.holidays;

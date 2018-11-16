@@ -4,12 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchEvents, setEventView } from '../../actions/dashboard';
 import eventCategory from '../../utilities/eventCategory';
-import {
-  getUser,
-  getEventView,
-  getAllEvents,
-  eventBeingUpdated,
-} from '../../reducers';
+import { getUser, getEventView, getAllEvents } from '../../reducers';
 import eventsView from '../../utilities/eventsView';
 import moment from 'moment';
 import eventTypes from '../../utilities/eventTypes';
@@ -35,6 +30,12 @@ const DashboardContainer = Wrapped =>
         activeEventTypeIds: [],
         activeHolidayStatusIds: [],
         activeEmployee: -1,
+        bookingModalVisible: false,
+        selectedBooking: {
+          start: moment(),
+          end: moment(),
+          isBeingUpdated: false,
+        },
       };
     }
 
@@ -70,6 +71,9 @@ const DashboardContainer = Wrapped =>
       setEventView(updatedEventView);
       this.fetchEvents(updatedEventView, true);
     };
+
+    toggleBookingModal = isVisible =>
+      this.setState({ bookingModalVisible: isVisible });
 
     filterCalenderEvents = () => {
       let filteredEvents = [...this.props.allEvents];
@@ -166,14 +170,26 @@ const DashboardContainer = Wrapped =>
       this.props.fetchEvents(calendarDate, eventView, force);
     };
 
+    selectCalendarSlot = bookingEvent => {
+      this.setState(
+        {
+          selectedBooking: { ...bookingEvent },
+        },
+        () => this.toggleBookingModal(true)
+      );
+    };
+
     render() {
-      const { filteredEvents } = this.state;
+      const {
+        filteredEvents,
+        bookingModalVisible,
+        selectedBooking,
+      } = this.state;
       const {
         userDetails,
         userDetails: { employeeId },
         allEvents,
         eventView,
-        isEventBeingUpdated,
       } = this.props;
 
       return (
@@ -185,7 +201,6 @@ const DashboardContainer = Wrapped =>
             eventView={eventView}
             filteredEvents={filteredEvents}
             updateTakenEvents={() => this.fetchEvents(eventView, true)}
-            isEventBeingUpdated={isEventBeingUpdated}
             onUpdateEvents={(category, activeEventIds) =>
               this.setActiveEvents(category, activeEventIds)
             }
@@ -193,6 +208,10 @@ const DashboardContainer = Wrapped =>
               this.setActiveEmployee(parseInt(employeeId))
             }
             onCalendarNavigate={this.handleCalendarNavigate}
+            toggleBookingModal={this.toggleBookingModal}
+            bookingModalVisible={bookingModalVisible}
+            selectCalendarSlot={this.selectCalendarSlot}
+            selectedBooking={selectedBooking}
           />
         )
       );
@@ -204,7 +223,6 @@ const mapStateToProps = state => {
     userDetails: getUser(state),
     eventView: getEventView(state),
     allEvents: getAllEvents(state),
-    isEventBeingUpdated: eventBeingUpdated(state),
   };
 };
 

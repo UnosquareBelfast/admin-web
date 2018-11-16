@@ -1,5 +1,8 @@
 import moment from 'moment';
 
+export const isSameDay = (predicateDate, subjectDate) =>
+  moment(predicateDate).isSame(moment(subjectDate), 'day');
+
 export const getEventDayAmount = event => {
   if (!event) return;
   if (event.halfDay) return 0.5;
@@ -24,10 +27,14 @@ export const getTotalDaysInEventArray = events => {
 export const getTotalDaysInEventArrayWithStatus = (events, status) => {
   if (!events) return;
   let totalDays = 0;
-  events.filter(event => event.eventType.description === 'Annual Leave').forEach(event => {
-    totalDays +=
-      event.eventStatus.eventStatusId === status ? getDurationBetweenDates(event.start, event.end) : 0;
-  });
+  events
+    .filter(event => event.eventType.description === 'Annual Leave')
+    .forEach(event => {
+      totalDays +=
+        event.eventStatus.eventStatusId === status
+          ? getDurationBetweenDates(event.start, event.end)
+          : 0;
+    });
   return totalDays;
 };
 
@@ -60,4 +67,3 @@ export const calculateDaysNotice = daysRequested => {
     return 0;
   }
 };
-

@@ -19,6 +19,8 @@ export default rootReducer;
 
 // User
 export const getUser = store => FromUser.getUser(store[USER]);
+export const getUserId = store => FromUser.getUserId(store[USER]);
+export const getHolidayStats = store => FromUser.getHolidayStats(store[USER]);
 
 //Dashboard
 export const getEventView = store =>

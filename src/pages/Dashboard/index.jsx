@@ -19,8 +19,11 @@ export const Dashboard = props => {
     employeeId,
     onUpdateEvents,
     onUpdateEmployee,
-    isEventBeingUpdated,
     onCalendarNavigate,
+    toggleBookingModal,
+    bookingModalVisible,
+    selectCalendarSlot,
+    selectedBooking,
   } = props;
 
   const toggleButton = {
@@ -38,9 +41,9 @@ export const Dashboard = props => {
   return (
     <Fragment>
       <BookingModal
-        employeeId={employeeId}
-        updateTakenEvents={updateTakenEvents}
-        isEventBeingUpdated={isEventBeingUpdated}
+        modalVisible={bookingModalVisible}
+        toggleModal={toggleBookingModal}
+        selectedBooking={selectedBooking}
       />
       <InnerLayout>
         <ButtonToggle>
@@ -56,8 +59,9 @@ export const Dashboard = props => {
             <BookingCalendar
               employeeId={employeeId}
               events={filteredEvents}
-              isEventBeingUpdated={isEventBeingUpdated}
               onNavigate={onCalendarNavigate}
+              toggleBookingModal={toggleBookingModal}
+              selectCalendarSlot={selectCalendarSlot}
             />
           </div>
           <Legend
@@ -80,8 +84,11 @@ Dashboard.propTypes = {
   filteredEvents: PT.array,
   updateTakenEvents: PT.func.isRequired,
   employeeId: PT.number,
-  isEventBeingUpdated: PT.bool,
   onCalendarNavigate: PT.func.isRequired,
+  toggleBookingModal: PT.func.isRequired,
+  bookingModalVisible: PT.bool.isRequired,
+  selectCalendarSlot: PT.func.isRequired,
+  selectedBooking: PT.object.isRequired,
 };
 
 Dashboard.defaultProps = {

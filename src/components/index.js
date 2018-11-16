@@ -3,7 +3,7 @@ export { default as AllClients } from './AllClients';
 export { default as AllHolidays } from './AllHolidays';
 export { default as BigCalendarToolbar } from './BigCalendarToolbar';
 export { default as BookingCalendar } from './BookingCalendar';
-export { default as BookingModal } from './BookingModal';
+export { default as BookingModal } from './NewBookingModal';
 export { default as CreateClient } from './CreateClient';
 export { default as CreateContract } from './CreateContract';
 export { default as ClientModal } from './ClientModal';
@@ -23,5 +23,3 @@ export { default as AllEmployees } from './AllEmployees';
 export { default as DataTable } from './DataTable';
 export { default as FullPageLoader } from './FullPageLoader';
 export { default as TeamOverview } from './TeamOverview';
-
-
