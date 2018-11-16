@@ -13,7 +13,7 @@ export const Dashboard = props => {
   const {
     allEvents,
     filteredEvents,
-    updateTakenEvents,
+    refreshCalendar,
     onToggleEventsView,
     eventView,
     employeeId,
@@ -44,6 +44,7 @@ export const Dashboard = props => {
         modalVisible={bookingModalVisible}
         toggleModal={toggleBookingModal}
         selectedBooking={selectedBooking}
+        refreshCalendar={refreshCalendar}
       />
       <InnerLayout>
         <ButtonToggle>
@@ -82,7 +83,7 @@ Dashboard.propTypes = {
   eventView: PT.number.isRequired,
   allEvents: PT.array,
   filteredEvents: PT.array,
-  updateTakenEvents: PT.func.isRequired,
+  refreshCalendar: PT.func.isRequired,
   employeeId: PT.number,
   onCalendarNavigate: PT.func.isRequired,
   toggleBookingModal: PT.func.isRequired,

@@ -200,7 +200,7 @@ const DashboardContainer = Wrapped =>
             onToggleEventsView={this.toggleEventsView}
             eventView={eventView}
             filteredEvents={filteredEvents}
-            updateTakenEvents={() => this.fetchEvents(eventView, true)}
+            refreshCalendar={() => this.fetchEvents(eventView, true)}
             onUpdateEvents={(category, activeEventIds) =>
               this.setActiveEvents(category, activeEventIds)
             }

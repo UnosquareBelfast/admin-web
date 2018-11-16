@@ -15,7 +15,7 @@ const FormikEnhancer = withFormik({
   // This updates the form when props change.
   enableReinitialize: true,
 
-  validateOn
+  // validateOn
 
   mapPropsToValues: ({ start, end }) => ({
     bookingType: '1',

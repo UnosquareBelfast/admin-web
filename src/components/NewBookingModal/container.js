@@ -9,6 +9,7 @@ const Container = Wrapped =>
       modalVisible: PT.bool.isRequired,
       toggleModal: PT.func.isRequired,
       selectedBooking: PT.object.isRequired,
+      refreshCalendar: PT.func.isRequired,
     };
 
     constructor(props) {
@@ -19,13 +20,14 @@ const Container = Wrapped =>
     setView = view => this.setState({ view });
 
     render() {
-      const { modalVisible, toggleModal, selectedBooking } = this.props;
+      const { modalVisible, toggleModal, selectedBooking, refreshCalendar } = this.props;
 
       return (
         <Wrapped
           modalVisible={modalVisible}
           toggleModal={toggleModal}
           selectedBooking={selectedBooking}
+          refreshCalendar={refreshCalendar}
         />
       );
     }
