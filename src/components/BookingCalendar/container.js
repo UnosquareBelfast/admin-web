@@ -10,7 +10,6 @@ import {
 } from '../../utilities/dashboardEvents';
 import {
   selectBooking,
-  toggleBookingModal,
   setEventBeingUpdated,
   updateEventDuration,
 } from '../../actions/dashboard';
@@ -29,8 +28,9 @@ const BookingCalendarContainer = Wrapped =>
       selectBooking: PT.func,
       updateEventDuration: PT.func,
       setEventBeingUpdated: PT.func,
-      toggleBookingModal: PT.func,
+      toggleBookingModal: PT.func.isRequired,
       onNavigate: PT.func,
+      selectCalendarSlot: PT.func.isRequired,
     };
 
     constructor(props) {
@@ -60,7 +60,7 @@ const BookingCalendarContainer = Wrapped =>
           events,
           employeeId,
           start,
-          end,
+          end
         );
         if (datesOverlapExisting) {
           return validationMessage.DATES_ALREADY_REQUESTED;
@@ -70,35 +70,35 @@ const BookingCalendarContainer = Wrapped =>
       }
     };
 
-    onSelectSlot = ({ start, end }) => {
-      const calendarValidationResults = this.handleCalendarValidation(
-        start,
-        end,
-      );
-      if (calendarValidationResults === validationMessage.DATES_APPROVED) {
-        let booking = {
-          start: new moment(start),
-          end: new moment(end),
-          isHalfday: false,
-          eventType: {
-            eventTypeId: eventTypes.ANNUAL_LEAVE,
-            description: 'Annual leave',
-          },
-          eventStatus: {
-            eventStatusId: holidayStatus.PENDING,
-            description: 'Awaiting Approval',
-          },
-          employee: null,
-        };
-        this.props.selectBooking(booking);
-        this.bookingModalConfig({ ...booking }, false);
-      } else {
-        Toast({
-          type: 'warning',
-          title: calendarValidationResults,
-        });
-      }
-    };
+    // onSelectSlot = ({ start, end }) => {
+    //   const calendarValidationResults = this.handleCalendarValidation(
+    //     start,
+    //     end
+    //   );
+    //   if (calendarValidationResults === validationMessage.DATES_APPROVED) {
+    //     let booking = {
+    //       start: new moment(start),
+    //       end: new moment(end),
+    //       isHalfday: false,
+    //       eventType: {
+    //         eventTypeId: eventTypes.ANNUAL_LEAVE,
+    //         description: 'Annual leave',
+    //       },
+    //       eventStatus: {
+    //         eventStatusId: holidayStatus.PENDING,
+    //         description: 'Awaiting Approval',
+    //       },
+    //       employee: null,
+    //     };
+    //     this.props.selectBooking(booking);
+    //     this.bookingModalConfig({ ...booking }, false);
+    //   } else {
+    //     Toast({
+    //       type: 'warning',
+    //       title: calendarValidationResults,
+    //     });
+    //   }
+    // };
 
     onSelectEvent = event => {
       if (event.employee) {
@@ -115,7 +115,7 @@ const BookingCalendarContainer = Wrapped =>
     };
 
     render() {
-      const { employeeId, events, onNavigate } = this.props;
+      const { employeeId, events, onNavigate, selectCalendarSlot } = this.props;
       return (
         employeeId &&
         events && (
@@ -124,6 +124,7 @@ const BookingCalendarContainer = Wrapped =>
             onSelectEvent={this.onSelectEvent}
             onNavigate={onNavigate}
             events={this.props.events}
+            selectCalendarSlot={selectCalendarSlot}
           />
         )
       );
@@ -136,14 +137,10 @@ const mapDispatchToProps = dispatch => {
     updateEventDuration: event => dispatch(updateEventDuration(event)),
     setEventBeingUpdated: isUpdated =>
       dispatch(setEventBeingUpdated(isUpdated)),
-    toggleBookingModal: open => dispatch(toggleBookingModal(open)),
   };
 };
 
 export default compose(
-  connect(
-    null,
-    mapDispatchToProps,
-  ),
-  BookingCalendarContainer,
+  connect(null, mapDispatchToProps),
+  BookingCalendarContainer
 );

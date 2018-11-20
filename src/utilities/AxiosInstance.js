@@ -37,6 +37,24 @@ instance.interceptors.response.use(function(response) {
     };
   }
 
+  // MOCK DATA
+  if (response.config.url.includes(`${baseURL}/employees`)) {
+    const holidays = {
+      total: 30,
+      pending: 2,
+      taken: 25,
+      available: 3,
+    };
+
+    return {
+      ...response,
+      data: {
+        ...response.data,
+        holidays,
+      },
+    };
+  }
+
   // Append employee to each event (we know its the logged in user) and convert
   // dates to moment objects
   if (response.config.url.includes(`${baseURL}/dashboard/getEmployeeEvents`)) {
@@ -55,7 +73,9 @@ instance.interceptors.response.use(function(response) {
     };
   }
 
-  if (response.config.url.includes(`${baseURL}/dashboard/getDashboardSnapshot`)) {
+  if (
+    response.config.url.includes(`${baseURL}/dashboard/getDashboardSnapshot`)
+  ) {
     const data = [...response.data];
     const employee = store.getState().USER;
     for (let object of data) {

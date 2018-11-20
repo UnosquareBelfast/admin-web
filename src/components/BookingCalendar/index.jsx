@@ -10,7 +10,7 @@ moment.locale('en-gb');
 Calendar.momentLocalizer(moment);
 
 export const BookingCalendar = props => {
-  const { onSelectSlot, onSelectEvent, events, onNavigate } = props;
+  const { selectCalendarSlot, onSelectEvent, events, onNavigate } = props;
 
   return (
     <Calendar
@@ -19,8 +19,8 @@ export const BookingCalendar = props => {
       events={events}
       endAccessor={({ end }) => end.endOf('day')}
       messages={{ agenda: 'team', personal: 'personal' }}
-      onSelectSlot={onSelectSlot}
-      onSelectEvent={onSelectEvent}
+      onSelectSlot={slot => selectCalendarSlot(slot)}
+      onSelectEvent={event => selectCalendarSlot(event)}
       popup
       showMultiDayTimes
       selectable
@@ -34,10 +34,10 @@ export const BookingCalendar = props => {
 };
 
 BookingCalendar.propTypes = {
-  onSelectSlot: PT.func.isRequired,
   onSelectEvent: PT.func.isRequired,
   onNavigate: PT.func.isRequired,
   events: PT.array.isRequired,
+  selectCalendarSlot: PT.func.isRequired,
 };
 
 export default container(BookingCalendar);

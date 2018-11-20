@@ -5,7 +5,7 @@ import mandatoryEvents from './mandatoryEvents';
 import { flow } from 'lodash/fp';
 import { uniqBy } from 'lodash';
 import store from '../store';
-import { getAllEvents } from '../reducers';
+import { getAllEvents, getUserId } from '../reducers';
 
 export const transformEvents = allEvents => {
   return new Promise(resolve => {
@@ -176,5 +176,27 @@ export const checkIfSelectedDatesOverlapExisting = (
       }
     }
   });
+  return overlappingEvents.length > 0;
+};
+
+export const checkOverlappingEvents = (start, end) => {
+  const events = getAllEvents(store.getState());
+  const employeeId = getUserId(store.getState());
+
+  const overlappingEvents = events.filter(event => {
+    if (event.employee.employeeId !== employeeId) {
+      return false;
+    }
+    const selectedDateRange = moment.range(
+      moment(start),
+      moment(end).endOf('day')
+    );
+    const existingEvent = moment.range(moment(event.start), moment(event.end));
+
+    if (selectedDateRange.overlaps(existingEvent)) {
+      return true;
+    }
+  });
+
   return overlappingEvents.length > 0;
 };
