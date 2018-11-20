@@ -2,13 +2,14 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import Form from './form';
+import { FormContainer } from '../styled';
 
 const NewBooking = ({ handleFormSubmit, start, end }) => {
   return (
-    <div>
+    <FormContainer>
       <h2>New Booking</h2>
       <Form handleSubmit={handleFormSubmit} start={start} end={end} />
-    </div>
+    </FormContainer>
   );
 };
 

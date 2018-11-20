@@ -111,7 +111,6 @@ class RawForm extends Component {
     return (
       <form
         onSubmit={handleSubmit}
-        style={{ display: 'flex', flexDirection: 'column' }}
       >
         <label htmlFor="bookingType">Booking Type:</label>
         <select
