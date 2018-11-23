@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import Rodal from 'rodal';
+import Modal from '../common/Modal';
 import container from './container';
 import NewBooking from './NewBooking';
 import UpdateBooking from './UpdateBooking';
@@ -15,9 +15,13 @@ const BookingModal = props => {
   const isBeingUpdated = selectedBooking.hasOwnProperty('eventId');
 
   return (
-    <Rodal visible={modalVisible} onClose={() => toggleModal(false)}>
+    <Modal visible={modalVisible} onClose={() => toggleModal(false)}>
       {isBeingUpdated ? (
-        <UpdateBooking />
+        <UpdateBooking 
+          selectedBooking={selectedBooking}
+          refreshCalendar={refreshCalendar}
+          toggleModal={toggleModal}
+        />
       ) : (
         <NewBooking
           toggleModal={toggleModal}
@@ -26,7 +30,7 @@ const BookingModal = props => {
           end={selectedBooking.end}
         />
       )}
-    </Rodal>
+    </Modal>
   );
 };
 

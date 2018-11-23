@@ -10,18 +10,18 @@ import eventTypes from '../../../utilities/eventTypes';
 import store from '../../../store';
 
 const FormikEnhancer = withFormik({
-  displayName: 'New Event Form',
+  displayName: 'Update Event Form',
 
   // This updates the form when props change.
   enableReinitialize: true,
 
   // validateOn
 
-  mapPropsToValues: ({ start, end }) => ({
-    eventTypeId: '1',
-    startDate: moment(start),
-    endDate: moment(end),
-    halfDay: false,
+  mapPropsToValues: ({ selectedBooking }) => ({
+    eventTypeId: selectedBooking.eventType.eventTypeId,
+    startDate: moment(selectedBooking.start),
+    endDate: moment(selectedBooking.end),
+    halfDay: selectedBooking.halfDay,
   }),
 
   // Custom sync validation
@@ -33,8 +33,8 @@ const FormikEnhancer = withFormik({
       .endOf();
 
     const holidayStats = getHolidayStats(store.getState());
-    const overlappingEvents = checkOverlappingEvents(startDate, endDate);
-    // const selectedDatesOverlappingExisting = checkIfSelectedDatesOverlapExisting()
+    const overlappingEvents = checkOverlappingEvents(startDate, endDate, eventTypeId);
+
 
     let errors = {};
 
@@ -75,7 +75,7 @@ const FormikEnhancer = withFormik({
   },
 
   handleSubmit: (payload, bag) => {
-    bag.props.handleSubmit(payload);
+    bag.props.handleFormSubmit(payload);
   },
 });
 
@@ -112,7 +112,7 @@ class RawForm extends Component {
     return (
       <form
         onSubmit={handleSubmit}
-      >
+      > 
         <label htmlFor="eventTypeId">Booking Type</label>
         <select
           id="eventTypeId"
@@ -146,7 +146,8 @@ class RawForm extends Component {
             type="checkbox"
             id="halfDay"
             name="halfDay"
-            value={values.halfDay}
+            // value={values.halfDay}
+            checked={values.halfDay}
             onChange={handleChange}
             className={errors.halfDay && touched.halfDay ? 'error' : ''}
             disabled={!isSameDay(values.startDate, values.endDate)}
@@ -154,8 +155,8 @@ class RawForm extends Component {
           <label htmlFor="halfDay">Half Day</label>
         </div>
         <ul>{this.renderErrors(errors)}</ul>
-        <button type="submit" disabled={Object.keys(errors).length > 0}>
-          Submit
+        <button type="update" disabled={Object.keys(errors).length > 0}>
+          Update
         </button>
       </form>
     );

@@ -21,7 +21,7 @@ const Container = Wrapped =>
 
     render() {
       const { modalVisible, toggleModal, selectedBooking, refreshCalendar } = this.props;
-
+      
       return (
         <Wrapped
           modalVisible={modalVisible}

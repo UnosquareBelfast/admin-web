@@ -42,7 +42,7 @@ const Container = Wrapped =>
         [eventTypes.WFH]: requestWFH,
       };
 
-      endpoint[data.bookingType](request).then(() => {
+      endpoint[data.eventTypeId](request).then(() => {
         refreshCalendar();
         toggleModal(false);
       }).catch(error => {

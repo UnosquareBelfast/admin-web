@@ -9,7 +9,7 @@ const Modal = props => {
       visible={visible}
       onClose={closeModal}
       customStyles={{
-        width: '50%',
+        width: '35%',
         minWidth: '400px',
         height: 'auto',
         bottom: 'auto',
