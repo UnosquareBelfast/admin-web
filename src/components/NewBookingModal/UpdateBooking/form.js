@@ -6,8 +6,11 @@ import DatePicker from 'react-datepicker';
 import { isSameDay, getDurationBetweenDates } from '../../../utilities/dates';
 import { checkOverlappingEvents } from '../../../utilities/dashboardEvents';
 import { getHolidayStats } from '../../../reducers';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/fontawesome-free-solid';
 import eventTypes from '../../../utilities/eventTypes';
 import store from '../../../store';
+import { RedButton, BlueButton } from '../styled';
 
 const FormikEnhancer = withFormik({
   displayName: 'Update Event Form',
@@ -87,10 +90,22 @@ class RawForm extends Component {
     handleChange: PT.func.isRequired,
     handleSubmit: PT.func.isRequired,
     setFieldValue: PT.func.isRequired,
+    cancelHolidayRequest: PT.func.isRequired,
+    modalVisible: PT.bool.isRequired,
   };
 
   constructor(props) {
     super(props);
+    this.state = {
+      cancelConfirm: false,
+    };
+  }
+
+  static getDerivedStateFromProps(nextProps) {
+    if (!nextProps.modalVisible) {
+      return { cancelConfirm: false };
+    }
+    else return null;
   }
 
   renderErrors = errors => {
@@ -99,6 +114,14 @@ class RawForm extends Component {
     ));
   };
 
+  handleCancel = (values) => {
+    if (!this.state.cancelConfirm) {
+      this.setState({ cancelConfirm: true });
+    } else {
+      this.props.cancelHolidayRequest(values.eventTypeId);
+    }
+  }
+  
   render() {
     const {
       values,
@@ -107,7 +130,21 @@ class RawForm extends Component {
       handleChange,
       handleSubmit,
       setFieldValue,
+      modalVisible,
     } = this.props;
+    
+    const { cancelConfirm } = this.state;
+
+    const cancelButtons = cancelConfirm
+      ?
+      <RedButton type="button" onClick={this.handleCancel}>
+        Confirm &nbsp;
+        <FontAwesomeIcon icon={faTrash} color="white"/>
+      </RedButton>
+      :
+      <BlueButton type="button" onClick={this.handleCancel}>
+        Cancel Booking
+      </BlueButton>;
 
     return (
       <form
@@ -146,7 +183,6 @@ class RawForm extends Component {
             type="checkbox"
             id="halfDay"
             name="halfDay"
-            // value={values.halfDay}
             checked={values.halfDay}
             onChange={handleChange}
             className={errors.halfDay && touched.halfDay ? 'error' : ''}
@@ -155,9 +191,17 @@ class RawForm extends Component {
           <label htmlFor="halfDay">Half Day</label>
         </div>
         <ul>{this.renderErrors(errors)}</ul>
-        <button type="update" disabled={Object.keys(errors).length > 0}>
-          Update
-        </button>
+        <div className="submitOrCancel">
+          <BlueButton type="update" className="update" disabled={Object.keys(errors).length > 0}>
+            Update
+          </BlueButton>
+
+          {modalVisible
+            ? cancelButtons
+            : <BlueButton type="button" onClick={this.handleCancel}>
+              Cancel Booking
+            </BlueButton>}
+        </div>
       </form>
     );
   }

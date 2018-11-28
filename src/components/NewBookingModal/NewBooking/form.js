@@ -8,6 +8,7 @@ import { checkOverlappingEvents } from '../../../utilities/dashboardEvents';
 import { getHolidayStats } from '../../../reducers';
 import eventTypes from '../../../utilities/eventTypes';
 import store from '../../../store';
+import { BlueButton } from '../styled';
 
 const FormikEnhancer = withFormik({
   displayName: 'New Event Form',
@@ -154,9 +155,11 @@ class RawForm extends Component {
           <label htmlFor="halfDay">Half Day</label>
         </div>
         <ul>{this.renderErrors(errors)}</ul>
-        <button type="submit" disabled={Object.keys(errors).length > 0}>
-          Submit
-        </button>
+        <div className="submit">
+          <BlueButton type="submit" disabled={Object.keys(errors).length > 0}>
+            Submit
+          </BlueButton>
+        </div>
       </form>
     );
   }

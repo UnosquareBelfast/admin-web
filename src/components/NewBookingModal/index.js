@@ -17,7 +17,8 @@ const BookingModal = props => {
   return (
     <Modal visible={modalVisible} onClose={() => toggleModal(false)}>
       {isBeingUpdated ? (
-        <UpdateBooking 
+        <UpdateBooking
+          modalVisible={modalVisible}
           selectedBooking={selectedBooking}
           refreshCalendar={refreshCalendar}
           toggleModal={toggleModal}

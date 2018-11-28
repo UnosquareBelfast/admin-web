@@ -27,15 +27,6 @@ export const FormContainer = styled.div`
     height: 23px;
   }
 
-  button {
-    padding: 11px;
-    border-radius: 5px;
-    border-style: none;
-    background-color: ${props => props.theme.colours.unoBlue};
-    color: ${props => props.theme.colours.white};
-    font-weight: bold;
-  }
-
   .half-day label {  
     padding: 0px 10px;
     position: relative;
@@ -51,5 +42,37 @@ export const FormContainer = styled.div`
   .half-day input:disabled ~ label {
     opacity: 0.3;
   }
+  
+  .submitOrCancel {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: baseline;
+  }
+
+  .submit {
+    text-align: center;
+  }
+`;
+
+export const BlueButton = styled.button`
+  width: 50%;
+  background-color: ${props => props.theme.colours.unoBlue};
+  color: ${props => props.theme.colours.white};
+  font-weight: bold;
+  padding: 11px;
+  border-radius: 5px;
+  border-style: none;
+  margin: 0 10px;
+`;
+
+export const RedButton = styled.button`
+  width: 50%;
+  background-color: red;
+  color: ${props => props.theme.colours.white};
+  font-weight: bold;
+  padding: 11px;
+  border-radius: 5px;
+  border-style: none;
+  margin: 0 10px;
 
 `;
