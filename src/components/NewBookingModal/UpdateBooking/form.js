@@ -25,16 +25,20 @@ const FormikEnhancer = withFormik({
   }),
 
   // Custom sync validation
-  validate: values => {
+  validate: (values, props) => {
     const { startDate, endDate, halfDay, eventTypeId } = values;
+    const { eventId } = props.selectedBooking;
 
     const yesterday = moment()
       .subtract(1, 'day')
       .endOf();
 
     const holidayStats = getHolidayStats(store.getState());
-    const overlappingEvents = checkOverlappingEvents(startDate, endDate, eventTypeId);
-
+    const overlappingEvents = checkOverlappingEvents(
+      startDate,
+      endDate,
+      eventId
+    );
 
     let errors = {};
 
@@ -110,9 +114,7 @@ class RawForm extends Component {
     } = this.props;
 
     return (
-      <form
-        onSubmit={handleSubmit}
-      > 
+      <form onSubmit={handleSubmit}>
         <label htmlFor="eventTypeId">Booking Type</label>
         <select
           id="eventTypeId"

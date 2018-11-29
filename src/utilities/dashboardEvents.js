@@ -179,11 +179,22 @@ export const checkIfSelectedDatesOverlapExisting = (
   return overlappingEvents.length > 0;
 };
 
-export const checkOverlappingEvents = (start, end) => {
+export const checkOverlappingEvents = (start, end, eventId) => {
   const events = getAllEvents(store.getState());
   const employeeId = getUserId(store.getState());
+  const thisEvent = eventId;
 
   const overlappingEvents = events.filter(event => {
+    let isCurrentEvent = false;
+
+    if (typeof thisEvent != 'undefined') {
+      isCurrentEvent = thisEvent === event.eventId;
+    }
+
+    if (isCurrentEvent) {
+      return false;
+    }
+
     if (event.employee.employeeId !== employeeId) {
       return false;
     }
