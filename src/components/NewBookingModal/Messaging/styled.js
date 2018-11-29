@@ -38,7 +38,8 @@ export const ChatBox = styled.div`
 
 export const Message = styled.div`
   padding: 10px;
-  background-color: ${props => props.theme.colours.unoBlue};
+  background-color: ${({ theme, declined }) =>
+    declined ? theme.colours.unoBlue : theme.colours.red};
   border-radius: 8px;
   color: white;
   line-height: 24px;

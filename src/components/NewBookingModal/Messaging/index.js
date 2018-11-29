@@ -16,8 +16,15 @@ import {
   faUser,
   faPaperPlane,
 } from '@fortawesome/fontawesome-free-solid';
+import messageTypes from '../../../utilities/messageTypes';
 
-const MessageBlock = ({ message, author, lastModified, eventMessageId }) => {
+const MessageBlock = ({
+  message,
+  author,
+  lastModified,
+  eventMessageId,
+  messageTypeId,
+}) => {
   return (
     <Fragment key={eventMessageId}>
       <MessageMetaWrap>
@@ -30,20 +37,23 @@ const MessageBlock = ({ message, author, lastModified, eventMessageId }) => {
           {lastModified}
         </span>
       </MessageMetaWrap>
-      <Message>{message}</Message>
+      <Message declined={messageTypeId === messageTypes.declined}>
+        {message}
+      </Message>
     </Fragment>
   );
 };
 
 const renderMessages = messages => {
   return messages.map(message => {
-    const { author, lastModified, eventMessageId } = message;
+    const { author, lastModified, eventMessageId, messageTypeId } = message;
     return (
       <MessageBlock
         message={message.message}
         author={author}
         lastModified={lastModified}
         key={eventMessageId}
+        messageTypeId={messageTypeId}
       />
     );
   });
