@@ -7,6 +7,7 @@ import { isSameDay, getDurationBetweenDates } from '../../../utilities/dates';
 import { checkOverlappingEvents } from '../../../utilities/dashboardEvents';
 import { getHolidayStats } from '../../../reducers';
 import eventTypes from '../../../utilities/eventTypes';
+import holidayStatus from '../../../utilities/holidayStatus';
 import store from '../../../store';
 
 const FormikEnhancer = withFormik({
@@ -27,7 +28,14 @@ const FormikEnhancer = withFormik({
   // Custom sync validation
   validate: (values, props) => {
     const { startDate, endDate, halfDay, eventTypeId } = values;
-    const { eventId } = props.selectedBooking;
+    const {
+      eventId,
+      eventStatus: { eventStatusId },
+    } = props.selectedBooking;
+    const initialStart = props.selectedBooking.start;
+    const initialEnd = props.selectedBooking.end;
+    const initialDuration = getDurationBetweenDates(initialStart, initialEnd);
+    const isHoliday = parseInt(eventTypeId) === eventTypes.ANNUAL_LEAVE;
 
     const yesterday = moment()
       .subtract(1, 'day')
@@ -54,13 +62,6 @@ const FormikEnhancer = withFormik({
       errors.endDate = 'Your booking is overlapping another';
     }
 
-    if (
-      getDurationBetweenDates(startDate, endDate) > holidayStats.available &&
-      parseInt(eventTypeId) === eventTypes.ANNUAL_LEAVE
-    ) {
-      errors.endDate = 'You do not have enough remaining holidays';
-    }
-
     if (!halfDay) {
       if (endDate.isBefore(yesterday)) {
         errors.endDate = 'End date cannot be in the past';
@@ -73,6 +74,23 @@ const FormikEnhancer = withFormik({
       if (endDate.isoWeekday() > 5) {
         errors.endDate = 'End date cannot be a weekend';
       }
+    }
+
+    let hasEnoughDays = true;
+    const newDuration = getDurationBetweenDates(startDate, endDate);
+    if (isHoliday) {
+      if (
+        eventStatusId === holidayStatus.PENDING ||
+        eventStatusId === holidayStatus.APPROVED
+      ) {
+        hasEnoughDays = newDuration <= holidayStats.available + initialDuration;
+      } else {
+        hasEnoughDays = newDuration < holidayStatus.available;
+      }
+    }
+
+    if (!hasEnoughDays) {
+      errors.endDate = 'You do not have enough remaining holidays';
     }
 
     return errors;
