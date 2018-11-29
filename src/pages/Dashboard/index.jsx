@@ -22,6 +22,7 @@ export const Dashboard = props => {
     onCalendarNavigate,
     toggleBookingModal,
     bookingModalVisible,
+    bookingModalDismount,
     selectCalendarSlot,
     selectedBooking,
   } = props;
@@ -41,6 +42,7 @@ export const Dashboard = props => {
   return (
     <Fragment>
       <BookingModal
+        key={bookingModalDismount}
         modalVisible={bookingModalVisible}
         toggleModal={toggleBookingModal}
         selectedBooking={selectedBooking}
@@ -88,6 +90,7 @@ Dashboard.propTypes = {
   onCalendarNavigate: PT.func.isRequired,
   toggleBookingModal: PT.func.isRequired,
   bookingModalVisible: PT.bool.isRequired,
+  bookingModalDismount: PT.bool.isRequired,
   selectCalendarSlot: PT.func.isRequired,
   selectedBooking: PT.object.isRequired,
 };

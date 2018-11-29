@@ -31,6 +31,7 @@ const DashboardContainer = Wrapped =>
         activeHolidayStatusIds: [],
         activeEmployee: -1,
         bookingModalVisible: false,
+        bookingModalDismount: false,
         selectedBooking: {
           start: moment(),
           end: moment(),
@@ -72,8 +73,19 @@ const DashboardContainer = Wrapped =>
       this.fetchEvents(updatedEventView, true);
     };
 
-    toggleBookingModal = isVisible =>
-      this.setState({ bookingModalVisible: isVisible });
+    toggleBookingModal = isVisible => {
+      this.setState({ bookingModalVisible: isVisible }, () => {
+        if (!isVisible) {
+          // This is a bit of a hack to dismount after the animation is finished.
+          // It's ugly but it works well.
+          setTimeout(() => {
+            this.setState({
+              bookingModalDismount: !this.state.bookingModalDismount,
+            });
+          }, 300);
+        }
+      });
+    };
 
     filterCalenderEvents = () => {
       let filteredEvents = [...this.props.allEvents];
@@ -183,6 +195,7 @@ const DashboardContainer = Wrapped =>
       const {
         filteredEvents,
         bookingModalVisible,
+        bookingModalDismount,
         selectedBooking,
       } = this.state;
       const {
@@ -210,6 +223,7 @@ const DashboardContainer = Wrapped =>
             onCalendarNavigate={this.handleCalendarNavigate}
             toggleBookingModal={this.toggleBookingModal}
             bookingModalVisible={bookingModalVisible}
+            bookingModalDismount={bookingModalDismount}
             selectCalendarSlot={this.selectCalendarSlot}
             selectedBooking={selectedBooking}
           />

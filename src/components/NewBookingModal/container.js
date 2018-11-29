@@ -14,20 +14,31 @@ const Container = Wrapped =>
 
     constructor(props) {
       super(props);
-      this.state = {};
+      this.state = { messagingViewVisible: false };
     }
 
-    setView = view => this.setState({ view });
+    toggleMessagingView = isVisible => {
+      this.setState({ messagingViewVisible: isVisible });
+    };
 
     render() {
-      const { modalVisible, toggleModal, selectedBooking, refreshCalendar } = this.props;
-      
+      const {
+        modalVisible,
+        toggleModal,
+        selectedBooking,
+        refreshCalendar,
+      } = this.props;
+
+      const { messagingViewVisible } = this.state;
+
       return (
         <Wrapped
           modalVisible={modalVisible}
           toggleModal={toggleModal}
           selectedBooking={selectedBooking}
           refreshCalendar={refreshCalendar}
+          messagingViewVisible={messagingViewVisible}
+          toggleMessagingView={this.toggleMessagingView}
         />
       );
     }

@@ -1,11 +1,26 @@
 import styled from 'styled-components';
 
 export const FormContainer = styled.div`
+  .chatIconWrap {
+    position: absolute;
+    top: -13px;
+    display: flex;
+    flex-direction: row-reverse;
+    width: calc(100% - 10px);
+    > svg {
+      color: #999999;
+      cursor: pointer;
+      :hover {
+        color: black;
+      }
+    }
+  }
 
   padding: 0 15px 10px 15px;
 
   h2 {
-    margin: 22px 0 20px 0;
+    user-select: none;
+    margin: 15px 0 20px 0;
   }
 
   form {
@@ -13,7 +28,8 @@ export const FormContainer = styled.div`
     flex-direction: column;
   }
 
-  select, input {
+  select,
+  input {
     margin-bottom: 13px;
     margin-top: 5px;
     padding: 7px 8px;
@@ -36,7 +52,7 @@ export const FormContainer = styled.div`
     font-weight: bold;
   }
 
-  .half-day label {  
+  .half-day label {
     padding: 0px 10px;
     position: relative;
     top: -3px;
@@ -51,5 +67,4 @@ export const FormContainer = styled.div`
   .half-day input:disabled ~ label {
     opacity: 0.3;
   }
-
 `;

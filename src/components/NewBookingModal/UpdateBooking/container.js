@@ -12,6 +12,7 @@ const Container = Wrapped =>
       refreshCalendar: PT.func.isRequired,
       userId: PT.number.isRequired,
       toggleModal: PT.func.isRequired,
+      toggleMessagingView: PT.func.isRequired,
     };
 
     constructor(props) {
@@ -45,11 +46,12 @@ const Container = Wrapped =>
     };
 
     render() {
-      const { selectedBooking } = this.props;
+      const { selectedBooking, toggleMessagingView } = this.props;
       return (
         <Wrapped
           handleFormSubmit={this.handleFormSubmit}
           selectedBooking={selectedBooking}
+          toggleMessagingView={toggleMessagingView}
         />
       );
     }
