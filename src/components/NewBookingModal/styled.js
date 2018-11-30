@@ -51,28 +51,27 @@ export const FormContainer = styled.div`
 
   .submit {
     text-align: center;
+
+    button {
+      background: ${props => props.theme.colours.unoBlue};
+      color: ${props => props.theme.colours.white};
+      font-weight: bold;
+      padding: 11px;
+      border-radius: 5px;
+      border-style: none;
+      margin: 0 10px;
+      width: 100%
+    }
   }
 `;
 
-export const BlueButton = styled.button`
+export const CancelButton = styled.button`
   width: 50%;
-  background-color: ${props => props.theme.colours.unoBlue};
+  background-color: ${props => props.cancelConfirm ? 'red' : props.theme.colours.unoBlue};
   color: ${props => props.theme.colours.white};
   font-weight: bold;
   padding: 11px;
   border-radius: 5px;
   border-style: none;
   margin: 0 10px;
-`;
-
-export const RedButton = styled.button`
-  width: 50%;
-  background-color: red;
-  color: ${props => props.theme.colours.white};
-  font-weight: bold;
-  padding: 11px;
-  border-radius: 5px;
-  border-style: none;
-  margin: 0 10px;
-
 `;

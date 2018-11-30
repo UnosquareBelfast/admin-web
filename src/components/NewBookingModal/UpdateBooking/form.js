@@ -10,7 +10,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/fontawesome-free-solid';
 import eventTypes from '../../../utilities/eventTypes';
 import store from '../../../store';
-import { RedButton, BlueButton } from '../styled';
+import { CancelButton } from '../styled';
 
 const FormikEnhancer = withFormik({
   displayName: 'Update Event Form',
@@ -132,19 +132,8 @@ class RawForm extends Component {
       setFieldValue,
       modalVisible,
     } = this.props;
-    
-    const { cancelConfirm } = this.state;
 
-    const cancelButtons = cancelConfirm
-      ?
-      <RedButton type="button" onClick={this.handleCancel}>
-        Confirm &nbsp;
-        <FontAwesomeIcon icon={faTrash} color="white"/>
-      </RedButton>
-      :
-      <BlueButton type="button" onClick={this.handleCancel}>
-        Cancel Booking
-      </BlueButton>;
+    const { cancelConfirm } = this.state;
 
     return (
       <form
@@ -192,15 +181,18 @@ class RawForm extends Component {
         </div>
         <ul>{this.renderErrors(errors)}</ul>
         <div className="submitOrCancel">
-          <BlueButton type="update" className="update" disabled={Object.keys(errors).length > 0}>
+          <CancelButton type="update" className="update" disabled={Object.keys(errors).length > 0}>
             Update
-          </BlueButton>
+          </CancelButton>
 
           {modalVisible
-            ? cancelButtons
-            : <BlueButton type="button" onClick={this.handleCancel}>
+            ? <CancelButton type="button" onClick={this.handleCancel} cancelConfirm={cancelConfirm}>
+              {cancelConfirm ? 'Confirm' : 'Cancel Booking'}
+            </CancelButton>
+            : <CancelButton type="button" onClick={this.handleCancel} cancelConfirm={cancelConfirm}>
               Cancel Booking
-            </BlueButton>}
+            </CancelButton>}
+          <FontAwesomeIcon icon={faTrash} color="white"/>
         </div>
       </form>
     );

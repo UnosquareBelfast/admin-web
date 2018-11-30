@@ -171,7 +171,6 @@ const DashboardContainer = Wrapped =>
     };
 
     selectCalendarSlot = bookingEvent => {
-      console.log('---- in the calcendar slot', bookingEvent)
       this.setState(
         {
           selectedBooking: { ...bookingEvent },
