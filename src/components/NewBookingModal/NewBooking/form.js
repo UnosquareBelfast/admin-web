@@ -154,9 +154,11 @@ class RawForm extends Component {
           <label htmlFor="halfDay">Half Day</label>
         </div>
         <ul>{this.renderErrors(errors)}</ul>
-        <button type="submit" disabled={Object.keys(errors).length > 0}>
-          Submit
-        </button>
+        <div className="submit">
+          <button type="submit" disabled={Object.keys(errors).length > 0}>
+            Submit
+          </button>
+        </div>
       </form>
     );
   }

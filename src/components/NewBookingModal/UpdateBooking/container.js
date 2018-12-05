@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { updateHoliday } from '../../../services/holidayService';
+import { updateHoliday, cancelHoliday } from '../../../services/holidayService';
 import { getUserId } from '../../../reducers';
 
 const Container = Wrapped =>
@@ -12,6 +12,7 @@ const Container = Wrapped =>
       refreshCalendar: PT.func.isRequired,
       userId: PT.number.isRequired,
       toggleModal: PT.func.isRequired,
+      modalVisible: PT.bool.isRequired,
     };
 
     constructor(props) {
@@ -44,12 +45,29 @@ const Container = Wrapped =>
         });
     };
 
+    cancelHolidayRequest = () => {
+      const { refreshCalendar, toggleModal } = this.props;
+      const {
+        selectedBooking: { eventId },
+      } = this.props;
+
+      cancelHoliday(eventId)
+        .then(() => {
+          refreshCalendar();
+          toggleModal(false);
+        })
+        .catch(error =>
+          console.log('oops, cannot cancel holiday', error));
+    }
+
     render() {
-      const { selectedBooking } = this.props;
+      const { selectedBooking, modalVisible } = this.props;
       return (
         <Wrapped
+          modalVisible={modalVisible}
           handleFormSubmit={this.handleFormSubmit}
           selectedBooking={selectedBooking}
+          cancelHolidayRequest={this.cancelHolidayRequest}
         />
       );
     }

@@ -6,9 +6,13 @@ import DatePicker from 'react-datepicker';
 import { isSameDay, getDurationBetweenDates } from '../../../utilities/dates';
 import { checkOverlappingEvents } from '../../../utilities/dashboardEvents';
 import { getHolidayStats } from '../../../reducers';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/fontawesome-free-solid';
 import eventTypes from '../../../utilities/eventTypes';
-import holidayStatus from '../../../utilities/holidayStatus';
 import store from '../../../store';
+import { CancelButton } from '../styled';
+import holidayStatus from '../../../utilities/holidayStatus';
+
 
 const FormikEnhancer = withFormik({
   displayName: 'Update Event Form',
@@ -62,6 +66,13 @@ const FormikEnhancer = withFormik({
       errors.endDate = 'Your booking is overlapping another';
     }
 
+    if (
+      getDurationBetweenDates(startDate, endDate) > holidayStats.available &&
+      parseInt(eventTypeId) === eventTypes.ANNUAL_LEAVE
+    ) {
+      errors.endDate = 'You do not have enough remaining holidays';
+    }
+
     if (!halfDay) {
       if (endDate.isBefore(yesterday)) {
         errors.endDate = 'End date cannot be in the past';
@@ -76,25 +87,25 @@ const FormikEnhancer = withFormik({
       }
     }
 
-    let hasEnoughDays = true;
-    const newDuration = getDurationBetweenDates(startDate, endDate);
-    if (isHoliday) {
-      if (
-        eventStatusId === holidayStatus.PENDING ||
-        eventStatusId === holidayStatus.APPROVED
-      ) {
-        hasEnoughDays = newDuration <= holidayStats.available + initialDuration;
-      } else {
-        hasEnoughDays = newDuration < holidayStatus.available;
-      }
+  let hasEnoughDays = true;
+  const newDuration = getDurationBetweenDates(startDate, endDate);
+  if (isHoliday) {
+    if (
+      eventStatusId === holidayStatus.PENDING ||
+      eventStatusId === holidayStatus.APPROVED
+    ) {
+      hasEnoughDays = newDuration <= holidayStats.available + initialDuration;
+    } else {
+      hasEnoughDays = newDuration < holidayStatus.available;
     }
+  }
 
-    if (!hasEnoughDays) {
-      errors.endDate = 'You do not have enough remaining holidays';
-    }
+  if (!hasEnoughDays) {
+    errors.endDate = 'You do not have enough remaining holidays';
+  }
 
-    return errors;
-  },
+  return errors;
+},
 
   handleSubmit: (payload, bag) => {
     bag.props.handleFormSubmit(payload);
@@ -109,10 +120,22 @@ class RawForm extends Component {
     handleChange: PT.func.isRequired,
     handleSubmit: PT.func.isRequired,
     setFieldValue: PT.func.isRequired,
+    cancelHolidayRequest: PT.func.isRequired,
+    modalVisible: PT.bool.isRequired,
   };
 
   constructor(props) {
     super(props);
+    this.state = {
+      cancelConfirm: false,
+    };
+  }
+
+  static getDerivedStateFromProps(nextProps) {
+    if (!nextProps.modalVisible) {
+      return { cancelConfirm: false };
+    }
+    else return null;
   }
 
   renderErrors = errors => {
@@ -121,6 +144,14 @@ class RawForm extends Component {
     ));
   };
 
+  handleCancel = (values) => {
+    if (!this.state.cancelConfirm) {
+      this.setState({ cancelConfirm: true });
+    } else {
+      this.props.cancelHolidayRequest(values.eventTypeId);
+    }
+  }
+  
   render() {
     const {
       values,
@@ -129,10 +160,15 @@ class RawForm extends Component {
       handleChange,
       handleSubmit,
       setFieldValue,
+      modalVisible,
     } = this.props;
 
+    const { cancelConfirm } = this.state;
+
     return (
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+      > 
         <label htmlFor="eventTypeId">Booking Type</label>
         <select
           id="eventTypeId"
@@ -166,7 +202,6 @@ class RawForm extends Component {
             type="checkbox"
             id="halfDay"
             name="halfDay"
-            // value={values.halfDay}
             checked={values.halfDay}
             onChange={handleChange}
             className={errors.halfDay && touched.halfDay ? 'error' : ''}
@@ -175,9 +210,20 @@ class RawForm extends Component {
           <label htmlFor="halfDay">Half Day</label>
         </div>
         <ul>{this.renderErrors(errors)}</ul>
-        <button type="update" disabled={Object.keys(errors).length > 0}>
-          Update
-        </button>
+        <div className="submitOrCancel">
+          <CancelButton type="update" className="update" disabled={Object.keys(errors).length > 0}>
+            Update
+          </CancelButton>
+
+          {modalVisible
+            ? <CancelButton type="button" onClick={this.handleCancel} cancelConfirm={cancelConfirm}>
+              {cancelConfirm ? 'Confirm' : 'Cancel Booking'}
+            </CancelButton>
+            : <CancelButton type="button" onClick={this.handleCancel} cancelConfirm={cancelConfirm}>
+              Cancel Booking
+            </CancelButton>}
+          <FontAwesomeIcon icon={faTrash} color="white"/>
+        </div>
       </form>
     );
   }
