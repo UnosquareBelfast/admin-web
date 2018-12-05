@@ -87,25 +87,25 @@ const FormikEnhancer = withFormik({
       }
     }
 
-  let hasEnoughDays = true;
-  const newDuration = getDurationBetweenDates(startDate, endDate);
-  if (isHoliday) {
-    if (
-      eventStatusId === holidayStatus.PENDING ||
-      eventStatusId === holidayStatus.APPROVED
-    ) {
-      hasEnoughDays = newDuration <= holidayStats.available + initialDuration;
-    } else {
-      hasEnoughDays = newDuration < holidayStatus.available;
+    let hasEnoughDays = true;
+    const newDuration = getDurationBetweenDates(startDate, endDate);
+    if (isHoliday) {
+      if (
+        eventStatusId === holidayStatus.PENDING ||
+        eventStatusId === holidayStatus.APPROVED
+      ) {
+        hasEnoughDays = newDuration <= holidayStats.available + initialDuration;
+      } else {
+        hasEnoughDays = newDuration < holidayStatus.available;
+      }
     }
-  }
 
-  if (!hasEnoughDays) {
-    errors.endDate = 'You do not have enough remaining holidays';
-  }
+    if (!hasEnoughDays) {
+      errors.endDate = 'You do not have enough remaining holidays';
+    }
 
-  return errors;
-},
+    return errors;
+  },
 
   handleSubmit: (payload, bag) => {
     bag.props.handleFormSubmit(payload);
