@@ -20,18 +20,12 @@ class AuthUserAndStore extends Component {
   }
 
   componentDidMount() {
-    const tokenProfile = getProfile();
-    const userId = tokenProfile.sub;
+    const decodedToken = getProfile();
+    const userId = decodedToken.unique_name;
     getUserProfile(userId)
       .then(({ data }) => {
         store.dispatch(updateUser(data));
         this.setState({ loading: false });
-        Toast({
-          type: 'success',
-          title: `Welcome, ${tokenProfile.name}`,
-          position: 'top',
-          timer: 2000,
-        });
       })
       .catch(error => {
         this.setState({ error });

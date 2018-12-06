@@ -5,6 +5,7 @@ export const userLogin = (email, password) => {
   return axios
     .post('authentication/login', { email, password })
     .then(response => {
+      console.log('response', response);
       const token = response.data.accessToken;
       let userData = decode(token);
       localStorage.setItem('id_token', token);
@@ -13,17 +14,15 @@ export const userLogin = (email, password) => {
 };
 
 export const getAllUsers = () => {
-  return axios.get('/employees/');
+  return axios.get('/Employee/');
 };
 
 export const getUserProfile = id => {
-  return axios.get(`/employees/${id}`);
+  return axios.get(`/Employee/${id}`);
 };
 
 export const getUserByName = (forename, surname) => {
-  return axios.get(
-    `/employees/findByForenameAndSurname/${forename}/${surname}`
-  );
+  return axios.get(`/Employee/findByForenameAndSurname/${forename}/${surname}`);
 };
 
 export const createUser = data => {
@@ -31,5 +30,5 @@ export const createUser = data => {
 };
 
 export const updateUser = data => {
-  return axios.put('employees/', data);
+  return axios.put('Employee/', data);
 };
