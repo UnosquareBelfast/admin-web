@@ -28,10 +28,10 @@ const Container = Wrapped =>
       const { refreshCalendar, toggleModal } = this.props;
 
       const request = {
+        eventId,
         startDate: data.startDate.format(dateFormat),
         endDate: data.endDate.format(dateFormat),
-        halfDay: data.halfDay,
-        eventId,
+        isHalfDay: data.halfDay,
         message: data.updateMessage,
       };
 

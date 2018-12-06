@@ -5,7 +5,6 @@ import { compose } from 'redux';
 import { requestHoliday } from '../../../services/holidayService';
 import { requestWFH } from '../../../services/wfhService';
 import eventTypes from '../../../utilities/eventTypes';
-import { getUserId } from '../../../reducers';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -24,30 +23,27 @@ const Container = Wrapped =>
 
     handleFormSubmit = data => {
       const dateFormat = 'YYYY-MM-DD';
-      const { userId, refreshCalendar, toggleModal } = this.props;
+      const { refreshCalendar, toggleModal } = this.props;
 
       const request = {
-        dates: [
-          {
-            startDate: data.startDate.format(dateFormat),
-            endDate: data.endDate.format(dateFormat),
-            halfDay: data.halfDay,
-          },
-        ],
-        employeeId: userId,
-      }; 
+        startDate: data.startDate.format(dateFormat),
+        endDate: data.endDate.format(dateFormat),
+        isHalfDay: data.halfDay,
+      };
 
       const endpoint = {
         [eventTypes.ANNUAL_LEAVE]: requestHoliday,
         [eventTypes.WFH]: requestWFH,
       };
 
-      endpoint[data.eventTypeId](request).then(() => {
-        refreshCalendar();
-        toggleModal(false);
-      }).catch(error => {
-        console.log('oops', error);
-      });
+      endpoint[data.eventTypeId](request)
+        .then(() => {
+          refreshCalendar();
+          toggleModal(false);
+        })
+        .catch(error => {
+          console.log('oops', error);
+        });
     };
 
     render() {
@@ -63,9 +59,7 @@ const Container = Wrapped =>
   };
 
 const mapStateToProps = state => {
-  return {
-    userId: getUserId(state),
-  };
+  return {};
 };
 
 export default compose(connect(mapStateToProps), Container);
