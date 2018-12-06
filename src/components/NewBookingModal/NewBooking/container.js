@@ -1,7 +1,5 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import { requestHoliday } from '../../../services/holidayService';
 import { requestWFH } from '../../../services/wfhService';
 import eventTypes from '../../../utilities/eventTypes';
@@ -11,7 +9,6 @@ const Container = Wrapped =>
     static propTypes = {
       start: PT.object.isRequired,
       end: PT.object.isRequired,
-      userId: PT.number.isRequired,
       refreshCalendar: PT.func.isRequired,
       toggleModal: PT.func.isRequired,
     };
@@ -58,8 +55,4 @@ const Container = Wrapped =>
     }
   };
 
-const mapStateToProps = state => {
-  return {};
-};
-
-export default compose(connect(mapStateToProps), Container);
+export default Container;
