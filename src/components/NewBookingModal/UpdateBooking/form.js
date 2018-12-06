@@ -85,7 +85,7 @@ const FormikEnhancer = withFormik({
       ) {
         hasEnoughDays = newDuration <= holidayStats.available + initialDuration;
       } else {
-        hasEnoughDays = newDuration < holidayStatus.available;
+        hasEnoughDays = newDuration <= holidayStats.available;
       }
     }
 
@@ -166,7 +166,6 @@ class RawForm extends Component {
             type="checkbox"
             id="halfDay"
             name="halfDay"
-            // value={values.halfDay}
             checked={values.halfDay}
             onChange={handleChange}
             className={errors.halfDay && touched.halfDay ? 'error' : ''}
@@ -174,6 +173,18 @@ class RawForm extends Component {
           />
           <label htmlFor="halfDay">Half Day</label>
         </div>
+        <label htmlFor="updateMessage">Reason for updating (optional)</label>
+        <textarea
+          id="updateMessage"
+          name="updateMessage"
+          onChange={handleChange}
+          className={
+            errors.updateMessage && touched.updateMessage
+              ? 'multi error'
+              : 'multi'
+          }
+          rows="2"
+        />
         <ul>{this.renderErrors(errors)}</ul>
         <button type="update" disabled={Object.keys(errors).length > 0}>
           Update
