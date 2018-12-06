@@ -32,7 +32,7 @@ const Container = Wrapped =>
         endDate: data.endDate.format(dateFormat),
         halfDay: data.halfDay,
         eventId,
-        message: '',
+        message: data.updateMessage,
       };
 
       updateHoliday(request)

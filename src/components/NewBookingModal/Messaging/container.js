@@ -15,25 +15,6 @@ const Container = Wrapped =>
         messages: [],
       };
     }
-    //   this.messages = [
-    //     {
-    //       author: 'Admin',
-    //       eventMessageId: 0,
-    //       lastModified: '2018-11-29',
-    //       message: 'Sorry, I\'ve had to decline your holiday request.',
-    //       messageTypeDescription: 'Request Declined',
-    //       messageTypeId: 1,
-    //     },
-    //     {
-    //       author: 'William',
-    //       eventMessageId: 1,
-    //       lastModified: '2018-11-29',
-    //       message: 'Ok, not a problem.',
-    //       messageTypeDescription: 'General',
-    //       messageTypeId: 1,
-    //     },
-    //   ];
-    // }
 
     componentDidMount() {
       getMessagesByEventId(this.props.eventId).then(response => {

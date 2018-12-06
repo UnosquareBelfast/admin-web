@@ -29,14 +29,20 @@ export const FormContainer = styled.div`
   }
 
   select,
-  input {
+  input,
+  textarea {
     margin-bottom: 13px;
     margin-top: 5px;
     padding: 7px 8px;
     border-radius: 5px;
     border-style: solid;
     border-width: 1px;
-    border-color: ${props => props.theme.colours.darkGrey};
+    border-color: ${props => props.theme.colours.grey};
+  }
+
+  textarea {
+    margin-bottom: 0;
+    resize: vertical;
   }
 
   input {
@@ -50,6 +56,14 @@ export const FormContainer = styled.div`
     background-color: ${props => props.theme.colours.unoBlue};
     color: ${props => props.theme.colours.white};
     font-weight: bold;
+  }
+
+  form > label {
+    margin-bottom: 2px;
+  }
+
+  .half-day {
+    margin-bottom: 8px;
   }
 
   .half-day label {

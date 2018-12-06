@@ -75,10 +75,12 @@ const Messaging = ({ messages, toggleMessagingView }) => {
         <ChatBox>{renderMessages(messages)}</ChatBox>
         <div className="replyBox">
           <span>Send Reply: </span>
-          <ReplyBox />
-          <SendButton>
-            <FontAwesomeIcon icon={faPaperPlane} />
-          </SendButton>
+          <div>
+            <ReplyBox />
+            <SendButton>
+              <FontAwesomeIcon icon={faPaperPlane} />
+            </SendButton>
+          </div>
         </div>
       </div>
     </StyleContainer>

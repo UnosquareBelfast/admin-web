@@ -25,6 +25,10 @@ export const StyleContainer = styled.div`
 
   .replyBox {
     margin-top: 20px;
+
+    > div {
+      display: flex;
+    }
   }
 `;
 
@@ -74,8 +78,9 @@ export const SendButton = styled.button`
   border: 0;
   background-color: ${props => props.theme.colours.unoBlue};
   color: white;
-  width: 70px;
+  width: 50px;
   border-radius: 5px;
   cursor: pointer;
   margin-top: 8px;
+  margin-left: 10px;
 `;
