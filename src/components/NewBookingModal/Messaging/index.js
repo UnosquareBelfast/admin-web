@@ -60,8 +60,6 @@ const renderMessages = messages => {
 };
 
 const Messaging = ({ messages, toggleMessagingView }) => {
-  console.log(messages);
-
   return (
     <StyleContainer>
       <div style={{ position: 'relative' }}>
