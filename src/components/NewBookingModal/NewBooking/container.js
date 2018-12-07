@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { requestHoliday } from '../../../services/holidayService';
 import { requestWFH } from '../../../services/wfhService';
 import eventTypes from '../../../utilities/eventTypes';
-import { Toast } from '../../utilities/Notifications';
+import { Toast } from '../../../utilities/Notifications';
 
 const Container = Wrapped =>
   class extends React.Component {
