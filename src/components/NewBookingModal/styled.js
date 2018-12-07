@@ -81,4 +81,15 @@ export const FormContainer = styled.div`
   .half-day input:disabled ~ label {
     opacity: 0.3;
   }
+
+  ul {
+    padding: 10px;
+    background-color: ${props => props.theme.colours.red};
+    color: white;
+    border-radius: 3px;
+    li {
+      list-style: none;
+      margin: 5px 0;
+    }
+  }
 `;

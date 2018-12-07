@@ -51,28 +51,29 @@ const FormikEnhancer = withFormik({
     let errors = {};
 
     if (startDate.isBefore(yesterday)) {
-      errors.startDate = 'Start date cannot be in the past';
+      errors.startDate = 'Adjust your start date so it is not in the past.';
     }
 
     if (startDate.isoWeekday() > 5) {
-      errors.startDate = 'Start date cannot be a weekend';
+      errors.startDate = 'Your booking cannot start on a weekend.';
     }
 
     if (overlappingEvents) {
-      errors.endDate = 'Your booking is overlapping another';
+      errors.endDate = 'You already have an event booked in this date range.';
     }
 
     if (!halfDay) {
       if (endDate.isBefore(yesterday)) {
-        errors.endDate = 'End date cannot be in the past';
+        errors.endDate = 'Adjust your end date so it is not in the past.';
       }
 
       if (endDate.isBefore(startDate)) {
-        errors.endDate = 'End date cannot be before start date';
+        errors.endDate =
+          'Adjust your booking so the end date is after the start date.';
       }
 
       if (endDate.isoWeekday() > 5) {
-        errors.endDate = 'End date cannot be a weekend';
+        errors.endDate = 'Your booking cannot end on a weekend.';
       }
     }
 
@@ -90,7 +91,7 @@ const FormikEnhancer = withFormik({
     }
 
     if (!hasEnoughDays) {
-      errors.endDate = 'You do not have enough remaining holidays';
+      errors.endDate = 'You do not have enough remaining holidays.';
     }
 
     return errors;
@@ -185,7 +186,7 @@ class RawForm extends Component {
           }
           rows="2"
         />
-        <ul>{this.renderErrors(errors)}</ul>
+        {Object.keys(errors).length ? this.renderErrors(errors) : null}
         <button type="update" disabled={Object.keys(errors).length > 0}>
           Update
         </button>

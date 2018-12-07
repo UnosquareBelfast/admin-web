@@ -34,20 +34,19 @@ const FormikEnhancer = withFormik({
 
     const holidayStats = getHolidayStats(store.getState());
     const overlappingEvents = checkOverlappingEvents(startDate, endDate);
-    // const selectedDatesOverlappingExisting = checkIfSelectedDatesOverlapExisting()
 
     let errors = {};
 
     if (startDate.isBefore(yesterday)) {
-      errors.startDate = 'Start date cannot be in the past';
+      errors.startDate = 'Adjust your start date so it is not in the past.';
     }
 
     if (startDate.isoWeekday() > 5) {
-      errors.startDate = 'Start date cannot be a weekend';
+      errors.startDate = 'Your booking cannot start on a weekend.';
     }
 
     if (overlappingEvents) {
-      errors.endDate = 'Your booking is overlapping another';
+      errors.endDate = 'You already have an event booked in this date range.';
     }
 
     if (
@@ -59,15 +58,16 @@ const FormikEnhancer = withFormik({
 
     if (!halfDay) {
       if (endDate.isBefore(yesterday)) {
-        errors.endDate = 'End date cannot be in the past';
+        errors.endDate = 'Adjust your end date so it is not in the past.';
       }
 
       if (endDate.isBefore(startDate)) {
-        errors.endDate = 'End date cannot be before start date';
+        errors.endDate =
+          'Adjust your booking so the end date is after the start date.';
       }
 
       if (endDate.isoWeekday() > 5) {
-        errors.endDate = 'End date cannot be a weekend';
+        errors.endDate = 'Your booking cannot end on a weekend.';
       }
     }
 
@@ -94,9 +94,13 @@ class RawForm extends Component {
   }
 
   renderErrors = errors => {
-    return Object.values(errors).map((error, index) => (
-      <li key={Object.keys(errors)[index]}>{error}</li>
-    ));
+    return (
+      <ul>
+        {Object.values(errors).map((error, index) => (
+          <li key={Object.keys(errors)[index]}>{error}</li>
+        ))}
+      </ul>
+    );
   };
 
   render() {
@@ -110,9 +114,7 @@ class RawForm extends Component {
     } = this.props;
 
     return (
-      <form
-        onSubmit={handleSubmit}
-      >
+      <form onSubmit={handleSubmit}>
         <label htmlFor="eventTypeId">Booking Type</label>
         <select
           id="eventTypeId"
@@ -153,7 +155,7 @@ class RawForm extends Component {
           />
           <label htmlFor="halfDay">Half Day</label>
         </div>
-        <ul>{this.renderErrors(errors)}</ul>
+        {Object.keys(errors).length ? this.renderErrors(errors) : null}
         <button type="submit" disabled={Object.keys(errors).length > 0}>
           Submit
         </button>
