@@ -1,6 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { updateHoliday } from '../../../services/holidayService';
+import { Toast } from '../../utilities/Notifications';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -36,8 +37,11 @@ const Container = Wrapped =>
           refreshCalendar();
           toggleModal(false);
         })
-        .catch(error => {
-          console.log('oops', error);
+        .catch(() => {
+          Toast({
+            type: 'error',
+            title: 'Error updating holiday',
+          });
         });
     };
 

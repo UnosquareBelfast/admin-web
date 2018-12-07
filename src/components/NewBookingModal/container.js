@@ -1,7 +1,5 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -44,12 +42,4 @@ const Container = Wrapped =>
     }
   };
 
-const mapStateToProps = state => {
-  return {};
-};
-
-const mapDispatchToProps = dispatch => {
-  return {};
-};
-
-export default compose(connect(mapStateToProps, mapDispatchToProps), Container);
+export default Container;
