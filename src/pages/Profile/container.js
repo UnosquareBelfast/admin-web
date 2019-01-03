@@ -57,20 +57,19 @@ const ProfileContainer = Wrapped =>
       getHolidays(this.props.userDetails.employeeId)
         .then(response => {
           const holidays = response.data;
-          console.log(holidays);
 
           this.setState({ holidays }, () => {
-            // this.setState({
-            //   holidaysLoading: false,
-            //   daysBooked: getTotalDaysInEventArrayWithStatus(
-            //     holidays,
-            //     holidayStatus.APPROVED
-            //   ),
-            //   daysPending: getTotalDaysInEventArrayWithStatus(
-            //     holidays,
-            //     holidayStatus.PENDING
-            //   ),
-            // });
+            this.setState({
+              holidaysLoading: false,
+              // daysBooked: getTotalDaysInEventArrayWithStatus(
+              //   holidays,
+              //   holidayStatus.APPROVED
+              // ),
+              // daysPending: getTotalDaysInEventArrayWithStatus(
+              //   holidays,
+              //   holidayStatus.PENDING
+              // ),
+            });
           });
         })
         .catch(error => {
