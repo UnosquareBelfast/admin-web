@@ -31,11 +31,13 @@ const employee = {
 const startDate = {
   id: 'startDate',
   Header: 'Start Date',
-  accessor: holiday => holiday.start,
-  Cell: cell => cell.row.startDate.format('Do MMM YYYY'),
+  // accessor: holiday => console.log('accessor', holiday),
+  accessor: holiday => holiday.eventDates[0].startDate,
+
+  Cell: cell => moment(cell.row.startDate).format('Do MMM YYYY'),
   sortMethod: (a, b) => (a.isBefore(b) ? 1 : -1),
   filterMethod: ({ value }, { startDate }) =>
-    startDate
+    moment(startDate)
       .format('Do MMM YYYY')
       .toLowerCase()
       .includes(value.toLowerCase()),
@@ -44,11 +46,11 @@ const startDate = {
 const endDate = {
   id: 'endDate',
   Header: 'End Date',
-  accessor: holiday => holiday.end,
-  Cell: cell => cell.row.endDate.format('Do MMM YYYY'),
+  accessor: holiday => holiday.eventDates[0].endDate,
+  Cell: cell => moment(cell.row.endDate).format('Do MMM YYYY'),
   sortMethod: (a, b) => (a.isBefore(b) ? 1 : -1),
   filterMethod: ({ value }, { endDate }) =>
-    endDate
+    moment(endDate)
       .format('Do MMM YYYY')
       .toLowerCase()
       .includes(value.toLowerCase()),
@@ -56,10 +58,10 @@ const endDate = {
 
 const requestedDate = {
   id: 'requestedDate',
-  Header: 'Last updated',
+  Header: 'Requested',
   accessor: holiday => {
     const today = moment();
-    const diff = today.diff(holiday.created, 'days');
+    const diff = today.diff(holiday.dateCreated, 'days');
     if (
       diff >= 5 &&
       holiday.eventStatus.eventStatusId === holidayStatus.PENDING

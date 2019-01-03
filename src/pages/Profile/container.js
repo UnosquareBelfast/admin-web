@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { getUser } from '../../reducers';
 import { getHolidays } from '../../services/holidayService';
-import {
-  getTotalDaysInEventArrayWithStatus,
-} from '../../utilities/dates';
+import { getTotalDaysInEventArrayWithStatus } from '../../utilities/dates';
 import holidayStatus from '../../utilities/holidayStatus';
 import { isEmpty } from 'lodash';
 import { getContractsByEmployeeId } from '../../services/contractService';
@@ -59,18 +57,20 @@ const ProfileContainer = Wrapped =>
       getHolidays(this.props.userDetails.employeeId)
         .then(response => {
           const holidays = response.data;
+          console.log(holidays);
+
           this.setState({ holidays }, () => {
-            this.setState({
-              holidaysLoading: false,
-              daysBooked: getTotalDaysInEventArrayWithStatus(
-                holidays,
-                holidayStatus.APPROVED
-              ),
-              daysPending: getTotalDaysInEventArrayWithStatus(
-                holidays,
-                holidayStatus.PENDING
-              ),
-            });
+            // this.setState({
+            //   holidaysLoading: false,
+            //   daysBooked: getTotalDaysInEventArrayWithStatus(
+            //     holidays,
+            //     holidayStatus.APPROVED
+            //   ),
+            //   daysPending: getTotalDaysInEventArrayWithStatus(
+            //     holidays,
+            //     holidayStatus.PENDING
+            //   ),
+            // });
           });
         })
         .catch(error => {

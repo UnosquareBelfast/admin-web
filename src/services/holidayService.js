@@ -1,15 +1,15 @@
 import axios from '../utilities/AxiosInstance';
 
 export const getAllHolidays = () => {
-  return axios.get('/holidays/');
+  return axios.get('/Holiday/');
 };
 
 export const getHolidays = employeeId => {
-  return axios.get(`/holidays/findByEmployeeId/${employeeId}`);
+  return axios.get(`/Holiday/findByEmployeeId/${employeeId}`);
 };
 
 export const getHolidaysByStatus = statusId => {
-  return axios.get(`/holidays/findByHolidayStatus/${statusId}`);
+  return axios.get(`/Holiday/findByHolidayStatus/${statusId}`);
 };
 
 export const requestHoliday = holiday => {

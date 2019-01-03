@@ -61,7 +61,7 @@ const Profile = props => {
             <div>
               <h3>My holidays</h3>
               <DataTable
-                loading={holidaysLoading}
+                loading={false}
                 data={userHolidays}
                 cells={HolidayCells}
                 columns={['status', 'startDate', 'endDate', 'requestedDate']}
