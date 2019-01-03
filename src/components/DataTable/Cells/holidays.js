@@ -46,7 +46,8 @@ const startDate = {
 const endDate = {
   id: 'endDate',
   Header: 'End Date',
-  accessor: holiday => holiday.eventDates[0].endDate,
+  accessor: holiday =>
+    holiday.eventDates[holiday.eventDates.length - 1].endDate,
   Cell: cell => moment(cell.row.endDate).format('Do MMM YYYY'),
   sortMethod: (a, b) => (a.isBefore(b) ? 1 : -1),
   filterMethod: ({ value }, { endDate }) =>
