@@ -16,17 +16,16 @@ const Profile = props => {
   const {
     userHolidays,
     userDetails,
-    daysBooked,
-    daysPending,
     selectedHoliday,
     selectHoliday,
     closeModal,
     contracts,
     contractsLoading,
     holidaysLoading,
+    holidayStats,
   } = props;
-  const { forename, surname, totalHolidays } = userDetails;
-  const daysRemaining = totalHolidays - daysBooked - daysPending;
+  const { forename, surname } = userDetails;
+  const { availableHolidays, pendingHolidays, approvedHolidays } = holidayStats;
   return (
     <Fragment>
       <HolidayModal holiday={selectedHoliday} closeModal={closeModal} />
@@ -39,19 +38,19 @@ const Profile = props => {
         <div className="holidayinfo">
           <div className="columns">
             <div>
-              <h1>{daysRemaining} Days</h1>
+              <h1>{availableHolidays} Days</h1>
               <h4>
                 <FontAwesomeIcon icon={faCalendar} /> Remaining
               </h4>
             </div>
             <div>
-              <h1>{daysBooked} Days</h1>
+              <h1>{approvedHolidays} Days</h1>
               <h4>
                 <FontAwesomeIcon icon={faCheck} /> Booked
               </h4>
             </div>
             <div>
-              <h1>{daysPending} Days</h1>
+              <h1>{pendingHolidays} Days</h1>
               <h4>
                 <FontAwesomeIcon icon={faSpinner} /> Pending
               </h4>
@@ -61,7 +60,7 @@ const Profile = props => {
             <div>
               <h3>My holidays</h3>
               <DataTable
-                loading={false}
+                loading={holidaysLoading}
                 data={userHolidays}
                 cells={HolidayCells}
                 columns={['status', 'startDate', 'endDate', 'requestedDate']}
@@ -88,14 +87,13 @@ const Profile = props => {
 Profile.propTypes = {
   userDetails: PT.object.isRequired,
   userHolidays: PT.array.isRequired,
-  daysBooked: PT.number,
-  daysPending: PT.number,
   selectedHoliday: PT.object.isRequired,
   selectHoliday: PT.func.isRequired,
   closeModal: PT.func.isRequired,
   contracts: PT.array.isRequired,
   contractsLoading: PT.bool.isRequired,
   holidaysLoading: PT.bool.isRequired,
+  holidayStats: PT.object.isRequired,
 };
 
 Profile.defaultProps = {

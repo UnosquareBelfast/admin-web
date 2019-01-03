@@ -31,7 +31,6 @@ const employee = {
 const startDate = {
   id: 'startDate',
   Header: 'Start Date',
-  // accessor: holiday => console.log('accessor', holiday),
   accessor: holiday => holiday.eventDates[0].startDate,
 
   Cell: cell => moment(cell.row.startDate).format('Do MMM YYYY'),

@@ -37,3 +37,7 @@ export const sendMessage = (eventId, messageType, message) => {
     `Message ${message} sent with message type ${messageType} for event ${eventId}`
   );
 };
+
+export const getHolidayStats = () => {
+  return axios.get('/Holiday/findEmployeeHolidayStats');
+};

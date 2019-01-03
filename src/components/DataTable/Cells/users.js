@@ -19,13 +19,13 @@ const email = {
 const location = {
   id: 'location',
   Header: 'Location',
-  accessor: user => user.country.description,
+  accessor: user => user.countryDescription,
 };
 
 const role = {
   id: 'role',
   Header: 'Role',
-  accessor: user => user.employeeRole.description,
+  accessor: user => user.employeeRoleDescription,
 };
 
 const state = {

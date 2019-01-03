@@ -26,7 +26,7 @@ export const getUserByName = (forename, surname) => {
 };
 
 export const createUser = data => {
-  return axios.post('authentication/register/', data);
+  return axios.post('Authentication/register/', data);
 };
 
 export const updateUser = data => {
