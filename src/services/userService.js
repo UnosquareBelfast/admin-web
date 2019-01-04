@@ -5,7 +5,6 @@ export const userLogin = (email, password) => {
   return axios
     .post('authentication/login', { email, password })
     .then(response => {
-      console.log('response', response);
       const token = response.data.accessToken;
       let userData = decode(token);
       localStorage.setItem('id_token', token);
