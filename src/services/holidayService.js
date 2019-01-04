@@ -21,15 +21,15 @@ export const updateHoliday = holiday => {
 };
 
 export const approveHoliday = eventId => {
-  return axios.put('/holidays/approveHoliday', { eventId });
+  return axios.put('/Holiday/approveHoliday', { eventId });
 };
 
 export const rejectHoliday = (eventId, message) => {
-  return axios.put('/holidays/rejectHoliday', { eventId, message });
+  return axios.put('/Holiday/rejectHoliday', { eventId, message });
 };
 
 export const cancelHoliday = eventId => {
-  return axios.put('/holidays/cancelHoliday', { eventId });
+  return axios.put('/Holiday/cancelHoliday', { eventId });
 };
 
 export const sendMessage = (eventId, messageType, message) => {

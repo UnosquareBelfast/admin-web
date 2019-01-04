@@ -1,5 +1,6 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
+import moment from 'moment';
 import container from './container';
 import { Modal, Button, Email } from '../../components/common';
 import { StyleContainer, Stat, FlexWrap, ButtonWrap, StatusH2 } from './styled';
@@ -21,9 +22,12 @@ const HolidayModal = ({
   assignRejectionReasonText,
   capturedRejectionReasonText,
 }) => {
-  const { start, end, employee, eventStatus } = holiday;
+  const { employee, eventStatus } = holiday;
   const { forename, surname, email, employeeId } = employee;
   const isAdmin = userDetails.employeeRoleId === roles.ADMIN;
+
+  const start = moment(holiday.eventDates[0].startDate);
+  const end = moment(holiday.eventDates[holiday.eventDates.length - 1].endDate);
 
   const shouldShowAdminControls = () => {
     if (!isAdmin) return false;
@@ -32,7 +36,7 @@ const HolidayModal = ({
     if (eventStatus.eventStatusId === holidayStatus.CANCELLED) return false;
     return true;
   };
-  
+
   const duration = getEventDayAmount(holiday);
   const disableRejectionReasonButton = !capturedRejectionReasonText.length > 0;
   return (

@@ -5,9 +5,11 @@ export const isSameDay = (predicateDate, subjectDate) =>
 
 export const getEventDayAmount = event => {
   if (!event) return;
-  if (event.halfDay) return 0.5;
-  const start = event.start.startOf('day');
-  const end = event.end.endOf('day');
+  if (event.isHalfDay) return 0.5;
+  const start = moment(event.eventDates[0].startDate).startOf('day'); //event.start.startOf('day');
+  const end = moment(
+    event.eventDates[event.eventDates.length - 1].endDate
+  ).endOf('day');
   end.add(1, 'ms');
   const diff = Math.abs(start.diff(end));
   const duration = moment.duration(diff);

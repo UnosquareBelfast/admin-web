@@ -86,7 +86,7 @@ const ProfileContainer = Wrapped =>
     getContracts() {
       getContractsByEmployeeId(this.props.userDetails.employeeId)
         .then(response => {
-          const contracts = response.data;
+          const contracts = response.status === 200 ? response.data : [];
           this.setState({ contracts, contractsLoading: false });
         })
         .catch(error => {
