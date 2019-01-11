@@ -10,6 +10,7 @@ const UpdateBooking = ({
   handleFormSubmit,
   selectedBooking,
   toggleMessagingView,
+  holidayStats,
 }) => {
   return (
     <FormContainer>
@@ -24,6 +25,7 @@ const UpdateBooking = ({
         <Form
           handleFormSubmit={handleFormSubmit}
           selectedBooking={selectedBooking}
+          holidayStats={holidayStats}
         />
       </div>
     </FormContainer>
@@ -34,6 +36,7 @@ UpdateBooking.propTypes = {
   handleFormSubmit: PT.func.isRequired,
   selectedBooking: PT.object.isRequired,
   toggleMessagingView: PT.func.isRequired,
+  holidayStats: PT.object.isRequired,
 };
 
 export default container(UpdateBooking);

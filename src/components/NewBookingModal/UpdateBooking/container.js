@@ -1,6 +1,9 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { updateHoliday } from '../../../services/holidayService';
+import {
+  updateHoliday,
+  getHolidayStats,
+} from '../../../services/holidayService';
 import { Toast } from '../../../utilities/Notifications';
 
 const Container = Wrapped =>
@@ -14,7 +17,18 @@ const Container = Wrapped =>
 
     constructor(props) {
       super(props);
-      this.state = {};
+      this.state = {
+        holidayStats: {
+          availableHolidays: 0,
+          pendingHolidays: 0,
+          approvedHolidays: 0,
+          totalHolidays: 0,
+        },
+      };
+    }
+
+    componentDidMount() {
+      this.fetchHolidayStats();
     }
 
     handleFormSubmit = data => {
@@ -45,13 +59,21 @@ const Container = Wrapped =>
         });
     };
 
+    fetchHolidayStats = () => {
+      getHolidayStats().then(response => {
+        this.setState({ holidayStats: response.data });
+      });
+    };
+
     render() {
       const { selectedBooking, toggleMessagingView } = this.props;
+      const { holidayStats } = this.state;
       return (
         <Wrapped
           handleFormSubmit={this.handleFormSubmit}
           selectedBooking={selectedBooking}
           toggleMessagingView={toggleMessagingView}
+          holidayStats={holidayStats}
         />
       );
     }

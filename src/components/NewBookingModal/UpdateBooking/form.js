@@ -20,8 +20,8 @@ const FormikEnhancer = withFormik({
 
   mapPropsToValues: ({ selectedBooking }) => ({
     eventTypeId: selectedBooking.eventType.eventTypeId,
-    startDate: moment(selectedBooking.start),
-    endDate: moment(selectedBooking.end),
+    startDate: moment(selectedBooking.fullEvent.start),
+    endDate: moment(selectedBooking.fullEvent.end),
     halfDay: selectedBooking.halfDay,
   }),
 
@@ -32,8 +32,9 @@ const FormikEnhancer = withFormik({
       eventId,
       eventStatus: { eventStatusId },
     } = props.selectedBooking;
-    const initialStart = props.selectedBooking.start;
-    const initialEnd = props.selectedBooking.end;
+    const { holidayStats } = props;
+    const initialStart = props.selectedBooking.fullEvent.start;
+    const initialEnd = props.selectedBooking.fullEvent.end;
     const initialDuration = getDurationBetweenDates(initialStart, initialEnd);
     const isHoliday = parseInt(eventTypeId) === eventTypes.ANNUAL_LEAVE;
 
@@ -41,7 +42,6 @@ const FormikEnhancer = withFormik({
       .subtract(1, 'day')
       .endOf();
 
-    const holidayStats = getHolidayStats(store.getState());
     const overlappingEvents = checkOverlappingEvents(
       startDate,
       endDate,
@@ -79,14 +79,19 @@ const FormikEnhancer = withFormik({
 
     let hasEnoughDays = true;
     const newDuration = getDurationBetweenDates(startDate, endDate);
+
+    console.log(holidayStats);
+
+    const { availableHolidays } = holidayStats;
+
     if (isHoliday) {
       if (
         eventStatusId === holidayStatus.PENDING ||
         eventStatusId === holidayStatus.APPROVED
       ) {
-        hasEnoughDays = newDuration <= holidayStats.available + initialDuration;
+        hasEnoughDays = newDuration <= availableHolidays + initialDuration;
       } else {
-        hasEnoughDays = newDuration <= holidayStats.available;
+        hasEnoughDays = newDuration <= availableHolidays;
       }
     }
 
