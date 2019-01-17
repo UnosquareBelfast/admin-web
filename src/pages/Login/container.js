@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { isLoggedIn } from '../../utilities/currentUser';
+import AzureInstance from '../../utilities/AzureInstance';
 
 export default Wrapped =>
   class extends React.Component {
@@ -11,8 +11,9 @@ export default Wrapped =>
       super(props);
     }
 
-    componentWillMount() {
-      if (isLoggedIn()) this.props.history.replace('/');
+    componentDidMount() {
+      const graphScopes = ['user.read'];
+      AzureInstance.loginRedirect(graphScopes);
     }
 
     render() {

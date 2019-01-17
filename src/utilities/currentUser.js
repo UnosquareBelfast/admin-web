@@ -7,16 +7,7 @@ export const getProfile = () => {
 };
 
 export const isLoggedIn = () => {
-  return !!localStorage.getItem('id_token') && !isTokenExpired();
-};
-
-export const isTokenExpired = () => {
-  try {
-    const decoded = decode(localStorage.getItem('id_token'));
-    return decoded.exp < Date.now() / 1000;
-  } catch (err) {
-    return false;
-  }
+  return !!localStorage.getItem('msal.idtoken');
 };
 
 export const userLogout = () => {
