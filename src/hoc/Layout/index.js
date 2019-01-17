@@ -6,7 +6,6 @@ import { LayoutContainer, Input } from './styled';
 import { FullPageLoader } from '../../components';
 
 export const Layout = props => {
-  let drawer = null;
   const {
     isAuthenticated,
     toggleDrawer,
@@ -16,25 +15,23 @@ export const Layout = props => {
     menuItems,
   } = props;
 
-  if (isAuthenticated) {
-    drawer = (
-      <Fragment>
-        <Input
-          type="checkbox"
-          id="toggle-drawer"
-          onChange={toggleDrawer}
-          checked={drawerOpen}
-        />
-        <NavMenu
-          isAuthenticated={isAuthenticated}
-          history={history}
-          menuItems={menuItems}
-          closeDrawer={toggleDrawer}
-          drawerIsOpen={drawerOpen}
-        />
-      </Fragment>
-    );
-  }
+  const drawer = (
+    <Fragment>
+      <Input
+        type="checkbox"
+        id="toggle-drawer"
+        onChange={toggleDrawer}
+        checked={drawerOpen}
+      />
+      <NavMenu
+        isAuthenticated={isAuthenticated}
+        history={history}
+        menuItems={menuItems}
+        closeDrawer={toggleDrawer}
+        drawerIsOpen={drawerOpen}
+      />
+    </Fragment>
+  );
 
   return (
     <Fragment>

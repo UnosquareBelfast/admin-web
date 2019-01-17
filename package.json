@@ -77,6 +77,7 @@
     "moment": "^2.22.1",
     "moment-range": "^4.0.1",
     "react": "^16.3.2",
+    "react-adal": "^0.4.22",
     "react-big-calendar": "^0.19.1",
     "react-bootstrap": "0.32.1",
     "react-bootstrap-navbar": "^1.1.0",

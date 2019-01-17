@@ -8,7 +8,7 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(function(config) {
-  config.headers.Authorization = `Bearer ${localStorage.getItem('id_token')}`;
+  config.headers.Authorization = `${localStorage.getItem('adal.idtoken')}`;
   return config;
 });
 

@@ -12,6 +12,10 @@ export const userLogin = (email, password) => {
     });
 };
 
+export const getSignedInUser = () => {
+  return axios.get('/Employee/getSignedInUser');
+};
+
 export const getAllUsers = () => {
   return axios.get('/Employee/');
 };
