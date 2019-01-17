@@ -6,14 +6,7 @@ import { LayoutContainer, Input } from './styled';
 import { FullPageLoader } from '../../components';
 
 export const Layout = props => {
-  const {
-    isAuthenticated,
-    toggleDrawer,
-    drawerOpen,
-    children,
-    history,
-    menuItems,
-  } = props;
+  const { toggleDrawer, drawerOpen, children, history, menuItems } = props;
 
   const drawer = (
     <Fragment>
@@ -24,7 +17,6 @@ export const Layout = props => {
         checked={drawerOpen}
       />
       <NavMenu
-        isAuthenticated={isAuthenticated}
         history={history}
         menuItems={menuItems}
         closeDrawer={toggleDrawer}
@@ -47,7 +39,6 @@ export const Layout = props => {
 Layout.propTypes = {
   menuItems: PT.array.isRequired,
   history: PT.object.isRequired,
-  isAuthenticated: PT.bool.isRequired,
   children: PT.node.isRequired,
   drawerOpen: PT.bool.isRequired,
   toggleDrawer: PT.func.isRequired,
