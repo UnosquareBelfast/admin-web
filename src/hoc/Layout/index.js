@@ -4,6 +4,7 @@ import { PropTypes as PT } from 'prop-types';
 import NavMenu from './nav-menu';
 import { LayoutContainer, Input } from './styled';
 import { FullPageLoader } from '../../components';
+import { isLoggedIn } from '../../utilities/currentUser';
 
 export const Layout = props => {
   const { toggleDrawer, drawerOpen, children, history, menuItems } = props;
@@ -27,7 +28,7 @@ export const Layout = props => {
 
   return (
     <Fragment>
-      {drawer}
+      {isLoggedIn() && drawer}
       <LayoutContainer history={history.location.pathname}>
         <FullPageLoader />
         {children}
