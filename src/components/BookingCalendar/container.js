@@ -117,16 +117,16 @@ const BookingCalendarContainer = Wrapped =>
     render() {
       const { employeeId, events, onNavigate, selectCalendarSlot } = this.props;
       return (
-        employeeId &&
-        events && (
-          <Wrapped
-            onSelectSlot={this.onSelectSlot}
-            onSelectEvent={this.onSelectEvent}
-            onNavigate={onNavigate}
-            events={this.props.events}
-            selectCalendarSlot={selectCalendarSlot}
-          />
-        )
+        // employeeId &&
+        // events && (
+        <Wrapped
+          onSelectSlot={this.onSelectSlot}
+          onSelectEvent={this.onSelectEvent}
+          onNavigate={onNavigate}
+          events={this.props.events}
+          selectCalendarSlot={selectCalendarSlot}
+        />
+        // )
       );
     }
   };
