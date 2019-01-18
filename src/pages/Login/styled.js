@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const LoginBG = styled.div`
-  background-color: ${props => props.theme.colours.unoBlue};
+  background-color: 'white';
   position: absolute;
   height: 100%;
   width: 100%;
@@ -25,5 +25,20 @@ export const LoginPanel = styled.div`
     padding: 20px 15px;
     box-sizing: border-box;
     width: 420px;
+  }
+`;
+
+export const LoginButton = styled.button`
+  background-color: ${({ theme }) => theme.colours.unoBlue};
+  color: white;
+  font-weight: ${props => props.theme.fonts.weight.bold};
+  padding: 20px;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 2px;
+
+  :hover {
+    opacity: 0.9;
   }
 `;
