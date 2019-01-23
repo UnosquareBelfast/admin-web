@@ -29,14 +29,16 @@ export const getTotalDaysInEventArray = events => {
 export const getTotalDaysInEventArrayWithStatus = (events, status) => {
   if (!events) return;
   let totalDays = 0;
-  events
-    .filter(event => event.eventType.description === 'Annual Leave')
-    .forEach(event => {
-      totalDays +=
-        event.eventStatus.eventStatusId === status
-          ? getDurationBetweenDates(event.start, event.end)
-          : 0;
-    });
+  events.filter(event => event.eventType.eventTypeId === 1).forEach(event => {
+    const startDate = moment(event.eventDates[0].startDate);
+    const endDate = moment(
+      event.eventDates[event.eventDates.length - 1].endDate
+    );
+    totalDays +=
+      event.eventStatus.eventStatusId === status
+        ? getDurationBetweenDates(startDate, endDate)
+        : 0;
+  });
   return totalDays;
 };
 
