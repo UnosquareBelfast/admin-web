@@ -6,7 +6,26 @@ import { PropTypes as PT } from 'prop-types';
 import { theme } from './styled';
 import Layout from './hoc/Layout';
 import AuthUserAndStore from './hoc/AuthUserAndStore';
-import { isLoggedIn } from './utilities/currentUser';
+
+const authRoutes = (
+  <Layout>
+    <Switch>
+      <Route exact path="/" component={Dashboard} />
+      <Route path="/profile" component={Profile} />
+      <Route path="/team" component={TeamDashboard} />
+      <Route path="/admin" component={Admin} />
+      <Route path="/user/:userId" component={User} />
+      <Redirect to="/" />
+    </Switch>
+  </Layout>
+);
+
+const loginRoutes = (
+  <Switch>
+    <Route path="/login" component={Login} />
+    <Redirect to="/login" />
+  </Switch>
+);
 
 class App extends React.Component {
   static propTypes = {
@@ -15,35 +34,14 @@ class App extends React.Component {
   };
 
   render() {
-    let routes;
-
-    if (isLoggedIn()) {
-      routes = (
-        <AuthUserAndStore history={this.props.history}>
-          <Switch>
-            <Route exact path="/" component={Dashboard} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/team" component={TeamDashboard} />
-            <Route path="/admin" component={Admin} />
-            <Route path="/user/:userId" component={User} />
-            <Redirect to="/" />
-          </Switch>
-        </AuthUserAndStore>
-      );
-    } else {
-      routes = (
-        <Switch>
-          <Route path="/login" component={Login} />
-          <Redirect to="/login" />
-        </Switch>
-      );
-    }
-
     return (
       <ThemeProvider theme={theme}>
-        <AuthUserAndStore>
-          <Layout history={this.props.history}>{routes}</Layout>
-        </AuthUserAndStore>
+        <AuthUserAndStore
+          render={(isAuthenticated, isLoading) => {
+            if (isLoading) return <p>loading..</p>;
+            return isAuthenticated ? authRoutes : loginRoutes;
+          }}
+        />
       </ThemeProvider>
     );
   }
