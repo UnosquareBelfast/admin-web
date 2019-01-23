@@ -29,14 +29,14 @@ const UserModal = ({
             <h4>Holidays Pending</h4>
           </Stat>
           <Stat>
-            <h2>{totalHolidays - approvedDays} Days</h2>
+            <h2>{totalHolidays - approvedDays - pendingDays} Days</h2>
             <h4>Holidays Remaining</h4>
           </Stat>
         </StatWrap>
-        <Button
+        {/* <Button
           label="View Full Profile"
           onClick={() => history.push(`/user/${user.employeeId}`)}
-        />
+        /> */}
       </StyleContainer>
     </Modal>
   );
