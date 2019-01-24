@@ -10,7 +10,7 @@ import { faChild, faMap, faHome } from '@fortawesome/fontawesome-free-solid';
 
 const TeamDashboard = ({
   history,
-  teams,
+  clients,
   selectTeam,
   selectedTeam,
   selectedUser,
@@ -20,24 +20,23 @@ const TeamDashboard = ({
   hasExtraPermissions,
 }) => {
   //TO-DO: Also check client name is the same.
-  const team = teams.filter(team => team.team === selectedTeam)[0];
+  // const team = clients.filter(team => team.team === selectedTeam)[0];
 
   const renderTeamDetails = () => {
-    const { members } = team;
-    const holidayCount = members.filter(
-      member => member.state === 'Annual Leave'
+    const holidayCount = selectedTeam.employees.filter(
+      employee => employee.location === 'On Holiday'
     ).length;
 
-    const wfhCount = members.filter(
-      member => member.state === 'Working From Home'
+    const wfhCount = selectedTeam.employees.filter(
+      employee => employee.location === 'Working From Home'
     ).length;
 
     return (
       <ContentLayout>
-        <h2>{team.team}</h2>
+        <h2>{selectedTeam.teamName}</h2>
         <Columns>
           <Stat>
-            <h1>{members.length} MEMBERS</h1>
+            <h1>{selectedTeam.employees.length} MEMBERS</h1>
             <h4>
               <FontAwesomeIcon icon={faChild} /> Active
             </h4>
@@ -56,7 +55,7 @@ const TeamDashboard = ({
           </Stat>
         </Columns>
         <DataTable
-          data={members}
+          data={selectedTeam.employees}
           cells={UserCells}
           columns={['name', 'email', 'state']}
           pageSize={20}
@@ -80,17 +79,17 @@ const TeamDashboard = ({
         />
       )}
       <Layout>
-        <TeamSidebar teams={teams} selectTeam={selectTeam} />
-        {team && renderTeamDetails()}
+        <TeamSidebar clients={clients} selectTeam={selectTeam} />
+        {selectedTeam && renderTeamDetails()}
       </Layout>
     </Fragment>
   );
 };
 
 TeamDashboard.propTypes = {
-  teams: PT.array.isRequired,
+  clients: PT.array.isRequired,
   selectTeam: PT.func.isRequired,
-  selectedTeam: PT.string,
+  selectedTeam: PT.object,
   history: PT.object.isRequired,
   onUserSelect: PT.func.isRequired,
   selectedUser: PT.object,

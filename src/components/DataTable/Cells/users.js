@@ -7,7 +7,7 @@ const fullName = {
 const name = {
   id: 'name',
   Header: 'Name',
-  accessor: user => user.name,
+  accessor: user => user.name || `${user.forename} ${user.surname}`,
 };
 
 const email = {
@@ -31,7 +31,7 @@ const role = {
 const state = {
   id: 'state',
   Header: 'Today\'s status',
-  accessor: user => user.state,
+  accessor: user => user.location,
 };
 
 export default {

@@ -17,7 +17,7 @@ const TeamDashboardContainer = Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        teams: [],
+        clients: [],
         selectedTeam: null,
         selectedUser: null,
         userModalVisible: false,
@@ -35,7 +35,7 @@ const TeamDashboardContainer = Wrapped =>
         shouldBeLoading = false;
         this.props.setLoading(false);
         if (data.length > 0) {
-          this.setState({ teams: data, selectedTeam: data[0].team });
+          this.setState({ clients: data });
         }
       });
     }
@@ -53,7 +53,7 @@ const TeamDashboardContainer = Wrapped =>
     render() {
       const { history, userDetails } = this.props;
       const {
-        teams,
+        clients,
         selectedTeam,
         selectedUser,
         userModalVisible,
@@ -64,7 +64,7 @@ const TeamDashboardContainer = Wrapped =>
       return (
         <Wrapped
           history={history}
-          teams={teams}
+          clients={clients}
           selectTeam={this.selectTeam}
           onUserSelect={this.selectUser}
           selectedTeam={selectedTeam}
