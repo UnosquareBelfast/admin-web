@@ -20,15 +20,9 @@ const NavContainer = Wrapped =>
       };
     }
 
-    componentWillUpdate(nextProps) {
-      const currentRole = this.props.userDetails.employeeRoleId;
-      const newRole = nextProps.userDetails.employeeRoleId;
-
-      if (currentRole !== newRole && newRole === roles.ADMIN) {
-        const adminMenu = [...menuItems, ...adminItems];
-        this.setState({ menuItems: adminMenu });
-      } else if (currentRole !== newRole) {
-        this.setState({ menuItems });
+    componentWillMount() {
+      if (this.props.userDetails.employeeRoleId === roles.ADMIN) {
+        this.setState({ menuItems: [...menuItems, ...adminItems] });
       }
     }
 
