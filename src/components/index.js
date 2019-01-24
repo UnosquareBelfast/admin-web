@@ -23,3 +23,4 @@ export { default as AllEmployees } from './AllEmployees';
 export { default as DataTable } from './DataTable';
 export { default as FullPageLoader } from './FullPageLoader';
 export { default as TeamOverview } from './TeamOverview';
+export { default as LoginLoader } from './LoginLoader';

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { Dashboard, Login, Admin, User, Profile, TeamDashboard } from './pages';
+import { LoginLoader } from './components/';
 import { ThemeProvider } from 'styled-components';
 import { PropTypes as PT } from 'prop-types';
 import { theme } from './styled';
@@ -38,7 +39,7 @@ class App extends React.Component {
       <ThemeProvider theme={theme}>
         <AuthUserAndStore
           render={(isAuthenticated, isLoading) => {
-            if (isLoading) return <p>loading..</p>;
+            if (isLoading) return <LoginLoader />;
             return isAuthenticated ? authRoutes : loginRoutes;
           }}
         />
