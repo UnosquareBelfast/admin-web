@@ -15,91 +15,13 @@ instance.interceptors.request.use(function(config) {
 });
 
 instance.interceptors.response.use(function(response) {
-  // Adds start, end & requested to response which are in moment format
-  if (response.config.method != 'get') {
-    return response;
-  }
+  // If unauthorized status gets returned from a call, log the user out.
+  // The token has likely expired.
 
-  if (response.config.url.includes(`${baseURL}/holidays`)) {
-    const holidays = [...response.data];
-    for (const index in holidays) {
-      holidays[index].start = new moment(
-        holidays[index].startDate,
-        'YYYY-MM-DD'
-      );
-      holidays[index].end = new moment(holidays[index].endDate, 'YYYY-MM-DD');
-      holidays[index].created = new moment(
-        holidays[index].dateCreated,
-        'YYYY-MM-DD'
-      );
-    }
-    return {
-      ...response,
-      data: holidays,
-    };
-  }
-
-  // MOCK DATA
-  if (response.config.url.includes(`${baseURL}/employees`)) {
-    const holidays = {
-      total: 30,
-      pending: 2,
-      taken: 25,
-      available: 3,
-    };
-
-    return {
-      ...response,
-      data: {
-        ...response.data,
-        holidays,
-      },
-    };
-  }
-
-  // Append employee to each event (we know its the logged in user) and convert
-  // dates to moment objects
-  if (response.config.url.includes(`${baseURL}/dashboard/getEmployeeEvents`)) {
-    const events = [...response.data.events];
-    const employee = store.getState().USER;
-    for (let event of events) {
-      // Raw dates to moment objects
-      event.start = new moment(event.startDate, 'YYYY-MM-DD');
-      event.end = new moment(event.endDate, 'YYYY-MM-DD');
-      // Append logged in employee
-      event.employee = { ...employee };
-    }
-    return {
-      ...response,
-      data: events,
-    };
-  }
-
-  if (
-    response.config.url.includes(`${baseURL}/dashboard/getDashboardSnapshot`)
-  ) {
-    const data = [...response.data];
-    const employee = store.getState().USER;
-    for (let object of data) {
-      object.employee = { ...employee };
-    }
-    return {
-      ...response,
-      data: data,
-    };
-  }
-
-  if (response.config.url.includes(`${baseURL}/dashboard/getTeamEvents`)) {
-    const events = [...response.data.events];
-    for (let event of events) {
-      // Raw dates to moment objects
-      event.start = new moment(event.startDate, 'YYYY-MM-DD');
-      event.end = new moment(event.endDate, 'YYYY-MM-DD');
-    }
-    return {
-      ...response,
-      data: events,
-    };
+  if (response.status === 401) {
+    localStorage.clear();
+    localStorage.setItem('ac-prev-expired', true);
+    location.reload();
   }
 
   return response;
