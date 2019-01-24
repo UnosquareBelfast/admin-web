@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
+import Swal from 'sweetalert2';
 import store from '../../store';
 import { updateUser } from '../../actions/user';
 import { getSignedInUser } from '../../services/userService';
@@ -17,6 +18,22 @@ class AuthUserAndStore extends Component {
 
   componentDidMount() {
     // Do a silent check on the token to check authentication.
+    this.checkPrevExpire();
+    this.checkToken();
+  }
+
+  checkPrevExpire() {
+    if (localStorage.getItem('ac-prev-expired') === 'true') {
+      Swal({
+        title: 'Logged Out',
+        text: 'Your session has expired',
+        type: 'error',
+      });
+      localStorage.removeItem('ac-prev-expired');
+    }
+  }
+
+  checkToken() {
     if (localStorage.getItem('msal.idtoken')) {
       AzureInstance.acquireTokenSilent(['user.read'])
         .then(() => {
