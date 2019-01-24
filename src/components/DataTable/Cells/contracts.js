@@ -21,6 +21,12 @@ const endDate = {
   },
 };
 
+const clientName = {
+  id: 'clientName',
+  Header: 'Client',
+  accessor: contract => contract.clientName,
+};
+
 const teamName = {
   id: 'teamName',
   Header: 'Team',
@@ -30,5 +36,6 @@ const teamName = {
 export default {
   startDate,
   endDate,
+  clientName,
   teamName,
 };

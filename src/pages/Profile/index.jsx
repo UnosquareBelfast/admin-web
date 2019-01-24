@@ -73,7 +73,7 @@ const Profile = props => {
                 loading={contractsLoading}
                 data={contracts}
                 cells={ContractCells}
-                columns={['teamName', 'startDate', 'endDate']}
+                columns={['clientName', 'teamName', 'startDate', 'endDate']}
                 pageSize={10}
               />
             </div>
