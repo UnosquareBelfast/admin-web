@@ -183,12 +183,27 @@ const DashboardContainer = Wrapped =>
     };
 
     selectCalendarSlot = bookingEvent => {
-      this.setState(
-        {
-          selectedBooking: { ...bookingEvent },
-        },
-        () => this.toggleBookingModal(true)
-      );
+      const {
+        userDetails: { employeeId },
+      } = this.props;
+
+      if (bookingEvent.hasOwnProperty('employee')) {
+        if (bookingEvent.employee.employeeId === employeeId) {
+          this.setState(
+            {
+              selectedBooking: { ...bookingEvent },
+            },
+            () => this.toggleBookingModal(true)
+          );
+        }
+      } else {
+        this.setState(
+          {
+            selectedBooking: { ...bookingEvent },
+          },
+          () => this.toggleBookingModal(true)
+        );
+      }
     };
 
     render() {
