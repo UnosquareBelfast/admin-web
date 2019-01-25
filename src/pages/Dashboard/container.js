@@ -25,7 +25,7 @@ const DashboardContainer = Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        calendarDate: new moment().startOf('month').format('YYYY-MM-DD'),
+        calendarDate: new moment().format('YYYY-MM-DD'),
         filteredEvents: [],
         activeEventTypeIds: [],
         activeHolidayStatusIds: [],
@@ -171,7 +171,7 @@ const DashboardContainer = Wrapped =>
       const newDate = new moment(date);
       this.setState(
         {
-          calendarDate: newDate.startOf('month').format('YYYY-MM-DD'),
+          calendarDate: newDate.format('YYYY-MM-DD'),
         },
         this.fetchEvents
       );
