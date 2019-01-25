@@ -80,8 +80,6 @@ const FormikEnhancer = withFormik({
     let hasEnoughDays = true;
     const newDuration = getDurationBetweenDates(startDate, endDate);
 
-    console.log(holidayStats);
-
     const { availableHolidays } = holidayStats;
 
     if (isHoliday) {
