@@ -1,6 +1,14 @@
 import React from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import { Dashboard, Login, Admin, User, Profile, TeamDashboard } from './pages';
+import {
+  Dashboard,
+  Login,
+  Admin,
+  User,
+  Profile,
+  TeamDashboard,
+  Register,
+} from './pages';
 import { LoginLoader } from './components/';
 import { ThemeProvider } from 'styled-components';
 import { PropTypes as PT } from 'prop-types';
@@ -23,6 +31,7 @@ const authRoutes = (
 
 const loginRoutes = (
   <Switch>
+    <Route path="/register" component={Register} />
     <Route path="/login" component={Login} />
     <Redirect to="/login" />
   </Switch>
@@ -38,9 +47,9 @@ class App extends React.Component {
     return (
       <ThemeProvider theme={theme}>
         <AuthUserAndStore
-          render={(isAuthenticated, isLoading) => {
+          render={(isAuthenticated, isRegistered, isLoading) => {
             if (isLoading) return <LoginLoader />;
-            return isAuthenticated ? authRoutes : loginRoutes;
+            return isAuthenticated && isRegistered ? authRoutes : loginRoutes;
           }}
         />
       </ThemeProvider>

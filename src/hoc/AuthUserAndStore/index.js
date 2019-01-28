@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import store from '../../store';
 import { updateUser } from '../../actions/user';
-import { getSignedInUser } from '../../services/userService';
+import { getSignedInUser, checkAuth } from '../../services/userService';
 import AzureInstance from '../../utilities/AzureInstance';
 
 class AuthUserAndStore extends Component {
@@ -13,6 +13,7 @@ class AuthUserAndStore extends Component {
       loading: true,
       error: null,
       isAuthenticated: false,
+      isRegistered: false,
     };
   }
 
@@ -48,17 +49,23 @@ class AuthUserAndStore extends Component {
   }
 
   storeUser() {
-    getSignedInUser().then(({ data }) => {
-      store.dispatch(updateUser(data));
-      this.setState({ loading: false });
+    checkAuth().then(response => {
+      if (response.status === 200) {
+        getSignedInUser().then(({ data }) => {
+          store.dispatch(updateUser(data));
+          this.setState({ loading: false, isRegistered: true });
+        });
+      } else {
+        this.setState({ isRegistered: false, loading: false });
+      }
     });
   }
 
   render() {
     const { render } = this.props;
-    const { isAuthenticated, loading } = this.state;
+    const { isAuthenticated, isRegistered, loading } = this.state;
 
-    return render(isAuthenticated, loading);
+    return render(isAuthenticated, isRegistered, loading);
   }
 }
 
