@@ -23,3 +23,16 @@ export const createUser = data => {
 export const updateUser = data => {
   return axios.put('Employee/', data);
 };
+
+export const registerEmployee = countryId => {
+  return axios.post('Authentication/register/', {
+    countryId,
+    employeeRoleId: 3,
+    employeeStatusId: 1,
+    startDate: new Date().toISOString(),
+  });
+};
+
+export const checkAuth = () => {
+  return axios.get('Authentication/checkAuthenticatedUserExists');
+};
