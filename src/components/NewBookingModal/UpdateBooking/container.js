@@ -3,8 +3,10 @@ import { PropTypes as PT } from 'prop-types';
 import {
   updateHoliday,
   getHolidayStats,
+  cancelHoliday,
 } from '../../../services/holidayService';
 import { Toast } from '../../../utilities/Notifications';
+import Swal from 'sweetalert2';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -65,6 +67,25 @@ const Container = Wrapped =>
       });
     };
 
+    cancelEvent = () => {
+      const {
+        selectedBooking: { eventId },
+      } = this.props;
+      const { refreshCalendar, toggleModal } = this.props;
+      cancelHoliday(eventId)
+        .then(() => {
+          refreshCalendar();
+          toggleModal(false);
+        })
+        .catch(error =>
+          Swal({
+            title: 'Could not cancel holiday',
+            text: error.message,
+            type: 'error',
+          })
+        );
+    };
+
     render() {
       const { selectedBooking, toggleMessagingView } = this.props;
       const { holidayStats } = this.state;
@@ -74,6 +95,7 @@ const Container = Wrapped =>
           selectedBooking={selectedBooking}
           toggleMessagingView={toggleMessagingView}
           holidayStats={holidayStats}
+          cancelEvent={this.cancelEvent}
         />
       );
     }

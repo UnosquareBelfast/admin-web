@@ -10,6 +10,7 @@ export const FormContainer = styled.div`
     > svg {
       color: #999999;
       cursor: pointer;
+      margin-left: 10px;
       :hover {
         color: black;
       }

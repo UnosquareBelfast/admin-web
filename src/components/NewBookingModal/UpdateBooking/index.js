@@ -4,13 +4,14 @@ import container from './container';
 import Form from './form';
 import { FormContainer } from '../styled';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { faCommentAlt } from '@fortawesome/fontawesome-free-solid';
+import { faCommentAlt, faTrashAlt } from '@fortawesome/fontawesome-free-solid';
 
 const UpdateBooking = ({
   handleFormSubmit,
   selectedBooking,
   toggleMessagingView,
   holidayStats,
+  cancelEvent,
 }) => {
   return (
     <FormContainer>
@@ -20,6 +21,7 @@ const UpdateBooking = ({
             icon={faCommentAlt}
             onClick={() => toggleMessagingView(true)}
           />
+          <FontAwesomeIcon icon={faTrashAlt} onClick={() => cancelEvent()} />
         </div>
         <h2>Update Booking</h2>
         <Form
@@ -37,6 +39,7 @@ UpdateBooking.propTypes = {
   selectedBooking: PT.object.isRequired,
   toggleMessagingView: PT.func.isRequired,
   holidayStats: PT.object.isRequired,
+  cancelEvent: PT.func.isRequired,
 };
 
 export default container(UpdateBooking);
