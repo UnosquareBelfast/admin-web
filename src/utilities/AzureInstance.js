@@ -6,7 +6,7 @@ export default new Msal.UserAgentApplication(
   null,
   {
     cacheLocation: 'localStorage',
-    redirectUri: process.env.DOMAIN || 'http://localhost:8080',
+    redirectUri: process.env.AZURE_REDIRECT,
     navigateToLoginRequestUrl: false,
   }
 );
