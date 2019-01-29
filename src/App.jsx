@@ -1,12 +1,41 @@
 import React from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import { Dashboard, Login, Admin, User, Profile, TeamDashboard } from './pages';
+import {
+  Dashboard,
+  Login,
+  Admin,
+  User,
+  Profile,
+  TeamDashboard,
+  Register,
+} from './pages';
+import { LoginLoader } from './components/';
 import { ThemeProvider } from 'styled-components';
 import { PropTypes as PT } from 'prop-types';
 import { theme } from './styled';
 import Layout from './hoc/Layout';
 import AuthUserAndStore from './hoc/AuthUserAndStore';
-import { isLoggedIn } from './utilities/currentUser';
+
+const authRoutes = (
+  <Layout>
+    <Switch>
+      <Route exact path="/" component={Dashboard} />
+      <Route path="/profile" component={Profile} />
+      <Route path="/team" component={TeamDashboard} />
+      <Route path="/admin" component={Admin} />
+      <Route path="/user/:userId" component={User} />
+      <Redirect to="/" />
+    </Switch>
+  </Layout>
+);
+
+const loginRoutes = (
+  <Switch>
+    <Route path="/register" component={Register} />
+    <Route path="/login" component={Login} />
+    <Redirect to="/login" />
+  </Switch>
+);
 
 class App extends React.Component {
   static propTypes = {
@@ -15,36 +44,14 @@ class App extends React.Component {
   };
 
   render() {
-    let isAuthenticated = isLoggedIn() ? true : false;
-    let routes;
-
-    if (isAuthenticated) {
-      routes = (
-        <AuthUserAndStore history={this.props.history}>
-          <Switch>
-            <Route exact path="/" component={Dashboard} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/team" component={TeamDashboard} />
-            <Route path="/admin" component={Admin} />
-            <Route path="/user/:userId" component={User} />
-            <Redirect to="/" />
-          </Switch>
-        </AuthUserAndStore>
-      );
-    } else {
-      routes = (
-        <Switch>
-          <Route path="/login" component={Login} />
-          <Redirect to="/login" />
-        </Switch>
-      );
-    }
-
     return (
       <ThemeProvider theme={theme}>
-        <Layout isAuthenticated={isAuthenticated} history={this.props.history}>
-          {routes}
-        </Layout>
+        <AuthUserAndStore
+          render={(isAuthenticated, isRegistered, isLoading) => {
+            if (isLoading) return <LoginLoader />;
+            return isAuthenticated && isRegistered ? authRoutes : loginRoutes;
+          }}
+        />
       </ThemeProvider>
     );
   }

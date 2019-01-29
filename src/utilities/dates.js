@@ -1,10 +1,15 @@
 import moment from 'moment';
 
+export const isSameDay = (predicateDate, subjectDate) =>
+  moment(predicateDate).isSame(moment(subjectDate), 'day');
+
 export const getEventDayAmount = event => {
   if (!event) return;
-  if (event.halfDay) return 0.5;
-  const start = event.start.startOf('day');
-  const end = event.end.endOf('day');
+  if (event.isHalfDay) return 0.5;
+  const start = moment(event.eventDates[0].startDate).startOf('day'); //event.start.startOf('day');
+  const end = moment(
+    event.eventDates[event.eventDates.length - 1].endDate
+  ).endOf('day');
   end.add(1, 'ms');
   const diff = Math.abs(start.diff(end));
   const duration = moment.duration(diff);
@@ -24,9 +29,15 @@ export const getTotalDaysInEventArray = events => {
 export const getTotalDaysInEventArrayWithStatus = (events, status) => {
   if (!events) return;
   let totalDays = 0;
-  events.filter(event => event.eventType.description === 'Annual Leave').forEach(event => {
+  events.filter(event => event.eventType.eventTypeId === 1).forEach(event => {
+    const startDate = moment(event.eventDates[0].startDate);
+    const endDate = moment(
+      event.eventDates[event.eventDates.length - 1].endDate
+    );
     totalDays +=
-      event.eventStatus.eventStatusId === status ? getDurationBetweenDates(event.start, event.end) : 0;
+      event.eventStatus.eventStatusId === status
+        ? getDurationBetweenDates(startDate, endDate)
+        : 0;
   });
   return totalDays;
 };
@@ -60,4 +71,3 @@ export const calculateDaysNotice = daysRequested => {
     return 0;
   }
 };
-

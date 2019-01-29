@@ -1,35 +1,38 @@
-import decode from 'jwt-decode';
 import axios from '../utilities/AxiosInstance';
 
-export const userLogin = (email, password) => {
-  return axios
-    .post('authentication/login', { email, password })
-    .then(response => {
-      const token = response.data.accessToken;
-      let userData = decode(token);
-      localStorage.setItem('id_token', token);
-      localStorage.setItem('user_id', userData.sub);
-    });
+export const getSignedInUser = () => {
+  return axios.get('/Employee/getSignedInUser');
 };
 
 export const getAllUsers = () => {
-  return axios.get('/employees/');
+  return axios.get('/Employee/');
 };
 
 export const getUserProfile = id => {
-  return axios.get(`/employees/${id}`);
+  return axios.get(`/Employee/${id}`);
 };
 
 export const getUserByName = (forename, surname) => {
-  return axios.get(
-    `/employees/findByForenameAndSurname/${forename}/${surname}`
-  );
+  return axios.get(`/Employee/findByForenameAndSurname/${forename}/${surname}`);
 };
 
 export const createUser = data => {
-  return axios.post('authentication/register/', data);
+  return axios.post('Authentication/register/', data);
 };
 
 export const updateUser = data => {
-  return axios.put('employees/', data);
+  return axios.put('Employee/', data);
+};
+
+export const registerEmployee = countryId => {
+  return axios.post('Authentication/register/', {
+    countryId,
+    employeeRoleId: 3,
+    employeeStatusId: 1,
+    startDate: new Date().toISOString(),
+  });
+};
+
+export const checkAuth = () => {
+  return axios.get('Authentication/checkAuthenticatedUserExists');
 };

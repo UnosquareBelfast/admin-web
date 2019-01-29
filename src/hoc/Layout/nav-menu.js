@@ -15,13 +15,7 @@ import { faBars, faSignOutAlt } from '@fortawesome/fontawesome-free-solid';
 import Swal from 'sweetalert2';
 import { theme } from './../../styled';
 
-const NavMenu = ({
-  history,
-  isAuthenticated,
-  menuItems,
-  drawerIsOpen,
-  closeDrawer,
-}) => {
+const NavMenu = ({ history, menuItems, drawerIsOpen, closeDrawer }) => {
   const handleLogout = () => {
     Swal({
       title: 'Log out?',
@@ -116,20 +110,18 @@ const NavMenu = ({
           AdminCore
         </ToggleDrawerBtn>
       </MenuItem>
-      {isAuthenticated && (
-        <Fragment>
-          {navlinks}
-          <MenuItem>
-            <a onClick={handleLogout}>
-              <Icon className="h3">
-                <Tooltip className="xsmall">Log out</Tooltip>
-                <FontAwesomeIcon icon={faSignOutAlt} />
-              </Icon>{' '}
-              Log Out
-            </a>
-          </MenuItem>
-        </Fragment>
-      )}
+      <Fragment>
+        {navlinks}
+        <MenuItem>
+          <a onClick={handleLogout}>
+            <Icon className="h3">
+              <Tooltip className="xsmall">Log out</Tooltip>
+              <FontAwesomeIcon icon={faSignOutAlt} />
+            </Icon>{' '}
+            Log Out
+          </a>
+        </MenuItem>
+      </Fragment>
     </Drawer>
   );
 };
@@ -138,7 +130,6 @@ NavMenu.propTypes = {
   menuItems: PT.array,
   drawerIsOpen: PT.bool,
   closeDrawer: PT.func,
-  isAuthenticated: PT.bool,
   history: PT.object,
 };
 

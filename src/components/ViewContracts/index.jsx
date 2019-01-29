@@ -21,7 +21,7 @@ export const ViewContracts = ({ contracts, updateContracts, history }) => {
       <DataTable
         data={contracts}
         cells={ContractCells}
-        columns={['startDate', 'endDate']}
+        columns={['clientName', 'teamName', 'startDate', 'endDate']}
         pageSize={20}
       />
     </div>

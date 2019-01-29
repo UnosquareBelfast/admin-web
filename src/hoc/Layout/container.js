@@ -15,26 +15,20 @@ const NavContainer = Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        drawerOpen: localStorage.getItem('navDrawerOpen') == 'true',
+        drawerOpen: localStorage.getItem('ac-nav-open') == 'true',
         menuItems,
       };
     }
 
-    componentWillUpdate(nextProps) {
-      const currentRole = this.props.userDetails.employeeRoleId;
-      const newRole = nextProps.userDetails.employeeRoleId;
-
-      if (currentRole !== newRole && newRole === roles.ADMIN) {
-        const adminMenu = [...menuItems, ...adminItems];
-        this.setState({ menuItems: adminMenu });
-      } else if (currentRole !== newRole) {
-        this.setState({ menuItems });
+    componentWillMount() {
+      if (this.props.userDetails.employeeRoleId === roles.ADMIN) {
+        this.setState({ menuItems: [...menuItems, ...adminItems] });
       }
     }
 
     toggleDrawer = () => {
       this.setState({ drawerOpen: !this.state.drawerOpen }, () => {
-        localStorage.setItem('navDrawerOpen', this.state.drawerOpen);
+        localStorage.setItem('ac-nav-open', this.state.drawerOpen);
       });
     };
 

@@ -4,12 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchEvents, setEventView } from '../../actions/dashboard';
 import eventCategory from '../../utilities/eventCategory';
-import {
-  getUser,
-  getEventView,
-  getAllEvents,
-  eventBeingUpdated,
-} from '../../reducers';
+import { getUser, getEventView, getAllEvents } from '../../reducers';
 import eventsView from '../../utilities/eventsView';
 import moment from 'moment';
 import eventTypes from '../../utilities/eventTypes';
@@ -30,11 +25,18 @@ const DashboardContainer = Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        calendarDate: new moment().startOf('month').format('YYYY-MM-DD'),
+        calendarDate: new moment().format('YYYY-MM-DD'),
         filteredEvents: [],
         activeEventTypeIds: [],
         activeHolidayStatusIds: [],
         activeEmployee: -1,
+        bookingModalVisible: false,
+        bookingModalDismount: false,
+        selectedBooking: {
+          start: moment(),
+          end: moment(),
+          isBeingUpdated: false,
+        },
       };
     }
 
@@ -69,6 +71,20 @@ const DashboardContainer = Wrapped =>
       }
       setEventView(updatedEventView);
       this.fetchEvents(updatedEventView, true);
+    };
+
+    toggleBookingModal = isVisible => {
+      this.setState({ bookingModalVisible: isVisible }, () => {
+        if (!isVisible) {
+          // This is a bit of a hack to dismount after the animation is finished.
+          // It's ugly but it works well.
+          setTimeout(() => {
+            this.setState({
+              bookingModalDismount: !this.state.bookingModalDismount,
+            });
+          }, 300);
+        }
+      });
     };
 
     filterCalenderEvents = () => {
@@ -155,7 +171,7 @@ const DashboardContainer = Wrapped =>
       const newDate = new moment(date);
       this.setState(
         {
-          calendarDate: newDate.startOf('month').format('YYYY-MM-DD'),
+          calendarDate: newDate.format('YYYY-MM-DD'),
         },
         this.fetchEvents
       );
@@ -166,14 +182,42 @@ const DashboardContainer = Wrapped =>
       this.props.fetchEvents(calendarDate, eventView, force);
     };
 
+    selectCalendarSlot = bookingEvent => {
+      const {
+        userDetails: { employeeId },
+      } = this.props;
+
+      if (bookingEvent.hasOwnProperty('employee')) {
+        if (bookingEvent.employee.employeeId === employeeId) {
+          this.setState(
+            {
+              selectedBooking: { ...bookingEvent },
+            },
+            () => this.toggleBookingModal(true)
+          );
+        }
+      } else {
+        this.setState(
+          {
+            selectedBooking: { ...bookingEvent },
+          },
+          () => this.toggleBookingModal(true)
+        );
+      }
+    };
+
     render() {
-      const { filteredEvents } = this.state;
+      const {
+        filteredEvents,
+        bookingModalVisible,
+        bookingModalDismount,
+        selectedBooking,
+      } = this.state;
       const {
         userDetails,
         userDetails: { employeeId },
         allEvents,
         eventView,
-        isEventBeingUpdated,
       } = this.props;
 
       return (
@@ -184,8 +228,7 @@ const DashboardContainer = Wrapped =>
             onToggleEventsView={this.toggleEventsView}
             eventView={eventView}
             filteredEvents={filteredEvents}
-            updateTakenEvents={() => this.fetchEvents(eventView, true)}
-            isEventBeingUpdated={isEventBeingUpdated}
+            refreshCalendar={() => this.fetchEvents(eventView, true)}
             onUpdateEvents={(category, activeEventIds) =>
               this.setActiveEvents(category, activeEventIds)
             }
@@ -193,6 +236,11 @@ const DashboardContainer = Wrapped =>
               this.setActiveEmployee(parseInt(employeeId))
             }
             onCalendarNavigate={this.handleCalendarNavigate}
+            toggleBookingModal={this.toggleBookingModal}
+            bookingModalVisible={bookingModalVisible}
+            bookingModalDismount={bookingModalDismount}
+            selectCalendarSlot={this.selectCalendarSlot}
+            selectedBooking={selectedBooking}
           />
         )
       );
@@ -204,7 +252,6 @@ const mapStateToProps = state => {
     userDetails: getUser(state),
     eventView: getEventView(state),
     allEvents: getAllEvents(state),
-    isEventBeingUpdated: eventBeingUpdated(state),
   };
 };
 

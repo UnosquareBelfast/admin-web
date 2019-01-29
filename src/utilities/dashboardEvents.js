@@ -3,9 +3,8 @@ import { getDurationBetweenDates } from './dates';
 import eventTypes from './eventTypes';
 import mandatoryEvents from './mandatoryEvents';
 import { flow } from 'lodash/fp';
-import { uniqBy } from 'lodash';
 import store from '../store';
-import { getAllEvents } from '../reducers';
+import { getAllEvents, getUserId } from '../reducers';
 
 export const transformEvents = allEvents => {
   return new Promise(resolve => {
@@ -18,20 +17,32 @@ export const transformEvents = allEvents => {
 };
 
 const _formatEventsForCalendar = events => {
-  return events.map(event => {
-    return {
-      eventId: event.eventId,
-      title: `${event.employee.forename} ${event.employee.surname}`,
-      allDay: !event.halfDay,
-      start: event.start,
-      end: event.end,
-      halfDay: event.halfDay,
-      employee: event.employee,
-      eventStatus: event.eventStatus,
-      eventType: event.eventType,
-      messages: event.latestMessage ? event.latestMessage : undefined,
-    };
+  let formattedEvents = [];
+
+  events.forEach(event => {
+    const { eventId, employee, isHalfDay, eventStatus, eventType } = event;
+    const title = `${employee.forename} ${employee.surname}`;
+    const fullEventStart = event.eventDates[0].startDate;
+    const fullEventEnd = event.eventDates[event.eventDates.length - 1].endDate;
+    const eventSegments = event.eventDates.map(segment => {
+      return {
+        eventId,
+        title,
+        employee,
+        eventStatus,
+        eventType,
+        start: moment(segment.startDate),
+        end: moment(segment.endDate),
+        halfDay: isHalfDay,
+        fullEvent: {
+          start: moment(fullEventStart),
+          end: moment(fullEventEnd),
+        },
+      };
+    });
+    formattedEvents = [...formattedEvents, ...eventSegments];
   });
+  return formattedEvents;
 };
 
 const _appendExistingEvents = events => {
@@ -39,7 +50,6 @@ const _appendExistingEvents = events => {
   let combinedEvents = [...prevEvents, ...events];
   // Remove mandatory
   combinedEvents = combinedEvents.filter(event => event.eventId !== -1);
-  combinedEvents = uniqBy(combinedEvents, event => event.eventId);
   return combinedEvents;
 };
 
@@ -176,5 +186,38 @@ export const checkIfSelectedDatesOverlapExisting = (
       }
     }
   });
+  return overlappingEvents.length > 0;
+};
+
+export const checkOverlappingEvents = (start, end, eventId) => {
+  const events = getAllEvents(store.getState());
+  const employeeId = getUserId(store.getState());
+  const thisEvent = eventId;
+
+  const overlappingEvents = events.filter(event => {
+    let isCurrentEvent = false;
+
+    if (typeof thisEvent != 'undefined') {
+      isCurrentEvent = thisEvent === event.eventId;
+    }
+
+    if (isCurrentEvent) {
+      return false;
+    }
+
+    if (event.employee.employeeId !== employeeId) {
+      return false;
+    }
+    const selectedDateRange = moment.range(
+      moment(start),
+      moment(end).endOf('day')
+    );
+    const existingEvent = moment.range(moment(event.start), moment(event.end));
+
+    if (selectedDateRange.overlaps(existingEvent)) {
+      return true;
+    }
+  });
+
   return overlappingEvents.length > 0;
 };

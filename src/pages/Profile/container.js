@@ -3,11 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { getUser } from '../../reducers';
-import { getHolidays } from '../../services/holidayService';
-import {
-  getTotalDaysInEventArrayWithStatus,
-} from '../../utilities/dates';
-import holidayStatus from '../../utilities/holidayStatus';
+import { getHolidays, getHolidayStats } from '../../services/holidayService';
 import { isEmpty } from 'lodash';
 import { getContractsByEmployeeId } from '../../services/contractService';
 import swal from 'sweetalert2';
@@ -22,18 +18,18 @@ const ProfileContainer = Wrapped =>
       super(props);
       this.state = {
         holidays: null,
-        daysBooked: null,
-        daysPending: null,
         selectedHoliday: {},
         contracts: [],
         holidaysLoading: false,
         contractsLoading: false,
+        holidayStats: {},
       };
     }
 
     componentDidMount() {
       // Required in case the user navigates away from the page, then back.
       this.setState({ holidays: null, contracts: [], contractsLoading: true });
+      this.getStats();
       this.getContracts();
     }
 
@@ -54,22 +50,30 @@ const ProfileContainer = Wrapped =>
       }
     }
 
+    getStats() {
+      getHolidayStats()
+        .then(response => {
+          const stats = response.data;
+          this.setState({ holidayStats: stats });
+        })
+        .catch(error => {
+          swal(
+            'Error',
+            `Error getting holiday stats: ${error.message}`,
+            'error'
+          );
+        });
+    }
+
     getHolidays() {
       this.setState({ holidaysLoading: true });
       getHolidays(this.props.userDetails.employeeId)
         .then(response => {
           const holidays = response.data;
+
           this.setState({ holidays }, () => {
             this.setState({
               holidaysLoading: false,
-              daysBooked: getTotalDaysInEventArrayWithStatus(
-                holidays,
-                holidayStatus.APPROVED
-              ),
-              daysPending: getTotalDaysInEventArrayWithStatus(
-                holidays,
-                holidayStatus.PENDING
-              ),
             });
           });
         })
@@ -82,7 +86,7 @@ const ProfileContainer = Wrapped =>
     getContracts() {
       getContractsByEmployeeId(this.props.userDetails.employeeId)
         .then(response => {
-          const contracts = response.data;
+          const contracts = response.status === 200 ? response.data : [];
           this.setState({ contracts, contractsLoading: false });
         })
         .catch(error => {
@@ -107,6 +111,7 @@ const ProfileContainer = Wrapped =>
           selectedHoliday={this.state.selectedHoliday}
           closeModal={this.closeModal}
           contracts={this.state.contracts}
+          holidayStats={this.state.holidayStats}
         />
       );
     }

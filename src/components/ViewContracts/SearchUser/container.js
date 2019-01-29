@@ -69,10 +69,9 @@ export default Wrapped =>
 
     getContracts = () => {
       const userId = this.state.formData.selectedUserId;
-
       getContractsByEmployeeId(userId)
         .then(response => {
-          const contracts = response.data;
+          const contracts = response.status === 200 ? response.data : [];
           this.props.onSuccess(contracts);
         })
         .catch(error =>

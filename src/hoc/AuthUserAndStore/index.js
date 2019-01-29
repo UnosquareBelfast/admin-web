@@ -1,81 +1,76 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { Redirect } from 'react-router';
+import Swal from 'sweetalert2';
 import store from '../../store';
 import { updateUser } from '../../actions/user';
-import { getProfile, isLoggedIn } from '../../utilities/currentUser';
-import { getUserProfile } from '../../services/userService';
-import { Toast } from '../../utilities/Notifications';
-import { Spinner } from '../../components/common';
-import { isEmpty } from 'lodash';
-import { SpinnerContainer, ErrorContainer } from './styled';
+import { getSignedInUser, checkAuth } from '../../services/userService';
+import AzureInstance from '../../utilities/AzureInstance';
 
 class AuthUserAndStore extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
-      error: {},
+      error: null,
+      isAuthenticated: false,
+      isRegistered: false,
     };
   }
 
   componentDidMount() {
-    const tokenProfile = getProfile();
-    const userId = tokenProfile.sub;
-    getUserProfile(userId)
-      .then(({ data }) => {
-        store.dispatch(updateUser(data));
-        this.setState({ loading: false });
-        Toast({
-          type: 'success',
-          title: `Welcome, ${tokenProfile.name}`,
-          position: 'top',
-          timer: 2000,
-        });
-      })
-      .catch(error => {
-        this.setState({ error });
+    // Do a silent check on the token to check authentication.
+    this.checkPrevExpire();
+    this.checkToken();
+  }
+
+  checkPrevExpire() {
+    if (localStorage.getItem('ac-prev-expired') === 'true') {
+      Swal({
+        title: 'Logged Out',
+        text: 'Your session has expired',
+        type: 'error',
       });
+      localStorage.removeItem('ac-prev-expired');
+    }
+  }
+
+  checkToken() {
+    if (localStorage.getItem('msal.idtoken')) {
+      AzureInstance.acquireTokenSilent(['user.read'])
+        .then(() => {
+          this.setState({ isAuthenticated: true }, this.storeUser);
+        })
+        .catch(error => {
+          this.setState({ isAuthenticated: false, error, loading: false });
+        });
+    } else {
+      this.setState({ loading: false });
+    }
+  }
+
+  storeUser() {
+    checkAuth().then(response => {
+      if (response.status === 200) {
+        getSignedInUser().then(({ data }) => {
+          store.dispatch(updateUser(data));
+          this.setState({ loading: false, isRegistered: true });
+        });
+      } else {
+        this.setState({ isRegistered: false, loading: false });
+      }
+    });
   }
 
   render() {
-    // If not logged in, bring them to login page.
-    if (!isLoggedIn()) {
-      return <Redirect to="/login" />;
-    }
+    const { render } = this.props;
+    const { isAuthenticated, isRegistered, loading } = this.state;
 
-    // If there was an error getting the profile.
-    if (!isEmpty(this.state.error)) {
-      return (
-        <ErrorContainer>
-          <h2>Sorry.</h2>
-          <p>There was an error, and we couldn't retrieve your profile.</p>
-          <p>
-            Refresh the page to retry. If the problem persists, contact an admin
-            with the below details:
-          </p>
-          <p>{this.state.error.message}</p>
-        </ErrorContainer>
-      );
-    }
-
-    // If logged in, and profile request is loading.
-    if (this.state.loading) {
-      return (
-        <SpinnerContainer>
-          <Spinner />
-        </SpinnerContainer>
-      );
-    }
-
-    // Otherwise, all is fine, allow access to app.
-    return { ...this.props.children };
+    return render(isAuthenticated, isRegistered, loading);
   }
 }
 
 AuthUserAndStore.propTypes = {
-  children: PT.node,
-  history: PT.object,
+  render: PT.func.isRequired,
 };
 
 export default AuthUserAndStore;

@@ -1,22 +1,21 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { LoginBG, LoginPanel } from './styled';
+import { LoginBG, LoginPanel, LoginButton } from './styled';
 import container from './container';
-import LoginForm from '../../components/LoginForm';
 
-export const Login = ({ history }) => {
+export const Login = ({ login }) => {
   return (
     <LoginBG>
       <LoginPanel>
-        <h1>Welcome to Admin Core</h1>
-        <LoginForm history={history} />
+        <h1>Unosquare Holiday System</h1>
+        <LoginButton onClick={login}>Sign in with Unosquare ID</LoginButton>
       </LoginPanel>
     </LoginBG>
   );
 };
 
 Login.propTypes = {
-  history: PT.object.isRequired,
+  login: PT.func.isRequired,
 };
 
 export default container(Login);
