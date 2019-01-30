@@ -51,7 +51,7 @@ const ProfileContainer = Wrapped =>
     }
 
     getStats() {
-      getHolidayStats()
+      getHolidayStats(this.props.userDetails.employeeId)
         .then(response => {
           const stats = response.data;
           this.setState({ holidayStats: stats });

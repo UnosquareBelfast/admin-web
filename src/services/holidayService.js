@@ -38,6 +38,6 @@ export const sendMessage = (eventId, messageType, message) => {
   );
 };
 
-export const getHolidayStats = () => {
-  return axios.get('/Holiday/findEmployeeHolidayStats');
+export const getHolidayStats = (employeeId) => {
+  return axios.get(`/Holiday/findEmployeeHolidayStats/${employeeId}`);
 };
