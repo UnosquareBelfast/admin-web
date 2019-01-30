@@ -10,7 +10,7 @@ const UserModal = ({
   history,
   approvedDays,
   pendingDays,
-  totalHolidays,
+  availableDays,
 }) => {
   return (
     <Modal closeModal={closeModal}>
@@ -29,7 +29,7 @@ const UserModal = ({
             <h4>Holidays Pending</h4>
           </Stat>
           <Stat>
-            <h2>{totalHolidays - approvedDays - pendingDays} Days</h2>
+            <h2>{availableDays} Days</h2>
             <h4>Holidays Remaining</h4>
           </Stat>
         </StatWrap>
@@ -48,10 +48,11 @@ UserModal.propTypes = {
   history: PT.object,
   user: PT.object,
   userHolidays: PT.array.isRequired,
-  hasPermission: PT.bool.isRequired,
-  approvedDays: PT.number.isRequired,
-  pendingDays: PT.number.isRequired,
+  hasPermission: PT.bool,
+  approvedDays: PT.number,
+  pendingDays: PT.number,
   totalHolidays: PT.number,
+  availableDays: PT.number,
 };
 
 export default container(UserModal);

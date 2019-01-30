@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { getUser } from '../../reducers';
-import { getHolidays } from '../../services/holidayService';
+import { getHolidayStats } from '../../services/holidayService';
 import swal from 'sweetalert2';
 import { isEmpty } from 'lodash';
 import roles from '../../utilities/roles';
@@ -33,12 +33,9 @@ const UserModalContainer = Wrapped =>
       const { user } = this.props;
       if (isEmpty(user)) return null;
 
-      getHolidays(user.employeeId)
+      getHolidayStats(user.employeeId)
         .then(({ data }) => {
-          this.setState({
-            userHolidays: data,
-            totalHolidays: data.length > 0 ? data[0].employee.totalHolidays : 0,
-          });
+          this.setState(data);
         })
         .catch(error => {
           swal(
@@ -64,24 +61,20 @@ const UserModalContainer = Wrapped =>
     };
 
     render() {
-      const approvedDays = this.getTotalApprovedDays();
-      const pendingDays = this.getTotalPendingDays();
       const { closeModal, userDetails, user, history } = this.props;
-      const { userHolidays, totalHolidays } = this.state;
+      const { approvedHolidays, pendingHolidays, availableHolidays } = this.state;
       if (isEmpty(user)) return null;
 
       return (
         <Wrapped
           userDetails={userDetails}
-          userHolidays={userHolidays}
           closeModal={closeModal}
           user={user}
           hasPermission={this.hasPermission}
           history={history}
-          getHolidays={getHolidays}
-          approvedDays={approvedDays}
-          pendingDays={pendingDays}
-          totalHolidays={totalHolidays}
+          approvedDays={approvedHolidays}
+          pendingDays={pendingHolidays}
+          availableDays={availableHolidays}
         />
       );
     }
