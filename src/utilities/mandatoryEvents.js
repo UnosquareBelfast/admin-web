@@ -1,5 +1,6 @@
 import moment from 'moment';
 import holidayStatus from './holidayStatus';
+import eventType from './eventTypes';
 
 const currYear = new Date().getFullYear();
 
@@ -44,12 +45,12 @@ export default mandatoryEvents.map(event => {
     halfDay: false,
     employee: null,
     eventStatus: {
-      eventStatusId: holidayStatus.MANDATORY,
-      description: 'Mandatory',
+      eventStatusId: holidayStatus.APPROVED,
+      description: 'Approved',
     },
     eventType: {
-      eventTypeId: holidayStatus.PENDING,
-      description: 'Annual leave',
+      eventTypeId: eventType.PUBLIC_HOLIDAY,
+      description: 'Public Holiday',
     },
   };
 });

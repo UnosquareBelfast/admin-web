@@ -2,7 +2,6 @@ import React from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import {
   faClock,
-  faSun,
   faCalendarTimes,
   faCalendarCheck,
 } from '@fortawesome/fontawesome-free-solid';
@@ -12,7 +11,6 @@ export default {
   APPROVED: 2,
   REJECTED: 3,
   CANCELLED: 4,
-  MANDATORY: 5,
 };
 
 export const statusText = [
@@ -21,7 +19,6 @@ export const statusText = [
   'Approved',
   'Rejected',
   'Cancelled',
-  'Mandatory',
 ];
 
 export const statusIcons = [
@@ -30,5 +27,4 @@ export const statusIcons = [
   <FontAwesomeIcon icon={faCalendarCheck} />,
   <FontAwesomeIcon icon={faCalendarTimes} />,
   <FontAwesomeIcon icon={faCalendarTimes} />,
-  <FontAwesomeIcon icon={faSun} />,
 ];
