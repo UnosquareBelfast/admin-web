@@ -3,18 +3,30 @@ import moment from 'moment';
 export const isSameDay = (predicateDate, subjectDate) =>
   moment(predicateDate).isSame(moment(subjectDate), 'day');
 
+Date.prototype.addDays = function (days) {
+  var date = new Date(this.valueOf());
+  date.setDate(date.getDate() + days);
+  return date;
+};
+
 export const getEventDayAmount = event => {
   if (!event) return;
   if (event.isHalfDay) return 0.5;
-  const start = moment(event.eventDates[0].startDate).startOf('day'); //event.start.startOf('day');
-  const end = moment(
+  const startDate = moment(event.eventDates[0].startDate).startOf('day');
+  const endDate = moment(
     event.eventDates[event.eventDates.length - 1].endDate
   ).endOf('day');
-  end.add(1, 'ms');
-  const diff = Math.abs(start.diff(end));
-  const duration = moment.duration(diff);
-  end.subtract(1, 'ms');
-  return duration.get('days');
+
+  let numWorkDays = 0;
+  let currentDate = new Date(startDate);
+  while (currentDate <= endDate) {
+    // Skips Sunday and Saturday
+    if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
+      numWorkDays++;
+    }
+    currentDate = currentDate.addDays(1);
+  }
+  return numWorkDays;
 };
 
 export const getTotalDaysInEventArray = events => {
