@@ -32,12 +32,14 @@ export const cancelHoliday = eventId => {
   return axios.put('/Holiday/cancelHoliday', { eventId });
 };
 
-export const sendMessage = (eventId, messageType, message) => {
-  console.log(
-    `Message ${message} sent with message type ${messageType} for event ${eventId}`
-  );
+export const sendMessage = (eventId, message) => {
+  return axios.put('/Holiday/addMessageToEvent', { eventId, message });
 };
 
-export const getHolidayStats = (employeeId) => {
+export const getHolidayStats = employeeId => {
   return axios.get(`/Holiday/findEmployeeHolidayStats/${employeeId}`);
+};
+
+export const getEventMessages = eventId => {
+  return axios.get(`/Holiday/findEventMessages/${eventId}`);
 };

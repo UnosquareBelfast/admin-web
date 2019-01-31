@@ -17,6 +17,7 @@ import {
   faPaperPlane,
 } from '@fortawesome/fontawesome-free-solid';
 import messageTypes from '../../../utilities/messageTypes';
+import moment from 'moment';
 
 const MessageBlock = ({
   message,
@@ -51,7 +52,7 @@ const renderMessages = messages => {
       <MessageBlock
         message={message.message}
         author={author}
-        lastModified={lastModified}
+        lastModified={moment(lastModified).format('DD-MM-YYYY')}
         key={eventMessageId}
         messageTypeId={messageTypeId}
       />
@@ -59,7 +60,13 @@ const renderMessages = messages => {
   });
 };
 
-const Messaging = ({ messages, toggleMessagingView }) => {
+const Messaging = ({
+  messages,
+  toggleMessagingView,
+  sendMessage,
+  updateMessage,
+  currentMessage,
+}) => {
   return (
     <StyleContainer>
       <div style={{ position: 'relative' }}>
@@ -74,8 +81,11 @@ const Messaging = ({ messages, toggleMessagingView }) => {
         <div className="replyBox">
           <span>Send Reply: </span>
           <div>
-            <ReplyBox />
-            <SendButton>
+            <ReplyBox
+              value={currentMessage}
+              onChange={event => updateMessage(event.target.value)}
+            />
+            <SendButton onClick={sendMessage}>
               <FontAwesomeIcon icon={faPaperPlane} />
             </SendButton>
           </div>
@@ -88,6 +98,9 @@ const Messaging = ({ messages, toggleMessagingView }) => {
 Messaging.propTypes = {
   messages: PT.array.isRequired,
   toggleMessagingView: PT.func.isRequired,
+  sendMessage: PT.func.isRequired,
+  updateMessage: PT.func.isRequired,
+  currentMessage: PT.string.isRequired,
 };
 
 export default container(Messaging);
