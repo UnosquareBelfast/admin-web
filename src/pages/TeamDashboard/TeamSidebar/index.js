@@ -26,7 +26,7 @@ const index = ({ clients, selectTeam }) => {
     ));
   };
 
-  const renderEmpty = <p>You have not be assigned to a team yet.</p>;
+  const renderEmpty = <p>You have not been assigned to a team yet.</p>;
 
   return (
     <ContainerStyle>
