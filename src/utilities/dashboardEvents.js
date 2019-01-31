@@ -20,7 +20,7 @@ const _formatEventsForCalendar = events => {
   let formattedEvents = [];
 
   events.forEach(event => {
-    const { eventId, employee, isHalfDay, eventStatus, eventType } = event;
+    const { eventId, employee, eventStatus, eventType } = event;
     const title = `${employee.forename} ${employee.surname}`;
     const fullEventStart = event.eventDates[0].startDate;
     const fullEventEnd = event.eventDates[event.eventDates.length - 1].endDate;
@@ -33,7 +33,7 @@ const _formatEventsForCalendar = events => {
         eventType,
         start: moment(segment.startDate),
         end: moment(segment.endDate),
-        halfDay: isHalfDay,
+        isHalfDay: segment.isHalfDay,
         fullEvent: {
           start: moment(fullEventStart),
           end: moment(fullEventEnd),

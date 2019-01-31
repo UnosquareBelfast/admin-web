@@ -3,7 +3,7 @@ import moment from 'moment';
 export const isSameDay = (predicateDate, subjectDate) =>
   moment(predicateDate).isSame(moment(subjectDate), 'day');
 
-Date.prototype.addDays = function (days) {
+Date.prototype.addDays = function(days) {
   let date = new Date(this.valueOf());
   date.setDate(date.getDate() + days);
   return date;
@@ -11,7 +11,7 @@ Date.prototype.addDays = function (days) {
 
 export const getEventDayAmount = event => {
   if (!event) return;
-  if (event.isHalfDay) return 0.5;
+  if (event.eventDates[0].isHalfDay) return 0.5;
   const startDate = moment(event.eventDates[0].startDate).startOf('day');
   const endDate = moment(
     event.eventDates[event.eventDates.length - 1].endDate
