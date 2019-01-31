@@ -21,7 +21,6 @@ const Container = Wrapped =>
     }
 
     componentDidMount() {
-      console.log(this.props);
       this.getMessages();
     }
 
