@@ -30,7 +30,7 @@ const Event = ({ children, event }) => {
     <Container
       fade={eventPast}
       className={
-        event.halfDay ? category + ' small ishalfday' : category + ' small'
+        event.isHalfDay ? category + ' small ishalfday' : category + ' small'
       }
       status={id}
       onClick={children.props.onClick}
