@@ -22,12 +22,12 @@ const FormikEnhancer = withFormik({
     eventTypeId: selectedBooking.eventType.eventTypeId,
     startDate: moment(selectedBooking.fullEvent.start),
     endDate: moment(selectedBooking.fullEvent.end),
-    halfDay: selectedBooking.halfDay,
+    isHalfDay: selectedBooking.isHalfDay,
   }),
 
   // Custom sync validation
   validate: (values, props) => {
-    const { startDate, endDate, halfDay, eventTypeId } = values;
+    const { startDate, endDate, isHalfDay, eventTypeId } = values;
     const {
       eventId,
       eventStatus: { eventStatusId },
@@ -62,7 +62,7 @@ const FormikEnhancer = withFormik({
       errors.endDate = 'You already have an event booked in this date range.';
     }
 
-    if (!halfDay) {
+    if (!isHalfDay) {
       if (endDate.isBefore(yesterday)) {
         errors.endDate = 'Adjust your end date so it is not in the past.';
       }
@@ -154,7 +154,7 @@ class RawForm extends Component {
           onChange={value => setFieldValue('startDate', value)}
           className={errors.startDate && touched.startDate ? 'error' : ''}
         />
-        {values.halfDay === false && (
+        {values.isHalfDay === false && (
           <Fragment>
             <label htmlFor="endDate">End Date</label>
             <DatePicker
@@ -168,14 +168,14 @@ class RawForm extends Component {
         <div className="half-day">
           <input
             type="checkbox"
-            id="halfDay"
-            name="halfDay"
-            checked={values.halfDay}
+            id="isHalfDay"
+            name="isHalfDay"
+            checked={values.isHalfDay}
             onChange={handleChange}
-            className={errors.halfDay && touched.halfDay ? 'error' : ''}
+            className={errors.isHalfDay && touched.isHalfDay ? 'error' : ''}
             disabled={!isSameDay(values.startDate, values.endDate)}
           />
-          <label htmlFor="halfDay">Half Day</label>
+          <label htmlFor="isHalfDay">Half Day</label>
         </div>
         <label htmlFor="updateMessage">Reason for updating (optional)</label>
         <textarea

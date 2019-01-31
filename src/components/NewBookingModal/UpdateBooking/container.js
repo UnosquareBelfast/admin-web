@@ -7,10 +7,14 @@ import {
 } from '../../../services/holidayService';
 import { Toast } from '../../../utilities/Notifications';
 import Swal from 'sweetalert2';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { getUserId } from '../../../reducers';
 
 const Container = Wrapped =>
   class extends React.Component {
     static propTypes = {
+      userId: PT.number.isRequired,
       selectedBooking: PT.object.isRequired,
       refreshCalendar: PT.func.isRequired,
       toggleModal: PT.func.isRequired,
@@ -62,7 +66,8 @@ const Container = Wrapped =>
     };
 
     fetchHolidayStats = () => {
-      getHolidayStats().then(response => {
+      const { userId } = this.props;
+      getHolidayStats(userId).then(response => {
         this.setState({ holidayStats: response.data });
       });
     };
@@ -101,4 +106,10 @@ const Container = Wrapped =>
     }
   };
 
-export default Container;
+const mapStateToProps = state => {
+  return {
+    userId: getUserId(state),
+  };
+};
+
+export default compose(connect(mapStateToProps), Container);

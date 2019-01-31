@@ -28,7 +28,6 @@ const NavMenu = ({ history, menuItems, drawerIsOpen, closeDrawer }) => {
     }).then(signOut => {
       if (signOut.value === true) {
         userLogout();
-        history.push('/login');
       }
     });
   };
