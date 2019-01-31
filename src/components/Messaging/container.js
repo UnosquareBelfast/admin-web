@@ -1,14 +1,11 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import {
-  getEventMessages,
-  sendMessage,
-} from '../../../services/holidayService';
+import { getEventMessages, sendMessage } from '../../services/holidayService';
 
 const Container = Wrapped =>
   class extends React.Component {
     static propTypes = {
-      toggleMessagingView: PT.func.isRequired,
+      toggleMessagingView: PT.func,
       eventId: PT.number.isRequired,
     };
 
@@ -50,6 +47,7 @@ const Container = Wrapped =>
           sendMessage={this.sendMessage}
           currentMessage={this.state.currentMessage}
           updateMessage={this.updateCurrentMessage}
+          {...this.props}
         />
       );
     }

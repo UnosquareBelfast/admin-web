@@ -16,7 +16,7 @@ import {
   faUser,
   faPaperPlane,
 } from '@fortawesome/fontawesome-free-solid';
-import messageTypes from '../../../utilities/messageTypes';
+import messageTypes from '../../utilities/messageTypes';
 import moment from 'moment';
 
 const MessageBlock = ({
@@ -66,17 +66,20 @@ const Messaging = ({
   sendMessage,
   updateMessage,
   currentMessage,
+  hideNav,
 }) => {
   return (
     <StyleContainer>
       <div style={{ position: 'relative' }}>
-        <div className="chatIconWrap">
-          <FontAwesomeIcon
-            icon={faCalendarAlt}
-            onClick={() => toggleMessagingView(false)}
-          />
-        </div>
-        <h2>Holiday Messages</h2>
+        {!hideNav && (
+          <div className="chatIconWrap">
+            <FontAwesomeIcon
+              icon={faCalendarAlt}
+              onClick={() => toggleMessagingView(false)}
+            />
+          </div>
+        )}
+        {!hideNav && <h2>Holiday Messages</h2>}
         <ChatBox>{renderMessages(messages)}</ChatBox>
         <div className="replyBox">
           <span>Send Reply: </span>
@@ -97,10 +100,11 @@ const Messaging = ({
 
 Messaging.propTypes = {
   messages: PT.array.isRequired,
-  toggleMessagingView: PT.func.isRequired,
+  toggleMessagingView: PT.func,
   sendMessage: PT.func.isRequired,
   updateMessage: PT.func.isRequired,
   currentMessage: PT.string.isRequired,
+  hideNav: PT.bool,
 };
 
 export default container(Messaging);
