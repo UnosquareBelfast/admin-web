@@ -48,7 +48,7 @@ const Container = Wrapped =>
         eventId,
         startDate: data.startDate.format(dateFormat),
         endDate: data.endDate.format(dateFormat),
-        isHalfDay: data.halfDay,
+        isHalfDay: data.isHalfDay,
         message: data.updateMessage,
       };
 
