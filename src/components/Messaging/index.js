@@ -47,11 +47,12 @@ const MessageBlock = ({
 
 const renderMessages = messages => {
   return messages.map(message => {
-    const { author, lastModified, eventMessageId, messageTypeId } = message;
+    const { employee, lastModified, eventMessageId, messageTypeId } = message;
+
     return (
       <MessageBlock
         message={message.message}
-        author={author}
+        author={`${employee.forename} ${employee.surname}`}
         lastModified={moment(lastModified).format('DD-MM-YYYY')}
         key={eventMessageId}
         messageTypeId={messageTypeId}
