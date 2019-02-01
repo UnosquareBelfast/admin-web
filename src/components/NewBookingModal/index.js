@@ -4,7 +4,7 @@ import Modal from '../common/Modal';
 import container from './container';
 import NewBooking from './NewBooking';
 import UpdateBooking from './UpdateBooking';
-import Messaging from './Messaging';
+import Messaging from '../Messaging';
 
 const BookingModal = props => {
   const {

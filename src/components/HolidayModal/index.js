@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import container from './container';
@@ -9,6 +9,7 @@ import { statusText } from '../../utilities/holidayStatus';
 import roles from '../../utilities/roles';
 import { InputText } from '../common_styled';
 import holidayStatus from '../../utilities/holidayStatus';
+import { Messaging } from '../';
 
 const HolidayModal = ({
   closeModal,
@@ -22,7 +23,7 @@ const HolidayModal = ({
   assignRejectionReasonText,
   capturedRejectionReasonText,
 }) => {
-  const { employee, eventStatus } = holiday;
+  const { employee, eventStatus, eventId } = holiday;
   const { forename, surname, email, employeeId } = employee;
   const isAdmin = userDetails.employeeRoleId === roles.ADMIN;
 
@@ -56,6 +57,7 @@ const HolidayModal = ({
             <h4>Status</h4>
           </Stat>
         </FlexWrap>
+
         <FlexWrap>
           <Stat>
             <h2>{start.format('DD/MM/YYYY')}</h2>
@@ -74,15 +76,21 @@ const HolidayModal = ({
         </FlexWrap>
         {shouldShowAdminControls() &&
           (!toggled && (
-            <Stat>
-              <ButtonWrap>
-                <Button label="Approve" onClick={approveHoliday} />
-                <Button
-                  label="Reject"
-                  onClick={() => toggleHolidayModalExpansion(true)}
-                />
-              </ButtonWrap>
-            </Stat>
+            <Fragment>
+              <Messaging
+                hideNav
+                eventId={eventId}
+              />
+              <Stat>
+                <ButtonWrap>
+                  <Button label="Approve" onClick={approveHoliday} />
+                  <Button
+                    label="Reject"
+                    onClick={() => toggleHolidayModalExpansion(true)}
+                  />
+                </ButtonWrap>
+              </Stat>
+            </Fragment>
           ))}
         {toggled && (
           <div>

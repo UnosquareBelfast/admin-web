@@ -16,7 +16,8 @@ import {
   faUser,
   faPaperPlane,
 } from '@fortawesome/fontawesome-free-solid';
-import messageTypes from '../../../utilities/messageTypes';
+import messageTypes from '../../utilities/messageTypes';
+import moment from 'moment';
 
 const MessageBlock = ({
   message,
@@ -30,28 +31,27 @@ const MessageBlock = ({
       <MessageMetaWrap>
         <span>
           <FontAwesomeIcon icon={faUser} />
-          {author}
+          {messageTypeId === messageTypes.REJECTED ? 'Declined' : author}
         </span>
         <span>
           <FontAwesomeIcon icon={faClock} />
           {lastModified}
         </span>
       </MessageMetaWrap>
-      <Message declined={messageTypeId === messageTypes.declined}>
-        {message}
-      </Message>
+      <Message declined={false}>{message}</Message>
     </Fragment>
   );
 };
 
 const renderMessages = messages => {
   return messages.map(message => {
-    const { author, lastModified, eventMessageId, messageTypeId } = message;
+    const { employee, lastModified, eventMessageId, messageTypeId } = message;
+
     return (
       <MessageBlock
         message={message.message}
-        author={author}
-        lastModified={lastModified}
+        author={`${employee.forename} ${employee.surname}`}
+        lastModified={moment(lastModified).format('DD-MM-YYYY')}
         key={eventMessageId}
         messageTypeId={messageTypeId}
       />
@@ -59,23 +59,35 @@ const renderMessages = messages => {
   });
 };
 
-const Messaging = ({ messages, toggleMessagingView }) => {
+const Messaging = ({
+  messages,
+  toggleMessagingView,
+  sendMessage,
+  updateMessage,
+  currentMessage,
+  hideNav,
+}) => {
   return (
     <StyleContainer>
       <div style={{ position: 'relative' }}>
-        <div className="chatIconWrap">
-          <FontAwesomeIcon
-            icon={faCalendarAlt}
-            onClick={() => toggleMessagingView(false)}
-          />
-        </div>
-        <h2>Holiday Messages</h2>
+        {!hideNav && (
+          <div className="chatIconWrap">
+            <FontAwesomeIcon
+              icon={faCalendarAlt}
+              onClick={() => toggleMessagingView(false)}
+            />
+          </div>
+        )}
+        {!hideNav && <h2>Holiday Messages</h2>}
         <ChatBox>{renderMessages(messages)}</ChatBox>
         <div className="replyBox">
           <span>Send Reply: </span>
           <div>
-            <ReplyBox />
-            <SendButton>
+            <ReplyBox
+              value={currentMessage}
+              onChange={event => updateMessage(event.target.value)}
+            />
+            <SendButton onClick={sendMessage}>
               <FontAwesomeIcon icon={faPaperPlane} />
             </SendButton>
           </div>
@@ -87,7 +99,11 @@ const Messaging = ({ messages, toggleMessagingView }) => {
 
 Messaging.propTypes = {
   messages: PT.array.isRequired,
-  toggleMessagingView: PT.func.isRequired,
+  toggleMessagingView: PT.func,
+  sendMessage: PT.func.isRequired,
+  updateMessage: PT.func.isRequired,
+  currentMessage: PT.string.isRequired,
+  hideNav: PT.bool,
 };
 
 export default container(Messaging);
