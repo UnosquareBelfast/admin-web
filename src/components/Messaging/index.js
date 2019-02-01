@@ -31,16 +31,14 @@ const MessageBlock = ({
       <MessageMetaWrap>
         <span>
           <FontAwesomeIcon icon={faUser} />
-          {author}
+          {messageTypeId === messageTypes.REJECTED ? 'Declined' : author}
         </span>
         <span>
           <FontAwesomeIcon icon={faClock} />
           {lastModified}
         </span>
       </MessageMetaWrap>
-      <Message declined={messageTypeId === messageTypes.declined}>
-        {message}
-      </Message>
+      <Message declined={false}>{message}</Message>
     </Fragment>
   );
 };

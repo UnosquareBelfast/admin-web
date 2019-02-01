@@ -42,8 +42,7 @@ export const ChatBox = styled.div`
 
 export const Message = styled.div`
   padding: 10px;
-  background-color: ${({ theme, declined }) =>
-    declined ? theme.colours.unoBlue : theme.colours.red};
+  background-color: ${({ msgColor }) => msgColor};
   border-radius: 8px;
   color: white;
   line-height: 24px;
