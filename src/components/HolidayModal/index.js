@@ -79,7 +79,6 @@ const HolidayModal = ({
             <Fragment>
               <Messaging
                 hideNav
-                // toggleMessagingView={}
                 eventId={eventId}
               />
               <Stat>

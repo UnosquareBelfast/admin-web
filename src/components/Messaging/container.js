@@ -18,10 +18,10 @@ const Container = Wrapped =>
     }
 
     componentDidMount() {
-      this.getMessages();
+      this.sendGetMessageRequest();
     }
 
-    getMessages = () => {
+    sendGetMessageRequest = () => {
       getEventMessages(this.props.eventId).then(response => {
         this.setState({ messages: response.data });
       });
@@ -30,7 +30,7 @@ const Container = Wrapped =>
     sendMessage = () => {
       const { eventId } = this.props;
       const { currentMessage } = this.state;
-      sendMessage(eventId, currentMessage).then(this.getMessages);
+      sendMessage(eventId, currentMessage).then(this.sendGetMessageRequest);
       this.setState({ currentMessage: '' });
     };
 
