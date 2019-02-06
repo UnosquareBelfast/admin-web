@@ -3,12 +3,6 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import {
-  validationMessage,
-  checkIfPastDatesSelected,
-  checkIfDatesFallOnWeekend,
-  checkIfSelectedDatesOverlapExisting,
-} from '../../utilities/dashboardEvents';
-import {
   selectBooking,
   setEventBeingUpdated,
   updateEventDuration,
@@ -42,29 +36,6 @@ const BookingCalendarContainer = Wrapped =>
       this.openModal();
       this.props.updateEventDuration(event);
       this.props.setEventBeingUpdated(isBeingUpdated);
-    };
-
-    handleCalendarValidation = (start, end) => {
-      const { events, employeeId } = this.props;
-      const pastDatesSelected = checkIfPastDatesSelected(start);
-      const datesFallOnWeekend = checkIfDatesFallOnWeekend(start, end);
-      if (pastDatesSelected) {
-        return validationMessage.PAST_DATES_SELECTED;
-      } else if (datesFallOnWeekend) {
-        return validationMessage.WEEKEND_DATES_SELECTED;
-      } else {
-        const datesOverlapExisting = checkIfSelectedDatesOverlapExisting(
-          events,
-          employeeId,
-          start,
-          end
-        );
-        if (datesOverlapExisting) {
-          return validationMessage.DATES_ALREADY_REQUESTED;
-        } else {
-          return validationMessage.DATES_APPROVED;
-        }
-      }
     };
 
     render() {
