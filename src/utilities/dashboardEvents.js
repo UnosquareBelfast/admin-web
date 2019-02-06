@@ -5,6 +5,7 @@ import mandatoryEvents from './mandatoryEvents';
 import { flow } from 'lodash/fp';
 import store from '../store';
 import { getAllEvents, getUserId } from '../reducers';
+import holidayStatus from './holidayStatus';
 
 export const transformEvents = allEvents => {
   return new Promise(resolve => {
@@ -199,6 +200,10 @@ export const checkOverlappingEvents = (start, end, eventId) => {
 
     if (typeof thisEvent != 'undefined') {
       isCurrentEvent = thisEvent === event.eventId;
+    }
+
+    if (event.eventStatus.eventStatusId === holidayStatus.CANCELLED) {
+      return false;
     }
 
     if (isCurrentEvent) {

@@ -5,10 +5,9 @@ import { withFormik } from 'formik';
 import DatePicker from 'react-datepicker';
 import { isSameDay, getDurationBetweenDates } from '../../../utilities/dates';
 import { checkOverlappingEvents } from '../../../utilities/dashboardEvents';
-import { getHolidayStats } from '../../../reducers';
 import eventTypes from '../../../utilities/eventTypes';
 import holidayStatus from '../../../utilities/holidayStatus';
-import store from '../../../store';
+
 
 const FormikEnhancer = withFormik({
   displayName: 'Update Event Form',
