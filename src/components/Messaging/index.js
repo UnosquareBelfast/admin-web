@@ -16,7 +16,7 @@ import {
   faUser,
   faPaperPlane,
 } from '@fortawesome/fontawesome-free-solid';
-import messageTypes from '../../utilities/messageTypes';
+import { messageTypeColors } from '../../utilities/messageTypes';
 import moment from 'moment';
 
 const MessageBlock = ({
@@ -24,36 +24,51 @@ const MessageBlock = ({
   author,
   lastModified,
   eventMessageId,
-  messageTypeId,
+  eventMessageTypeId,
 }) => {
   return (
     <Fragment key={eventMessageId}>
       <MessageMetaWrap>
         <span>
           <FontAwesomeIcon icon={faUser} />
-          {messageTypeId === messageTypes.REJECTED ? 'Declined' : author}
+          {author}
         </span>
         <span>
           <FontAwesomeIcon icon={faClock} />
           {lastModified}
         </span>
       </MessageMetaWrap>
-      <Message declined={false}>{message}</Message>
+      <Message msgColor={messageTypeColors[eventMessageTypeId]}>
+        {message}
+      </Message>
     </Fragment>
   );
 };
 
+MessageBlock.propTypes = {
+  message: PT.string.isRequired,
+  author: PT.string.isRequired,
+  lastModified: PT.string.isRequired,
+  eventMessageId: PT.number.isRequired,
+  eventMessageTypeId: PT.number.isRequired,
+};
+
 const renderMessages = messages => {
   return messages.map(message => {
-    const { employee, lastModified, eventMessageId, messageTypeId } = message;
+    const {
+      employee,
+      lastModified,
+      eventMessageId,
+      eventMessageTypeId,
+    } = message;
 
     return (
       <MessageBlock
         message={message.message}
         author={`${employee.forename} ${employee.surname}`}
-        lastModified={moment(lastModified).format('DD-MM-YYYY')}
+        lastModified={moment(lastModified).format('LLLL')}
         key={eventMessageId}
-        messageTypeId={messageTypeId}
+        eventMessageTypeId={eventMessageTypeId}
       />
     );
   });
