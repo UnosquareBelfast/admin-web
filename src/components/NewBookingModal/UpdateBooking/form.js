@@ -3,11 +3,11 @@ import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import { withFormik } from 'formik';
 import DatePicker from 'react-datepicker';
+
 import { isSameDay, getDurationBetweenDates } from '../../../utilities/dates';
 import { checkOverlappingEvents } from '../../../utilities/dashboardEvents';
 import eventTypes from '../../../utilities/eventTypes';
 import holidayStatus from '../../../utilities/holidayStatus';
-
 
 const FormikEnhancer = withFormik({
   displayName: 'Update Event Form',
@@ -102,6 +102,7 @@ const FormikEnhancer = withFormik({
   handleSubmit: (payload, bag) => {
     bag.props.handleFormSubmit(payload);
   },
+
 });
 
 class RawForm extends Component {
@@ -123,6 +124,19 @@ class RawForm extends Component {
       <li key={Object.keys(errors)[index]}>{error}</li>
     ));
   };
+
+  dateSelectionChanged = (value) => {
+    const { values, setFieldValue } = this.props;
+    if (values.endDate.isBefore(value)) {
+      setFieldValue('startDate', value);
+      setFieldValue('endDate', value);
+    } else if (values.isHalfDay) {
+      setFieldValue('endDate', value);
+      setFieldValue('startDate', value);
+    } else {
+      setFieldValue('startDate', value);
+    }
+  }
 
   render() {
     const {
@@ -150,7 +164,7 @@ class RawForm extends Component {
         <DatePicker
           id="startDate"
           selected={values.startDate}
-          onChange={value => setFieldValue('startDate', value)}
+          onChange={value => this.dateSelectionChanged(value)}
           className={errors.startDate && touched.startDate ? 'error' : ''}
         />
         {values.isHalfDay === false && (
@@ -161,6 +175,7 @@ class RawForm extends Component {
               selected={values.endDate}
               onChange={value => setFieldValue('endDate', value)}
               className={errors.endDate && touched.endDate ? 'error' : ''}
+              minDate={values.startDate}
             />
           </Fragment>
         )}
