@@ -188,6 +188,7 @@ class RawForm extends Component {
               : 'multi'
           }
           rows="2"
+          style={{marginBottom: '20px'}}
         />
         {Object.keys(errors).length ? this.renderErrors(errors) : null}
         <button type="update" disabled={Object.keys(errors).length > 0}>
