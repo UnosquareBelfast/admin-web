@@ -42,7 +42,7 @@ export const ChatBox = styled.div`
 
 export const Message = styled.div`
   padding: 10px;
-  background-color: ${({ theme, msgColor }) => theme.colours.unoBlue};
+  background-color: ${({ msgColor }) => msgColor};
   border-radius: 8px;
   color: white;
   line-height: 24px;
