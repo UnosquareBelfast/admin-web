@@ -1,18 +1,13 @@
 import moment from 'moment';
+import { dateFilter, standardTextFilter, dateSort } from './cellUtils';
 
 const startDate = {
   id: 'startDate',
   Header: 'Start Date',
-  accessor: contract => {
-    const startDate = new moment(contract.startDate, 'YYYY-MM-DD');
-    return startDate.format('Do MMMM YYYY');
-  },
-  sortMethod: (a, b) => (moment(a).isBefore(moment(b)) ? 1 : -1),
-  filterMethod: ({ value }, { startDate }) =>
-    moment(startDate)
-      .format('Do MMM YYYY')
-      .toLowerCase()
-      .includes(value.toLowerCase()),
+  accessor: contract => contract.startDate,
+  Cell: cell => moment(cell.row.startDate).format('Do MMM YYYY'),
+  sortMethod: dateSort,
+  filterMethod: ({ value }, { startDate }) => dateFilter(startDate, value),
 };
 
 const endDate = {
@@ -25,26 +20,22 @@ const endDate = {
     }
     return endDate.format('Do MMMM YYYY');
   },
-  sortMethod: (a, b) => (moment(a).isBefore(moment(b)) ? 1 : -1),
-  filterMethod: ({ value }, { endDate }) =>
-    moment(endDate)
-      .format('Do MMM YYYY')
-      .toLowerCase()
-      .includes(value.toLowerCase()),
+  sortMethod: dateSort,
+  filterMethod: ({ value }, { endDate }) => dateFilter(endDate, value),
 };
 
 const clientName = {
   id: 'clientName',
   Header: 'Client',
   accessor: contract => contract.clientName,
-  filterMethod: ({ value }, { clientName }) => clientName.toLowerCase().includes(value.toLowerCase()),
+  filterMethod: ({ value }, { clientName }) => standardTextFilter(clientName, value),
 };
 
 const teamName = {
   id: 'teamName',
   Header: 'Team',
   accessor: contract => contract.team.teamName,
-  filterMethod: ({ value }, { teamName }) => teamName.toLowerCase().includes(value.toLowerCase()),
+  filterMethod: ({ value }, { teamName }) => standardTextFilter(teamName, value),
 };
 
 export default {

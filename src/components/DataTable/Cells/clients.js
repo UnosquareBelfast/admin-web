@@ -1,8 +1,10 @@
+import { standardTextFilter } from './cellUtils';
+
 const clientName = {
   id: 'clientName',
   Header: 'Client',
   accessor: client => client.clientName,
-  filterMethod: ({ value }, { clientName }) => clientName.toLowerCase().includes(value.toLowerCase()),
+  filterMethod: ({ value }, { clientName }) => standardTextFilter(clientName, value),
 };
 
 export default {

@@ -1,22 +1,24 @@
+import { standardTextFilter } from './cellUtils';
+
 const fullName = {
   id: 'fullName',
   Header: 'Full Name',
   accessor: user => user.name,
-  filterMethod: ({ value }, { fullName }) => fullName.toLowerCase().includes(value.toLowerCase()),
+  filterMethod: ({ value }, { fullName }) => standardTextFilter(fullName, value),
 };
   
 const state = {
   id: 'state',
   Header: 'State',
   accessor: user => user.state,
-  filterMethod: ({ value }, { state }) => state.toLowerCase().includes(value.toLowerCase()),
+  filterMethod: ({ value }, { state }) => standardTextFilter(state, value),
 };
   
 const team = {
   id: 'team',
   Header: 'Team',
   accessor: user => user.team,
-  filterMethod: ({ value }, { team }) => team.toLowerCase().includes(value.toLowerCase()),
+  filterMethod: ({ value }, { team }) => standardTextFilter(team, value),
 };
   
   
