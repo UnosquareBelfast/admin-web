@@ -83,3 +83,10 @@ export const calculateDaysNotice = daysRequested => {
     return 0;
   }
 };
+
+export const checkSameMonth = (dateOne, dateTwo) => {
+  if (moment(dateOne).month() === moment(dateTwo).month()) {
+    return true;
+  }
+  return false;
+};
