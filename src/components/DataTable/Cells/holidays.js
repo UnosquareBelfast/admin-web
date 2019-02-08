@@ -26,6 +26,7 @@ const employee = {
   id: 'employee',
   Header: 'Employee',
   accessor: ({ employee }) => `${employee.forename} ${employee.surname}`,
+  filterMethod: ({ value }, { employee }) => employee.toLowerCase().includes(value.toLowerCase()),
 };
 
 const startDate = {
@@ -34,7 +35,7 @@ const startDate = {
   accessor: holiday => holiday.eventDates[0].startDate,
 
   Cell: cell => moment(cell.row.startDate).format('Do MMM YYYY'),
-  sortMethod: (a, b) => (a.isBefore(b) ? 1 : -1),
+  sortMethod: (a, b) => (moment(a).isBefore(moment(b)) ? 1 : -1),
   filterMethod: ({ value }, { startDate }) =>
     moment(startDate)
       .format('Do MMM YYYY')
@@ -48,7 +49,7 @@ const endDate = {
   accessor: holiday =>
     holiday.eventDates[holiday.eventDates.length - 1].endDate,
   Cell: cell => moment(cell.row.endDate).format('Do MMM YYYY'),
-  sortMethod: (a, b) => (a.isBefore(b) ? 1 : -1),
+  sortMethod: (a, b) => (moment(a).isBefore(moment(b)) ? 1 : -1),
   filterMethod: ({ value }, { endDate }) =>
     moment(endDate)
       .format('Do MMM YYYY')
@@ -72,6 +73,9 @@ const requestedDate = {
     }
     return diff > 0 ? `${diff} Days Ago` : 'Today';
   },
+
+  filterMethod: ({ value }, { requestedDate }) => requestedDate.toLowerCase().includes(value.toLowerCase()),
+
 };
 
 export default {
