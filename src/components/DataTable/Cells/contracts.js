@@ -7,6 +7,12 @@ const startDate = {
     const startDate = new moment(contract.startDate, 'YYYY-MM-DD');
     return startDate.format('Do MMMM YYYY');
   },
+  sortMethod: (a, b) => (moment(a).isBefore(moment(b)) ? 1 : -1),
+  filterMethod: ({ value }, { startDate }) =>
+    moment(startDate)
+      .format('Do MMM YYYY')
+      .toLowerCase()
+      .includes(value.toLowerCase()),
 };
 
 const endDate = {
@@ -19,18 +25,26 @@ const endDate = {
     }
     return endDate.format('Do MMMM YYYY');
   },
+  sortMethod: (a, b) => (moment(a).isBefore(moment(b)) ? 1 : -1),
+  filterMethod: ({ value }, { endDate }) =>
+    moment(endDate)
+      .format('Do MMM YYYY')
+      .toLowerCase()
+      .includes(value.toLowerCase()),
 };
 
 const clientName = {
   id: 'clientName',
   Header: 'Client',
   accessor: contract => contract.clientName,
+  filterMethod: ({ value }, { clientName }) => clientName.toLowerCase().includes(value.toLowerCase()),
 };
 
 const teamName = {
   id: 'teamName',
   Header: 'Team',
   accessor: contract => contract.team.teamName,
+  filterMethod: ({ value }, { teamName }) => teamName.toLowerCase().includes(value.toLowerCase()),
 };
 
 export default {
