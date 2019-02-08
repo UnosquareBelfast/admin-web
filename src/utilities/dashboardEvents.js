@@ -5,6 +5,7 @@ import mandatoryEvents from './mandatoryEvents';
 import { flow } from 'lodash/fp';
 import store from '../store';
 import { getAllEvents, getUserId } from '../reducers';
+import holidayStatus from './holidayStatus';
 
 export const transformEvents = allEvents => {
   return new Promise(resolve => {
@@ -129,18 +130,6 @@ export const halfDayValidation = formData => {
   return formData;
 };
 
-/* 
-  Events Validation
-*/
-
-export const validationMessage = {
-  PAST_DATES_SELECTED: 'Unable to select past dates',
-  WEEKEND_DATES_SELECTED: 'Unable to select weekend dates',
-  DATES_ALREADY_REQUESTED:
-    'You cannot request dates that have already been set',
-  DATES_APPROVED: 'Dates approved',
-};
-
 export const checkIfPastDatesSelected = start => {
   const today = new moment();
   return moment(start).isBefore(today, 'day');
@@ -199,6 +188,10 @@ export const checkOverlappingEvents = (start, end, eventId) => {
 
     if (typeof thisEvent != 'undefined') {
       isCurrentEvent = thisEvent === event.eventId;
+    }
+
+    if (event.eventStatus.eventStatusId === holidayStatus.CANCELLED) {
+      return false;
     }
 
     if (isCurrentEvent) {

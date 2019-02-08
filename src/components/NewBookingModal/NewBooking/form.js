@@ -103,6 +103,19 @@ class RawForm extends Component {
     );
   };
 
+  dateSelectionChanged = (value) => {
+    const { values, setFieldValue } = this.props;
+    if (values.endDate.isBefore(value)) {
+      setFieldValue('startDate', value);
+      setFieldValue('endDate', value);
+    } else if (values.isHalfDay) {
+      setFieldValue('endDate', value);
+      setFieldValue('startDate', value);
+    } else {
+      setFieldValue('startDate', value);
+    }
+  }
+
   render() {
     const {
       values,
@@ -129,7 +142,7 @@ class RawForm extends Component {
         <DatePicker
           id="startDate"
           selected={values.startDate}
-          onChange={value => setFieldValue('startDate', value)}
+          onChange={value => this.dateSelectionChanged(value)}
           className={errors.startDate && touched.startDate ? 'error' : ''}
         />
         {values.halfDay === false && (
@@ -140,6 +153,7 @@ class RawForm extends Component {
               selected={values.endDate}
               onChange={value => setFieldValue('endDate', value)}
               className={errors.endDate && touched.endDate ? 'error' : ''}
+              minDate={values.startDate}
             />
           </Fragment>
         )}

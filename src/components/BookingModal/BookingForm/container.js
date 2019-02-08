@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { selectBooking, updateEventDuration } from '../../../actions/dashboard';
 import {
-  validationMessage,
   checkIfPastDatesSelected,
   checkIfDatesFallOnWeekend,
   checkIfSelectedDatesOverlapExisting,

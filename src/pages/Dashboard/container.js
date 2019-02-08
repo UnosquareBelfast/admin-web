@@ -9,6 +9,12 @@ import eventsView from '../../utilities/eventsView';
 import moment from 'moment';
 import eventTypes from '../../utilities/eventTypes';
 import holidayStatus from '../../utilities/holidayStatus';
+import {
+  checkIfPastDatesSelected,
+  checkIfDatesFallOnWeekend,
+} from '../../utilities/dashboardEvents';
+import { checkSameMonth } from '../../utilities/dates';
+import { Toast } from '../../utilities/Notifications';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
@@ -182,6 +188,32 @@ const DashboardContainer = Wrapped =>
       this.props.fetchEvents(calendarDate, eventView, force);
     };
 
+    validateSlotSelection = slot => {
+      const { calendarDate } = this.state;
+
+      if (!checkSameMonth(slot.start, calendarDate)) {
+        return false;
+      }
+
+      if (checkIfPastDatesSelected(slot.start)) {
+        Toast({
+          type: 'warning',
+          title: 'Cannot select past dates',
+        });
+        return false;
+      }
+
+      if (checkIfDatesFallOnWeekend(slot.start, slot.end)) {
+        Toast({
+          type: 'warning',
+          title: 'Cannot select weekends',
+        });
+        return false;
+      }
+
+      return true;
+    }
+
     selectCalendarSlot = bookingEvent => {
       const {
         userDetails: { employeeId },
@@ -197,12 +229,14 @@ const DashboardContainer = Wrapped =>
           );
         }
       } else {
-        this.setState(
-          {
-            selectedBooking: { ...bookingEvent },
-          },
-          () => this.toggleBookingModal(true)
-        );
+        if (this.validateSlotSelection(bookingEvent)) {
+          this.setState(
+            {
+              selectedBooking: { ...bookingEvent },
+            },
+            () => this.toggleBookingModal(true)
+          );
+        }
       }
     };
 
