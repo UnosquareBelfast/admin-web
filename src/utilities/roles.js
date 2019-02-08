@@ -4,4 +4,4 @@ export default {
   STANDARD: 3,
 };
 
-export const roleText = [null, 'Team Leader', 'Administrator', 'Employee'];
+export const roleText = {1: 'Team Leader', 2: 'Administrator', 3: 'Employee'}
