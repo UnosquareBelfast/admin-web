@@ -1,3 +1,6 @@
+import { roleText } from '../../../utilities/roles';
+import { countryText } from '../../../utilities/countries';
+
 const fullName = {
   id: 'fullName',
   Header: 'Full Name',
@@ -19,13 +22,13 @@ const email = {
 const location = {
   id: 'location',
   Header: 'Location',
-  accessor: user => user.countryDescription,
+  accessor: user => countryText[user.countryId],
 };
 
 const role = {
   id: 'role',
   Header: 'Role',
-  accessor: user => user.employeeRoleDescription,
+  accessor: user => roleText[user.employeeRoleId],
 };
 
 const state = {
