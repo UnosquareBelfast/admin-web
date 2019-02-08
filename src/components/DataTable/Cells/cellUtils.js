@@ -15,4 +15,4 @@ export const dateFilter = (dateToMatch, search) => {
 
 export const dateSort = (dateA, dateB) => {
   return moment(dateA).isBefore(moment(dateB)) ? 1 : -1; 
-}
+};
