@@ -148,13 +148,6 @@ export const checkIfDatesFallOnWeekend = (start, end) => {
   }
 };
 
-export const checkSameMonth = (dateOne, dateTwo) => {
-  if (moment(dateOne).month() === moment(dateTwo).month()) {
-    return true;
-  }
-  return false;
-};
-
 export const checkIfSelectedDatesOverlapExisting = (
   events,
   employeeId,

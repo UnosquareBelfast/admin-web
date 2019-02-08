@@ -9,9 +9,11 @@ import eventsView from '../../utilities/eventsView';
 import moment from 'moment';
 import eventTypes from '../../utilities/eventTypes';
 import holidayStatus from '../../utilities/holidayStatus';
-import {checkIfPastDatesSelected,
+import {
+  checkIfPastDatesSelected,
   checkIfDatesFallOnWeekend,
-  checkSameMonth } from '../../utilities/dashboardEvents';
+} from '../../utilities/dashboardEvents';
+import { checkSameMonth } from '../../utilities/dates';
 import { Toast } from '../../utilities/Notifications';
 
 const DashboardContainer = Wrapped =>
