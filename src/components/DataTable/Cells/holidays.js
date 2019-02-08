@@ -1,7 +1,9 @@
 import React from 'react';
+import { dateFilter, standardTextFilter, dateSort } from './cellUtils';
 import holidayStatus, { statusText } from '../../../utilities/holidayStatus';
 import { theme } from '../../../styled';
 import moment from 'moment';
+
 
 const status = {
   id: 'status',
@@ -18,29 +20,24 @@ const status = {
       },
     };
   },
-  filterMethod: ({ value }, { status }) =>
-    statusText[status].toLowerCase().includes(value.toLowerCase()),
+  filterMethod: ({ value }, { status }) => standardTextFilter(statusText[status], value),
 };
 
 const employee = {
   id: 'employee',
   Header: 'Employee',
   accessor: ({ employee }) => `${employee.forename} ${employee.surname}`,
+  filterMethod: ({ value }, { employee }) => standardTextFilter(employee, value),
 };
 
 const startDate = {
   id: 'startDate',
   Header: 'Start Date',
   accessor: holiday => holiday.eventDates[0].startDate,
-
   Cell: cell =>
     `${moment(cell.row.startDate).format('Do MMM YYYY')} ${cell.original.eventDates[0].isHalfDay ? '½' : ''}`,
-  sortMethod: (a, b) => (a.isBefore(b) ? 1 : -1),
-  filterMethod: ({ value }, { startDate }) =>
-    moment(startDate)
-      .format('Do MMM YYYY')
-      .toLowerCase()
-      .includes(value.toLowerCase()),
+  sortMethod: dateSort,
+  filterMethod: ({ value }, { startDate }) => dateFilter(startDate, value),
 };
 
 const endDate = {
@@ -50,12 +47,8 @@ const endDate = {
     holiday.eventDates[holiday.eventDates.length - 1].endDate,
   Cell: cell =>
     `${moment(cell.row.endDate).format('Do MMM YYYY')} ${cell.original.eventDates[0].isHalfDay ? '½' : ''}`,
-  sortMethod: (a, b) => (a.isBefore(b) ? 1 : -1),
-  filterMethod: ({ value }, { endDate }) =>
-    moment(endDate)
-      .format('Do MMM YYYY')
-      .toLowerCase()
-      .includes(value.toLowerCase()),
+  sortMethod: dateSort,
+  filterMethod: ({ value }, { endDate }) => dateFilter(endDate, value),
 };
 
 const requestedDate = {
@@ -74,6 +67,9 @@ const requestedDate = {
     }
     return diff > 0 ? `${diff} Days Ago` : 'Today';
   },
+
+  filterMethod: ({ value }, { requestedDate }) => 
+    standardTextFilter(requestedDate, value),
 };
 
 export default {
