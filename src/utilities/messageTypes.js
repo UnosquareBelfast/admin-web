@@ -6,8 +6,9 @@ export default {
   REJECTED: 3,
 };
 
-export const messageTypeColors = {
-  GENERAL: theme.colours.unoBlue,
-  UPDATED: theme.colours.yellow,
-  REJECTED: theme.colours.red,
-};
+export const messageTypeColors = [
+  null,
+  theme.colours.lightUnoBlue,
+  theme.colours.lightYellow,
+  theme.colours.lightRed,
+];
