@@ -33,7 +33,8 @@ const startDate = {
   Header: 'Start Date',
   accessor: holiday => holiday.eventDates[0].startDate,
 
-  Cell: cell => moment(cell.row.startDate).format('Do MMM YYYY'),
+  Cell: cell =>
+    `${moment(cell.row.startDate).format('Do MMM YYYY')} ${cell.original.eventDates[0].isHalfDay ? '½' : ''}`,
   sortMethod: (a, b) => (a.isBefore(b) ? 1 : -1),
   filterMethod: ({ value }, { startDate }) =>
     moment(startDate)
@@ -47,7 +48,8 @@ const endDate = {
   Header: 'End Date',
   accessor: holiday =>
     holiday.eventDates[holiday.eventDates.length - 1].endDate,
-  Cell: cell => moment(cell.row.endDate).format('Do MMM YYYY'),
+  Cell: cell =>
+    `${moment(cell.row.endDate).format('Do MMM YYYY')} ${cell.original.eventDates[0].isHalfDay ? '½' : ''}`,
   sortMethod: (a, b) => (a.isBefore(b) ? 1 : -1),
   filterMethod: ({ value }, { endDate }) =>
     moment(endDate)
