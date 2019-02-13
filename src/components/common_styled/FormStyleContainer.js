@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const FormContainer = styled.div`
+export const FormStyleContainer = styled.div`
   .chatIconWrap {
     position: absolute;
     top: -13px;
@@ -16,8 +16,6 @@ export const FormContainer = styled.div`
       }
     }
   }
-
-  padding: 0 15px 10px 15px;
 
   h2 {
     user-select: none;
@@ -57,6 +55,7 @@ export const FormContainer = styled.div`
     background-color: ${props => props.theme.colours.unoBlue};
     color: ${props => props.theme.colours.white};
     font-weight: bold;
+    cursor: pointer;
   }
 
   form > label {
@@ -92,5 +91,11 @@ export const FormContainer = styled.div`
       list-style: none;
       margin: 5px 0;
     }
+  }
+
+  .error {
+    border-color: ${props => props.theme.colours.red};
+    border-width: 1.5px;
+    outline: none;
   }
 `;
