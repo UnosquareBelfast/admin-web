@@ -8,6 +8,7 @@ export default Wrapped =>
       super(props);
       this.state = {
         teams: [],
+        selectedTeam: null,
       };
     }
 
@@ -22,12 +23,21 @@ export default Wrapped =>
         );
     };
 
+    selectTeam = (selectedTeam, clientToRefresh) => {
+      this.setState({ selectedTeam });
+      if (clientToRefresh) {
+        this.teamSearch(clientToRefresh);
+      }
+    };
+
     render() {
       return (
         <Wrapped
           {...this.props}
           teamSearch={this.teamSearch}
           teams={this.state.teams}
+          selectedTeam={this.state.selectedTeam}
+          selectTeam={this.selectTeam}
         />
       );
     }
