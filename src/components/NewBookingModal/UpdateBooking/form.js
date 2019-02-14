@@ -102,7 +102,6 @@ const FormikEnhancer = withFormik({
   handleSubmit: (payload, bag) => {
     bag.props.handleFormSubmit(payload);
   },
-
 });
 
 class RawForm extends Component {
@@ -125,7 +124,7 @@ class RawForm extends Component {
     ));
   };
 
-  dateSelectionChanged = (value) => {
+  dateSelectionChanged = value => {
     const { values, setFieldValue } = this.props;
     if (values.endDate.isBefore(value)) {
       setFieldValue('startDate', value);
@@ -136,7 +135,7 @@ class RawForm extends Component {
     } else {
       setFieldValue('startDate', value);
     }
-  }
+  };
 
   render() {
     const {
@@ -179,7 +178,7 @@ class RawForm extends Component {
             />
           </Fragment>
         )}
-        <div className="half-day">
+        <div className="checkbox">
           <input
             type="checkbox"
             id="isHalfDay"
@@ -202,7 +201,7 @@ class RawForm extends Component {
               : 'multi'
           }
           rows="2"
-          style={{marginBottom: '20px'}}
+          style={{ marginBottom: '20px' }}
         />
         {Object.keys(errors).length ? this.renderErrors(errors) : null}
         <button type="update" disabled={Object.keys(errors).length > 0}>

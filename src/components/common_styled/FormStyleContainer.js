@@ -1,22 +1,6 @@
 import styled from 'styled-components';
 
 export const FormStyleContainer = styled.div`
-  .chatIconWrap {
-    position: absolute;
-    top: -13px;
-    display: flex;
-    flex-direction: row-reverse;
-    width: calc(100% - 10px);
-    > svg {
-      color: #999999;
-      cursor: pointer;
-      margin-left: 10px;
-      :hover {
-        color: black;
-      }
-    }
-  }
-
   h2 {
     user-select: none;
     margin: 15px 0 20px 0;
@@ -62,23 +46,23 @@ export const FormStyleContainer = styled.div`
     margin-bottom: 2px;
   }
 
-  .half-day {
+  .checkbox {
     margin-bottom: 8px;
   }
 
-  .half-day label {
+  .checkbox label {
     padding: 0px 10px;
     position: relative;
     top: -3px;
   }
 
-  .half-day input {
+  .checkbox input {
     width: 17px;
     height: 17px;
     margin-top: 10px;
   }
 
-  .half-day input:disabled ~ label {
+  .checkbox input:disabled ~ label {
     opacity: 0.3;
   }
 
