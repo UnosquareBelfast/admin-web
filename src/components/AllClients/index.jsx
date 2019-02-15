@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Button } from '../common';
 import { CornerButton } from '../common_styled';
-import { DataTable, ClientModal } from '../';
+import { DataTable, EditClientModal } from '../';
 import ClientCells from '../DataTable/Cells/clients';
 
 export const AllClients = ({
@@ -14,12 +14,14 @@ export const AllClients = ({
 }) => {
   return (
     <Fragment>
-      <ClientModal
-        client={selectedClient}
-        visible={selectedClient}
-        history={history}
-        closeModal={() => selectClient(null)}
-      />
+      {selectedClient && (
+        <EditClientModal
+          client={selectedClient}
+          visible={selectedClient}
+          history={history}
+          closeModal={selectClient}
+        />
+      )}
       <CornerButton>
         <Button
           onClick={() => history.replace('/admin/clients/new')}

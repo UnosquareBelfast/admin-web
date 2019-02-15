@@ -14,6 +14,10 @@ export default Wrapped =>
     }
 
     componentDidMount() {
+      this.getClients();
+    }
+
+    getClients = () => {
       getAllClients()
         .then(response => {
           const clients = response.data;
@@ -22,9 +26,14 @@ export default Wrapped =>
         .catch(error => {
           Swal('Error', `Error getting clients: ${error.message}`, 'error');
         });
-    }
+    };
 
-    selectClient = selectedClient => this.setState({ selectedClient });
+    selectClient = (selectedClient, shouldRefresh) => {
+      this.setState({ selectedClient });
+      if (shouldRefresh) {
+        this.getClients();
+      }
+    };
 
     render() {
       return (

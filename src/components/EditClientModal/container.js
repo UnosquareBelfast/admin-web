@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { updateTeam } from '../../services/teamService';
+import { updateClient } from '../../services/clientService';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -9,8 +9,8 @@ const Container = Wrapped =>
     };
 
     handleFormSubmit = (original, data) => {
-      updateTeam(original.clientId, original.teamId, data.teamName).then(() => {
-        this.props.closeModal(null, true);
+      updateClient(original.clientId, data.clientName).then(() => {
+        this.props.closeModal(null, original.clientId);
       });
     };
 
