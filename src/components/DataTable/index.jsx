@@ -45,7 +45,7 @@ class DataTable extends Component {
 
   renderTable = formattedColumns => {
     const { data, pageSize: defaultPageSize, onRowClick } = this.props;
-    const { page: currentPage, pageSize: currentPageSize } = this.state;
+    const { page, pageSize } = this.state;
     return (
       <ReactTable
         {...this.props}
@@ -55,8 +55,8 @@ class DataTable extends Component {
         data={data}
         columns={formattedColumns}
         defaultPageSize={defaultPageSize}
-        page={currentPage}
-        pageSize={currentPageSize}
+        page={page}
+        pageSize={pageSize}
         className="-striped -highlight"
         getTrProps={(state, rowInfo) => {
           return {
