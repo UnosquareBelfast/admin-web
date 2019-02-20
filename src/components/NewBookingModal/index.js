@@ -5,6 +5,7 @@ import container from './container';
 import NewBooking from './NewBooking';
 import UpdateBooking from './UpdateBooking';
 import Messaging from '../Messaging';
+import { BookingModalStyleContainer } from './styled';
 
 const BookingModal = props => {
   const {
@@ -41,14 +42,16 @@ const BookingModal = props => {
 
   return (
     <Modal visible={modalVisible} onClose={() => toggleModal(false)}>
-      {messagingViewVisible ? (
-        <Messaging
-          toggleMessagingView={toggleMessagingView}
-          eventId={selectedBooking.eventId}
-        />
-      ) : (
-        renderBookingForm()
-      )}
+      <BookingModalStyleContainer>
+        {messagingViewVisible ? (
+          <Messaging
+            toggleMessagingView={toggleMessagingView}
+            eventId={selectedBooking.eventId}
+          />
+        ) : (
+          renderBookingForm()
+        )}
+      </BookingModalStyleContainer>
     </Modal>
   );
 };
