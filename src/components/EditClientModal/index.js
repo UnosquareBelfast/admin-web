@@ -34,7 +34,10 @@ const FormikEnhancer = withFormik({
 
 class EditTeamModal extends Component {
   static propTypes = {
-    client: PT.object,
+    client: PT.shape({
+      clientId: PT.number.isRequired,
+      clientName: PT.string.isRequired,
+    }),
     closeModal: PT.func.isRequired,
     values: PT.object.isRequired,
     errors: PT.object.isRequired,
@@ -51,6 +54,8 @@ class EditTeamModal extends Component {
       handleChange,
       handleSubmit,
     } = this.props;
+
+    console.log(client);
 
     return (
       <Modal closeModal={() => closeModal()}>
