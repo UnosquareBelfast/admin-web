@@ -25,7 +25,13 @@ class DataTable extends Component {
     super(props);
     this.state = {
       filter: { value: '', key: '' },
+      page: 0,
+      pageSize: 10,
     };
+  }
+
+  componentDidMount = () => {
+    this.setState({ pageSize: this.props.pageSize });
   }
 
   buildColumns = columns => {
@@ -38,7 +44,8 @@ class DataTable extends Component {
   };
 
   renderTable = formattedColumns => {
-    const { data, pageSize, onRowClick } = this.props;
+    const { data, pageSize: defaultPageSize, onRowClick } = this.props;
+    const { page: currentPage, pageSize: currentPageSize } = this.state;
     return (
       <ReactTable
         {...this.props}
@@ -47,7 +54,9 @@ class DataTable extends Component {
         ]}
         data={data}
         columns={formattedColumns}
-        defaultPageSize={pageSize}
+        defaultPageSize={defaultPageSize}
+        page={currentPage}
+        pageSize={currentPageSize}
         className="-striped -highlight"
         getTrProps={(state, rowInfo) => {
           return {
@@ -57,13 +66,17 @@ class DataTable extends Component {
             },
           };
         }}
+        onPageChange={page => this.setState({ page })}
+        onPageSizeChange={(pageSize, page) => this.setState({ page, pageSize })}
       />
     );
   };
 
   render() {
     const { data, columns, emptyMessage, loading } = this.props;
+    
     const formattedColumns = this.buildColumns(columns);
+  
 
     const labels = formattedColumns.reduce((acc, column) => {
       acc.push(column.Header);
