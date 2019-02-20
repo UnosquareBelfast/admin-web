@@ -55,17 +55,24 @@ const requestedDate = {
   id: 'requestedDate',
   Header: 'Requested',
   accessor: holiday => {
+    const { dateCreated, eventStatus: { eventStatusId } } = holiday;
     const today = moment();
-    const diff = today.diff(holiday.dateCreated, 'days');
-    if (
-      diff >= 5 &&
-      holiday.eventStatus.eventStatusId === holidayStatus.PENDING
-    ) {
-      return (
-        <span style={{ color: 'red', fontWeight: 600 }}>{diff} Days Ago</span>
-      );
+    const totalDaysSinceRequest = today.diff(dateCreated, 'days');
+
+    if (totalDaysSinceRequest === 0) {
+      return 'Today';
     }
-    return diff > 0 ? `${diff} Days Ago` : 'Today';
+    else if (totalDaysSinceRequest === 1) {
+      return '1 Day Ago';
+    } 
+    else if (totalDaysSinceRequest >= 5 && eventStatusId === holidayStatus.PENDING) {
+      return (
+        <span style={{ color: 'red', fontWeight: 600 }}>{totalDaysSinceRequest} Days</span>
+      );
+    } else {
+      return `${totalDaysSinceRequest} Days Ago`;
+    }
+
   },
 
   filterMethod: ({ value }, { requestedDate }) => 
