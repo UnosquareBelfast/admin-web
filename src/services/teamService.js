@@ -7,3 +7,11 @@ export const getTeamsFromClient = clientId => {
 export const createTeam = data => {
   return axios.post('/Team/', data);
 };
+
+export const updateTeam = (clientId, teamId, teamName) => {
+  return axios.put('/Team/', {
+    clientId,
+    teamId,
+    teamName,
+  });
+};

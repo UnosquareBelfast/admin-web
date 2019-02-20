@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { createClient, updateClient } from '../../services/clientService';
+import { createClient } from '../../services/clientService';
 import { Toast } from '../../utilities/Notifications';
 import swal from 'sweetalert2';
 
@@ -28,16 +28,6 @@ export default Wrapped =>
         );
     };
 
-    updateClient = data => {
-      updateClient(data)
-        .then(() => {
-          Toast({ type: 'success', title: 'Client updated sucessfully!' });
-        })
-        .catch(error =>
-          swal('Error', `Error updating client:${error.message}`, 'error')
-        );
-    };
-
     clientsFailedToCreated = error => {
       this.setState({ error });
     };
@@ -57,7 +47,6 @@ export default Wrapped =>
           success={this.state.success}
           error={this.state.error}
           createClient={this.createClient}
-          updateClient={this.updateClient}
         />
       );
     }

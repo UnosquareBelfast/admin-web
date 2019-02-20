@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
+import { PropTypes as PT } from 'prop-types';
 import { getTeamsFromClient } from '../../services/teamService';
 import swal from 'sweetalert2';
 
 export default Wrapped =>
   class extends Component {
+    static propTypes = {
+      history: PT.object.isRequired,
+    };
+
     constructor(props) {
       super(props);
       this.state = {
         teams: [],
+        selectedTeam: null,
       };
     }
 
@@ -22,12 +28,21 @@ export default Wrapped =>
         );
     };
 
+    selectTeam = (selectedTeam, clientToRefresh) => {
+      this.setState({ selectedTeam });
+      if (clientToRefresh) {
+        this.teamSearch(clientToRefresh);
+      }
+    };
+
     render() {
       return (
         <Wrapped
-          {...this.props}
+          history={this.props.history}
           teamSearch={this.teamSearch}
           teams={this.state.teams}
+          selectedTeam={this.state.selectedTeam}
+          selectTeam={this.selectTeam}
         />
       );
     }

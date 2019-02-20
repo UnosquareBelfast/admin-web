@@ -157,7 +157,7 @@ class RawForm extends Component {
             />
           </Fragment>
         )}
-        <div className="half-day">
+        <div className="checkbox">
           <input
             type="checkbox"
             id="halfDay"

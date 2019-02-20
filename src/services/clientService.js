@@ -4,8 +4,8 @@ export const createClient = client => {
   return axios.post('/Client/', client);
 };
 
-export const updateClient = client => {
-  return axios.put('/Client/', client);
+export const updateClient = (clientId, clientName) => {
+  return axios.put('/Client/', { clientId, clientName });
 };
 
 export const getAllClients = () => {
