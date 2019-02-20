@@ -3,8 +3,8 @@ import { shallow } from 'enzyme';
 import { AllHolidays } from '../../src/components';
 import allHolidaysContainer from '../../src/components/AllHolidays/container';
 
-jest.mock('../../src/services/holidayService');
-import * as holidayService from '../../src/services/holidayService';
+jest.mock('../../src/services/eventService');
+import * as holidayService from '../../src/services/eventService';
 
 describe('AllHolidays', () => {
   it('renders correctly', () => {

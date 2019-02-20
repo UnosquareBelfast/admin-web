@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { getUser } from '../../reducers';
-import { getHolidayStats } from '../../services/holidayService';
+import { getHolidayStats } from '../../services/eventService';
 import swal from 'sweetalert2';
 import { isEmpty } from 'lodash';
 import roles from '../../utilities/roles';

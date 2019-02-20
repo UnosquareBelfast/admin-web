@@ -3,10 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { isEmpty } from 'lodash';
-import {
-  approveHoliday,
-  rejectHoliday,
-} from '../../services/holidayService';
+import { approveEvent, rejectEvent } from '../../services/eventService';
 import swal from 'sweetalert2';
 import holidayStatus from '../../utilities/holidayStatus';
 import { Toast } from '../../utilities/Notifications';
@@ -45,7 +42,7 @@ const HolidayModalContainer = Wrapped =>
     approveHoliday = () => {
       const holidayId = this.state.holiday.eventId;
       const { closeModal } = this.props;
-      approveHoliday(holidayId)
+      approveEvent(holidayId)
         .then(() => {
           this.setState({
             holiday: {
@@ -82,11 +79,10 @@ const HolidayModalContainer = Wrapped =>
     };
 
     rejectHoliday = () => {
-
       const { capturedRejectionReasonText, holiday } = this.state;
       const { eventId } = holiday;
 
-      rejectHoliday(eventId, capturedRejectionReasonText)
+      rejectEvent(eventId, capturedRejectionReasonText)
         .then(() => {
           this.setState({
             holiday: {
@@ -111,7 +107,7 @@ const HolidayModalContainer = Wrapped =>
 
     toggleHolidayModalExpansion = toggle => {
       this.setState({ holidayModalExpansion: toggle });
-    }
+    };
 
     closeModalResetRejectionReasonView = () => {
       const { closeModal } = this.props;
@@ -143,9 +139,7 @@ const HolidayModalContainer = Wrapped =>
           userDetails={userDetails}
           showAdminControls={showAdminControls}
           toggled={holidayModalExpansion}
-          toggleHolidayModalExpansion={
-            this.toggleHolidayModalExpansion
-          }
+          toggleHolidayModalExpansion={this.toggleHolidayModalExpansion}
           assignRejectionReasonText={this.assignRejectionReasonText}
           capturedRejectionReasonText={capturedRejectionReasonText}
           rejectionReasonResponse={rejectionReasonResponse}

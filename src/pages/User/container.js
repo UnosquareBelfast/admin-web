@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import roles from '../../utilities/roles';
 import { getUserProfile } from '../../services/userService';
-import { getHolidays } from '../../services/holidayService';
+import { getEvents } from '../../services/eventService';
 
 const UserContainer = Wrapped =>
   class extends React.Component {
@@ -66,7 +66,7 @@ const UserContainer = Wrapped =>
     };
 
     getUserHolidays = id => {
-      return getHolidays(id)
+      return getEvents(id)
         .then(response => {
           this.setState({
             profileHolidays: response.data,

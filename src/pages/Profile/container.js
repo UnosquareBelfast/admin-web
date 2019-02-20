@@ -3,10 +3,10 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { getUser } from '../../reducers';
-import { getHolidays, getHolidayStats } from '../../services/holidayService';
+import { getEvents, getHolidayStats } from '../../services/eventService';
 import { isEmpty } from 'lodash';
 import { getContractsByEmployeeId } from '../../services/contractService';
-import swal from 'sweetalert2';
+import eventTypes from '../../utilities/eventTypes';
 
 const ProfileContainer = Wrapped =>
   class extends React.Component {
@@ -67,7 +67,7 @@ const ProfileContainer = Wrapped =>
 
     getHolidays() {
       this.setState({ holidaysLoading: true });
-      getHolidays(this.props.userDetails.employeeId)
+      getEvents(this.props.userDetails.employeeId, eventTypes.ANNUAL_LEAVE)
         .then(response => {
           const holidays = response.data;
 

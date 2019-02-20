@@ -1,7 +1,6 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { requestHoliday } from '../../../services/holidayService';
-import { requestWFH } from '../../../services/wfhService';
+import { requestEvent } from '../../../services/eventService';
 import eventTypes from '../../../utilities/eventTypes';
 import { Toast } from '../../../utilities/Notifications';
 
@@ -27,14 +26,10 @@ const Container = Wrapped =>
         startDate: data.startDate.format(dateFormat),
         endDate: data.endDate.format(dateFormat),
         isHalfDay: data.halfDay,
+        eventTypeId: data.eventTypeId,
       };
 
-      const endpoint = {
-        [eventTypes.ANNUAL_LEAVE]: requestHoliday,
-        [eventTypes.WFH]: requestWFH,
-      };
-
-      endpoint[data.eventTypeId](request)
+      requestEvent(request)
         .then(() => {
           refreshCalendar();
           toggleModal(false);

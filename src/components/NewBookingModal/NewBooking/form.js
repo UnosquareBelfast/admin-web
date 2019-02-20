@@ -5,7 +5,7 @@ import { withFormik } from 'formik';
 import DatePicker from 'react-datepicker';
 import { isSameDay, getDurationBetweenDates } from '../../../utilities/dates';
 import { checkOverlappingEvents } from '../../../utilities/dashboardEvents';
-import { getHolidayStats } from '../../../reducers';
+import { getEventstats } from '../../../reducers';
 import eventTypes from '../../../utilities/eventTypes';
 import store from '../../../store';
 
@@ -103,7 +103,7 @@ class RawForm extends Component {
     );
   };
 
-  dateSelectionChanged = (value) => {
+  dateSelectionChanged = value => {
     const { values, setFieldValue } = this.props;
     if (values.endDate.isBefore(value)) {
       setFieldValue('startDate', value);
@@ -114,7 +114,7 @@ class RawForm extends Component {
     } else {
       setFieldValue('startDate', value);
     }
-  }
+  };
 
   render() {
     const {

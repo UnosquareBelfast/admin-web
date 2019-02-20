@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { getHolidaysByStatus } from '../../services/holidayService';
+import { getEventsByStatus } from '../../services/eventService';
 import holidayStatus from '../../utilities/holidayStatus';
+import eventTypes from '../../utilities/eventTypes';
 
 export default Wrapped =>
   class extends Component {
@@ -14,9 +15,11 @@ export default Wrapped =>
     }
 
     getPendingHolidays = () => {
-      getHolidaysByStatus(holidayStatus.PENDING).then(response => {
-        this.setState({ pendingHolidays: response.data });
-      });
+      getEventsByStatus(holidayStatus.PENDING, eventTypes.ANNUAL_LEAVE).then(
+        response => {
+          this.setState({ pendingHolidays: response.data });
+        }
+      );
     };
 
     selectHoliday = holiday => this.setState({ selectedHoliday: holiday });

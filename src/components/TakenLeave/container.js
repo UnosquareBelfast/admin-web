@@ -2,7 +2,8 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import Moment from 'moment';
-import { getHolidays } from '../../services/holidayService';
+import { getEvents } from '../../services/eventService';
+import eventTypes from '../../utilities/eventTypes';
 
 export default Wrapped =>
   class extends React.Component {
@@ -18,7 +19,7 @@ export default Wrapped =>
     }
 
     componentDidMount() {
-      getHolidays(this.props.user.user.sub)
+      getEvents(this.props.user.user.sub, eventTypes.ANNUAL_LEAVE)
         .then(response => {
           const pastHolidays = response.data.filter(hol => {
             return this.isDateInThePast(hol.date);
