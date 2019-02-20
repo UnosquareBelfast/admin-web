@@ -36,10 +36,6 @@ export const sendMessage = (eventId, message) => {
   return axios.put('/Event/addMessageToEvent', { eventId, message });
 };
 
-export const getHolidayStats = employeeId => {
-  return axios.get(`/Event/findEmployeeHolidayStats/${employeeId}`);
-};
-
 export const getEventMessages = eventId => {
   return axios.get(`/Event/findEventMessages/${eventId}`);
 };

@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { getUser } from '../../reducers';
-import { getHolidayStats } from '../../services/eventService';
+import { getHolidayStats } from '../../services/holidayService';
 import swal from 'sweetalert2';
 import { isEmpty } from 'lodash';
 import roles from '../../utilities/roles';
@@ -62,7 +62,11 @@ const UserModalContainer = Wrapped =>
 
     render() {
       const { closeModal, userDetails, user, history } = this.props;
-      const { approvedHolidays, pendingHolidays, availableHolidays } = this.state;
+      const {
+        approvedHolidays,
+        pendingHolidays,
+        availableHolidays,
+      } = this.state;
       if (isEmpty(user)) return null;
 
       return (

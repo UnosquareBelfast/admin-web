@@ -1,10 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import {
-  updateEvent,
-  getHolidayStats,
-  cancelEvent,
-} from '../../../services/eventService';
+import { updateEvent, cancelEvent } from '../../../services/eventService';
+import { getHolidayStats } from '../../../services/holidayService';
 import { Toast } from '../../../utilities/Notifications';
 import Swal from 'sweetalert2';
 import { connect } from 'react-redux';
