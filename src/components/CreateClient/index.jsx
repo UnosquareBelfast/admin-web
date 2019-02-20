@@ -10,7 +10,7 @@ export const CreateClient = props => {
 
   return (
     <div>
-      <h2>{clientId > 0 ? 'Update Client' : 'Create Client'}</h2>
+      <h2>Create Client</h2>
       <CornerButton>
         <Button
           label="View all clients"
