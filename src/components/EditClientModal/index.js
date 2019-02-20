@@ -55,8 +55,6 @@ class EditTeamModal extends Component {
       handleSubmit,
     } = this.props;
 
-    console.log(client);
-
     return (
       <Modal closeModal={() => closeModal()}>
         <div>
