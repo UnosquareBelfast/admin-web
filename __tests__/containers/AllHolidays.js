@@ -4,7 +4,7 @@ import { AllHolidays } from '../../src/components';
 import allHolidaysContainer from '../../src/components/AllHolidays/container';
 
 jest.mock('../../src/services/eventService');
-import * as holidayService from '../../src/services/eventService';
+import * as eventService from '../../src/services/eventService';
 
 describe('AllHolidays', () => {
   it('renders correctly', () => {
@@ -18,9 +18,12 @@ describe('AllHolidays', () => {
     const Container = allHolidaysContainer(AllHolidays);
     const wrapper = shallow(<Container />);
 
-    const spy = jest.spyOn(holidayService, 'getAllHolidays');
+    const spy = jest.spyOn(eventService, 'getAllHolidays');
 
-    expect(wrapper.state('holidays')).toEqual([ { holidayId: 1 }, { holidayId: 2} ]);
+    expect(wrapper.state('holidays')).toEqual([
+      { holidayId: 1 },
+      { holidayId: 2 },
+    ]);
     expect(spy).toHaveBeenCalled();
   });
 });
