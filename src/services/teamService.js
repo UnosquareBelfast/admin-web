@@ -1,4 +1,4 @@
-import axios from '../utilities/AxiosInstance';
+import axios from '../config/AxiosInstance';
 
 export const getTeamsFromClient = clientId => {
   return axios.get(`/Team/getByClientId/${clientId}`);

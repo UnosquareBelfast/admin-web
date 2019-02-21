@@ -1,5 +1,5 @@
 import React from 'react';
-import AzureInstance from '../../utilities/AzureInstance';
+import AzureInstance from '../../config/AzureInstance';
 
 export default Wrapped =>
   class extends React.Component {

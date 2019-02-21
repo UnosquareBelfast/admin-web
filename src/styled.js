@@ -1,6 +1,6 @@
 import { injectGlobal } from 'styled-components';
-import holidayStatus from './utilities/holidayStatus';
-import eventTypes from './utilities/eventTypes';
+import holidayStatus from './constants/holidayStatus';
+import eventTypes from './constants/eventTypes';
 
 export const theme = {
   colours: {

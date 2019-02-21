@@ -7,7 +7,8 @@ import { getEvents } from '../../services/eventService';
 import { getHolidayStats } from '../../services/holidayService';
 import { isEmpty } from 'lodash';
 import { getContractsByEmployeeId } from '../../services/contractService';
-import eventTypes from '../../utilities/eventTypes';
+import eventTypes from '../../constants/eventTypes';
+import swal from 'sweetalert2';
 
 const ProfileContainer = Wrapped =>
   class extends React.Component {

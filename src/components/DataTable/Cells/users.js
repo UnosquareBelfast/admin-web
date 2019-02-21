@@ -1,12 +1,12 @@
-import { roleText } from '../../../utilities/roles';
-import { countryText } from '../../../utilities/countries';
+import { countryText } from '../../../constants/countries';
 import { standardTextFilter } from './cellUtils';
 
 const fullName = {
   id: 'fullName',
   Header: 'Full Name',
   accessor: user => `${user.forename} ${user.surname}`,
-  filterMethod: ({ value }, { fullName }) => standardTextFilter(fullName, value),
+  filterMethod: ({ value }, { fullName }) =>
+    standardTextFilter(fullName, value),
 };
 
 const name = {
@@ -27,7 +27,8 @@ const location = {
   id: 'location',
   Header: 'Location',
   accessor: user => countryText[user.countryId],
-  filterMethod: ({ value }, { location }) => standardTextFilter(location, value),
+  filterMethod: ({ value }, { location }) =>
+    standardTextFilter(location, value),
 };
 
 const role = {

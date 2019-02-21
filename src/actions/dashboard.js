@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionTypes';
 import { getUsersEvents, getTeamsEvents } from '../services/dashboardService';
-import eventsView from '../utilities/eventsView';
+import eventsView from '../constants/eventsView';
 import { setLoadingAsync } from './loading';
 
 import {

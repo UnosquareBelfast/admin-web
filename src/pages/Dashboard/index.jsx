@@ -7,7 +7,7 @@ import { InnerLayout, ButtonToggle, CalendarLayoutContainer } from './styled';
 import eventsView, {
   eventsViewText,
   eventsViewIcons,
-} from '../../utilities/eventsView';
+} from '../../constants/eventsView';
 
 export const Dashboard = props => {
   const {

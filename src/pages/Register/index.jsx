@@ -1,7 +1,7 @@
 import React from 'react';
 import { BG, Panel, CTAButton } from './styled';
 import { Select } from '../../components/common_styled';
-import countries from '../../utilities/countries';
+import countries from '../../constants/countries';
 import { registerEmployee } from '../../services/userService';
 import Swal from 'sweetalert2';
 

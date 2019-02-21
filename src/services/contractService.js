@@ -1,4 +1,4 @@
-import axios from '../utilities/AxiosInstance';
+import axios from '../config/AxiosInstance';
 
 export const getContractsByEmployeeId = employeeId => {
   return axios.get(`/Contract/getByEmployeeId/${employeeId}`);

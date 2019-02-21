@@ -7,12 +7,12 @@ import compact from 'lodash/fp/compact';
 import uniqBy from 'lodash/fp/uniqBy';
 import flow from 'lodash/fp/flow';
 import { getEventView } from '../../reducers';
-import eventCategory from '../../utilities/eventCategory';
+import eventCategory from '../../constants/eventCategory';
 import holidayStatus, {
   statusText,
   statusIcons,
-} from '../../utilities/holidayStatus';
-import eventTypes, { typeText, typeIcons } from '../../utilities/eventTypes';
+} from '../../constants/holidayStatus';
+import eventTypes, { typeText, typeIcons } from '../../constants/eventTypes';
 
 const LegendContainer = Wrapped =>
   class extends React.Component {

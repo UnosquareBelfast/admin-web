@@ -1,6 +1,6 @@
 import React from 'react';
 import { dateFilter, standardTextFilter, dateSort } from './cellUtils';
-import holidayStatus, { statusText } from '../../../utilities/holidayStatus';
+import holidayStatus, { statusText } from '../../../constants/holidayStatus';
 import { theme } from '../../../styled';
 import moment from 'moment';
 

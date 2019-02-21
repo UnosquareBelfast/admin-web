@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { createClient } from '../../services/clientService';
-import { Toast } from '../../utilities/Notifications';
+import { Toast } from '../../config/Notifications';
 import swal from 'sweetalert2';
 
 export default Wrapped =>

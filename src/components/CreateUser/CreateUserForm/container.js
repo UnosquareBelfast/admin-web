@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
-import employeeStatus from '../../../utilities/employeeStatus';
+import employeeStatus from '../../../constants/employeeStatus';
 import { createUser } from '../../../services/userService';
 import swal from 'sweetalert2';
-import { Toast } from '../../../utilities/Notifications';
+import { Toast } from '../../../config/Notifications';
 
 const initialFormState = {
   forename: '',

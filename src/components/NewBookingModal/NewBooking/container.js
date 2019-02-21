@@ -1,8 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { requestEvent } from '../../../services/eventService';
-import eventTypes from '../../../utilities/eventTypes';
-import { Toast } from '../../../utilities/Notifications';
+import { Toast } from '../../../config/Notifications';
 
 const Container = Wrapped =>
   class extends React.Component {

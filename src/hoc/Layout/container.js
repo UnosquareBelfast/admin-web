@@ -3,8 +3,8 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { getUser } from '../../reducers';
-import roles from '../../utilities/roles';
-import menuItems, { adminItems } from '../../utilities/navConfig';
+import roles from '../../constants/roles';
+import menuItems, { adminItems } from '../../config/navConfig';
 
 const NavContainer = Wrapped =>
   class extends Component {
