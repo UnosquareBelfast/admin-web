@@ -55,19 +55,17 @@ const requestedDate = {
   id: 'requestedDate',
   Header: 'Requested',
   accessor: holiday => {
-    const today = moment();
-    const diff = today.diff(holiday.dateCreated, 'days');
-    if (
-      diff >= 5 &&
-      holiday.eventStatus.eventStatusId === holidayStatus.PENDING
-    ) {
+    const { dateCreated, eventStatus: { eventStatusId } } = holiday;		
+    const totalDaysSinceRequest =  moment(dateCreated).fromNow();
+    const fiveDaysHavePast = moment().diff(dateCreated, 'days') > 4;
+    if (fiveDaysHavePast && eventStatusId === holidayStatus.PENDING) {
       return (
-        <span style={{ color: 'red', fontWeight: 600 }}>{diff} Days Ago</span>
+        <span style={{ color: 'red', fontWeight: 600 }}>{totalDaysSinceRequest}</span>
       );
+    } else {
+      return totalDaysSinceRequest;
     }
-    return diff > 0 ? `${diff} Days Ago` : 'Today';
   },
-
   filterMethod: ({ value }, { requestedDate }) => 
     standardTextFilter(requestedDate, value),
 };
