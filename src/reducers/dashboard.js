@@ -7,7 +7,7 @@ import {
   TOGGLE_BOOKING_MODAL,
   SET_IS_BEING_UPDATED,
 } from '../actionTypes';
-import eventsView from '../utilities/eventsView';
+import eventsView from '../constants/eventsView';
 import moment from 'moment';
 
 const initialState = {

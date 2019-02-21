@@ -1,9 +1,9 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Container } from './styled';
-import eventCategory from '../../../utilities/eventCategory';
-import eventTypes, { typeIcons } from '../../../utilities/eventTypes';
-import { statusIcons } from '../../../utilities/holidayStatus';
+import eventCategory from '../../../constants/eventCategory';
+import eventTypes, { typeIcons } from '../../../constants/eventTypes';
+import { statusIcons } from '../../../constants/holidayStatus';
 import moment from 'moment';
 
 const Event = ({ children, event }) => {

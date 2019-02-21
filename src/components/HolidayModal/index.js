@@ -5,10 +5,10 @@ import container from './container';
 import { Modal, Button, Email } from '../../components/common';
 import { StyleContainer, Stat, FlexWrap, ButtonWrap, StatusH2 } from './styled';
 import { getEventDayAmount } from '../../utilities/dates';
-import { statusText } from '../../utilities/holidayStatus';
-import roles from '../../utilities/roles';
+import { statusText } from '../../constants/holidayStatus';
+import roles from '../../constants/roles';
 import { InputText } from '../common_styled';
-import holidayStatus from '../../utilities/holidayStatus';
+import holidayStatus from '../../constants/holidayStatus';
 import { Messaging } from '../';
 
 const HolidayModal = ({
@@ -77,10 +77,7 @@ const HolidayModal = ({
         {shouldShowAdminControls() &&
           (!toggled && (
             <Fragment>
-              <Messaging
-                hideNav
-                eventId={eventId}
-              />
+              <Messaging hideNav eventId={eventId} />
               <Stat>
                 <ButtonWrap>
                   <Button label="Approve" onClick={approveHoliday} />

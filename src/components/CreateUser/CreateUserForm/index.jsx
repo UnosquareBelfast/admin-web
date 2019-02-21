@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import employeeStatus from '../../../utilities/employeeStatus';
+import employeeStatus from '../../../constants/employeeStatus';
 import { Form, Input } from '../../common';
 import { FormContainer } from './styled';
 

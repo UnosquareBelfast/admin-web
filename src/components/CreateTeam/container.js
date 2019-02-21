@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { createTeam } from '../../services/teamService';
 import swal from 'sweetalert2';
-import { Toast } from '../../utilities/Notifications';
+import { Toast } from '../../config/Notifications';
 
 export default Wrapped =>
   class extends Component {

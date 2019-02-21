@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { getUser } from '../../reducers';
-import roles from '../../utilities/roles';
+import roles from '../../constants/roles';
 
 const AdminContainer = Wrapped =>
   class extends React.Component {

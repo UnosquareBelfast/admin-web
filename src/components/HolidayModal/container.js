@@ -5,8 +5,8 @@ import { compose } from 'redux';
 import { isEmpty } from 'lodash';
 import { approveEvent, rejectEvent } from '../../services/eventService';
 import swal from 'sweetalert2';
-import holidayStatus from '../../utilities/holidayStatus';
-import { Toast } from '../../utilities/Notifications';
+import holidayStatus from '../../constants/holidayStatus';
+import { Toast } from '../../config/Notifications';
 import { getUser } from '../../reducers';
 
 const HolidayModalContainer = Wrapped =>

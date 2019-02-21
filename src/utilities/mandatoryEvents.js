@@ -1,6 +1,6 @@
 import moment from 'moment';
-import holidayStatus from './holidayStatus';
-import eventType from './eventTypes';
+import holidayStatus from '../constants/holidayStatus';
+import eventType from '../constants/roles';
 
 const currYear = new Date().getFullYear();
 

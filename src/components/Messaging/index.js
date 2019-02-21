@@ -16,7 +16,7 @@ import {
   faUser,
   faPaperPlane,
 } from '@fortawesome/fontawesome-free-solid';
-import { messageTypeColors } from '../../utilities/messageTypes';
+import { messageTypeColors } from '../../constants/messageTypes';
 import moment from 'moment';
 
 const MessageBlock = ({

@@ -1,11 +1,11 @@
 import moment from 'moment';
 import { getDurationBetweenDates } from './dates';
-import eventTypes from './eventTypes';
+import eventTypes from '../constants/roles';
 import mandatoryEvents from './mandatoryEvents';
 import { flow } from 'lodash/fp';
 import store from '../store';
 import { getAllEvents, getUserId } from '../reducers';
-import holidayStatus from './holidayStatus';
+import holidayStatus from '../constants/holidayStatus';
 
 export const transformEvents = allEvents => {
   return new Promise(resolve => {

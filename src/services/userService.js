@@ -1,4 +1,4 @@
-import axios from '../utilities/AxiosInstance';
+import axios from '../config/AxiosInstance';
 
 export const getSignedInUser = () => {
   return axios.get('/Employee/getSignedInUser');

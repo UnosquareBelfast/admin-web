@@ -3,18 +3,18 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchEvents, setEventView } from '../../actions/dashboard';
-import eventCategory from '../../utilities/eventCategory';
+import eventCategory from '../../constants/eventCategory';
 import { getUser, getEventView, getAllEvents } from '../../reducers';
-import eventsView from '../../utilities/eventsView';
+import eventsView from '../../constants/eventsView';
 import moment from 'moment';
-import eventTypes from '../../utilities/eventTypes';
-import holidayStatus from '../../utilities/holidayStatus';
+import eventTypes from '../../constants/eventTypes';
+import holidayStatus from '../../constants/holidayStatus';
 import {
   checkIfPastDatesSelected,
   checkIfDatesFallOnWeekend,
 } from '../../utilities/dashboardEvents';
 import { checkSameMonth } from '../../utilities/dates';
-import { Toast } from '../../utilities/Notifications';
+import { Toast } from '../../config/Notifications';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
@@ -212,7 +212,7 @@ const DashboardContainer = Wrapped =>
       }
 
       return true;
-    }
+    };
 
     selectCalendarSlot = bookingEvent => {
       const {

@@ -4,8 +4,8 @@ import { StyleContainer } from './styled';
 import container from './container';
 import FilterByKey from './filterByKey';
 import FilterByUser from './filterByUser';
-import eventCategory from '../../utilities/eventCategory';
-import eventsView from '../../utilities/eventsView';
+import eventCategory from '../../constants/eventCategory';
+import eventsView from '../../constants/eventsView';
 
 const Legend = ({
   selectedEmployee,

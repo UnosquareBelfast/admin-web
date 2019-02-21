@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { getEventsByStatus } from '../../services/eventService';
-import holidayStatus from '../../utilities/holidayStatus';
-import eventTypes from '../../utilities/eventTypes';
+import holidayStatus from '../../constants/holidayStatus';
+import eventTypes from '../../constants/eventTypes';
 
 export default Wrapped =>
   class extends Component {

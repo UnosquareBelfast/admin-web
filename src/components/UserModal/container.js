@@ -6,9 +6,9 @@ import { getUser } from '../../reducers';
 import { getHolidayStats } from '../../services/holidayService';
 import swal from 'sweetalert2';
 import { isEmpty } from 'lodash';
-import roles from '../../utilities/roles';
+import roles from '../../constants/roles';
 import { getTotalDaysInEventArrayWithStatus } from '../../utilities/dates';
-import HolidayStatus from '../../utilities/holidayStatus';
+import HolidayStatus from '../../constants/holidayStatus';
 
 const UserModalContainer = Wrapped =>
   class extends Component {

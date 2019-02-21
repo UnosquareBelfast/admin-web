@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { getEmployeesTeamsSnapshot } from '../../services/dashboardService';
 import { getUser } from '../../reducers/';
 import { setLoadingAsync } from '../../actions/loading';
-import roles from '../../utilities/roles';
+import roles from '../../constants/roles';
 
 const TeamDashboardContainer = Wrapped =>
   class extends React.Component {

@@ -5,8 +5,8 @@ import { withFormik } from 'formik';
 import DatePicker from 'react-datepicker';
 import { isSameDay, getDurationBetweenDates } from '../../../utilities/dates';
 import { checkOverlappingEvents } from '../../../utilities/dashboardEvents';
-import { getEventstats } from '../../../reducers';
-import eventTypes from '../../../utilities/eventTypes';
+import { getHolidayStats } from '../../../reducers';
+import eventTypes from '../../../constants/eventTypes';
 import store from '../../../store';
 
 const FormikEnhancer = withFormik({

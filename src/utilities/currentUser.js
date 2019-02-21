@@ -1,6 +1,6 @@
 import store from '../store';
 import { resetUser } from '../actions/user';
-import AzureInstance from '../utilities/AzureInstance';
+import AzureInstance from '../config/AzureInstance';
 
 export const userLogout = () => {
   store.dispatch(resetUser());

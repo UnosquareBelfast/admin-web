@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import store from '../../store';
 import { updateUser } from '../../actions/user';
 import { getSignedInUser, checkAuth } from '../../services/userService';
-import AzureInstance from '../../utilities/AzureInstance';
+import AzureInstance from '../../config/AzureInstance';
 
 class AuthUserAndStore extends Component {
   constructor(props) {

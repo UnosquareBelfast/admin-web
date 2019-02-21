@@ -1,4 +1,4 @@
-import axios from '../utilities/AxiosInstance';
+import axios from '../config/AxiosInstance';
 
 export const getUsersEvents = date => {
   return axios.get(`/Dashboard/getEmployeeEvents/${date}`);
