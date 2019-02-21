@@ -57,7 +57,8 @@ const requestedDate = {
   accessor: holiday => {
     const { dateCreated, eventStatus: { eventStatusId } } = holiday;		
     const totalDaysSinceRequest =  moment(dateCreated).fromNow();
-    if (totalDaysSinceRequest.includes('5 days') && eventStatusId === holidayStatus.PENDING) {
+    const fiveDaysHavePast = moment().diff(dateCreated, 'days') > 4;
+    if (fiveDaysHavePast && eventStatusId === holidayStatus.PENDING) {
       return (
         <span style={{ color: 'red', fontWeight: 600 }}>{totalDaysSinceRequest}</span>
       );
