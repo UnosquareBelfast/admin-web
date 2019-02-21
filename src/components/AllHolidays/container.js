@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getAllHolidays } from '../../services/holidayService';
+import { getAllEvents } from '../../services/eventService';
 
 export default Wrapped =>
   class extends Component {
@@ -13,7 +13,7 @@ export default Wrapped =>
     }
 
     getHolidays = () => {
-      getAllHolidays().then(response => {
+      getAllEvents().then(response => {
         const holidays = response.data;
         this.setState({ holidays });
       });

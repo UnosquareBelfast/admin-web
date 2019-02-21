@@ -1,10 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import {
-  updateHoliday,
-  getHolidayStats,
-  cancelHoliday,
-} from '../../../services/holidayService';
+import { updateEvent, cancelEvent } from '../../../services/eventService';
+import { getHolidayStats } from '../../../services/holidayService';
 import { Toast } from '../../../utilities/Notifications';
 import Swal from 'sweetalert2';
 import { connect } from 'react-redux';
@@ -52,7 +49,7 @@ const Container = Wrapped =>
         message: data.updateMessage,
       };
 
-      updateHoliday(request)
+      updateEvent(request)
         .then(() => {
           refreshCalendar();
           toggleModal(false);
@@ -77,7 +74,7 @@ const Container = Wrapped =>
         selectedBooking: { eventId },
       } = this.props;
       const { refreshCalendar, toggleModal } = this.props;
-      cancelHoliday(eventId)
+      cancelEvent(eventId)
         .then(() => {
           refreshCalendar();
           toggleModal(false);

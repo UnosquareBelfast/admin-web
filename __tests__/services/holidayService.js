@@ -8,7 +8,7 @@ import {
   getHolidays,
   requestHoliday,
   updateHoliday,
-} from '../../src/services/holidayService';
+} from '../../src/services/eventService';
 
 afterAll(() => {
   mock.reset();

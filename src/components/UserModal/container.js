@@ -62,7 +62,11 @@ const UserModalContainer = Wrapped =>
 
     render() {
       const { closeModal, userDetails, user, history } = this.props;
-      const { approvedHolidays, pendingHolidays, availableHolidays } = this.state;
+      const {
+        approvedHolidays,
+        pendingHolidays,
+        availableHolidays,
+      } = this.state;
       if (isEmpty(user)) return null;
 
       return (

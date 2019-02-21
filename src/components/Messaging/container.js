@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { getEventMessages, sendMessage } from '../../services/holidayService';
+import { getEventMessages, sendMessage } from '../../services/eventService';
 
 const Container = Wrapped =>
   class extends React.Component {
