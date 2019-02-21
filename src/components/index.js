@@ -11,8 +11,6 @@ export { default as CreateUser } from './CreateUser';
 export { default as Legend } from './Legend';
 export { default as PendingHolidays } from './PendingHolidays';
 export { default as RangeDayPicker } from './common/RangeDayPicker';
-export { default as TakenLeave } from './TakenLeave';
-export { default as TeamView } from './TeamView';
 export { default as UserDetails } from './UserDetails';
 export { default as UserModal } from './UserModal';
 export { default as ViewContracts } from './ViewContracts';
