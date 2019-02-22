@@ -7,17 +7,11 @@ export default Wrapped =>
   class extends Component {
     static propTypes = {
       onSuccess: PT.func,
-      onFailed: PT.func,
     };
 
     constructor(props) {
       super(props);
       this.state = {
-        formData: {
-          selectedClient: -1,
-          teamName: '',
-        },
-        formIsValid: false,
         clients: [],
       };
     }
@@ -48,31 +42,15 @@ export default Wrapped =>
         );
     }
 
-    handleFormStatus(name, value, formIsValid) {
-      const updatedFormData = { ...this.state.formData };
-      updatedFormData[name] = value;
-      this.setState({
-        formData: updatedFormData,
-        formIsValid,
-      });
-    }
-
-    handleFormSubmit = event => {
-      event.preventDefault();
-      this.setState({ formData: { ...this.state.formData, teamName: '' } });
-      this.props.onSuccess(this.state.formData);
+    handleFormSubmit = data => {
+      this.props.onSuccess(data);
     };
 
     render() {
       return (
         <Wrapped
           clients={this.state.clients}
-          formData={this.state.formData}
-          formIsValid={this.state.formIsValid}
-          formStatus={(name, value, formIsValid) =>
-            this.handleFormStatus(name, value, formIsValid)
-          }
-          submitForm={e => this.handleFormSubmit(e)}
+          handleFormSubmit={e => this.handleFormSubmit(e)}
         />
       );
     }
