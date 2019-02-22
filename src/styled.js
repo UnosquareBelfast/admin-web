@@ -121,10 +121,12 @@ injectGlobal`
 	}
 	
 	button {
+		cursor: pointer;
 		transition: opacity 500ms;
 	}
 	button:disabled,
 	button[disabled] {
+		cursor: not-allowed;
 		opacity: 0.4;
 	}
 
