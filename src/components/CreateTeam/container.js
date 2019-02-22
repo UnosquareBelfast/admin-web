@@ -15,8 +15,11 @@ export default Wrapped =>
     }
 
     state = {
-      teamSubmitted: false,
       clients: [],
+      initialFormValues: {
+        selectedClient: '-1',
+        teamName: '',
+      },
     }
 
     componentDidMount() {
@@ -26,13 +29,13 @@ export default Wrapped =>
           const clients = response.data;
           const formattedClients = clients.reduce((acc, client) => {
             acc.push({
-              value: client.clientId,
+              value: client.clientId.toString(),
               displayValue: client.clientName,
             });
             return acc;
           }, []);
           formattedClients.unshift({
-            value: -1,
+            value: '-1',
             displayValue: 'Please select a client',
           });
           this.setState({ clients: formattedClients });
@@ -46,12 +49,6 @@ export default Wrapped =>
         );
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-      const teamSubmittedhasChanged = nextState.teamSubmitted !== this.state.teamSubmitted;
-      const clientListhasChanged = nextState.clients.length !== this.state.clients.length;
-      return teamSubmittedhasChanged || clientListhasChanged;
-    }
-
     submitRequest = data => {
       const request = {
         clientId: data.selectedClient,
@@ -60,7 +57,10 @@ export default Wrapped =>
       createTeam(request)
         .then(() => {
           this.setState({
-            teamSubmitted: true,
+            initialFormValues: {
+              selectedClient: '-1',
+              teamName: '',
+            },
           }, () => {
             Toast({
               type: 'success',
@@ -73,24 +73,17 @@ export default Wrapped =>
         });
     };
 
-    resetTeamSubmitted = () => {
-      this.setState({
-        teamSubmitted: false,
-      });
-    };
-
     render() {
 
-      const { clients, teamSubmitted } = this.state;
+      const { clients, initialFormValues } = this.state;
       const { history: { replace } } = this.props;
 
       return (
         <Wrapped 
           clients={clients}
-          teamSubmitted={teamSubmitted}
+          initialFormValues={initialFormValues}
           navigateTo={replace} 
           submitRequest={this.submitRequest} 
-          resetTeamSubmitted={this.resetTeamSubmitted}
         />
       );
     }

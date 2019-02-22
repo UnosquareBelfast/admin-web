@@ -13,10 +13,13 @@ const FormikEnhancer = withFormik({
   enableReinitialize: true,
 
   // validateOn
-  mapPropsToValues: () => ({
-    selectedClient: -1,
-    teamName: '',
-  }),
+  mapPropsToValues: (props) => {
+    const { initialFormValues } = props;
+    return ({
+      selectedClient: initialFormValues.selectedClient,
+      teamName: initialFormValues.teamName,
+    });
+  },
 
   // Custom sync validation
   validate: ({ teamName, selectedClient }) => {
@@ -24,7 +27,7 @@ const FormikEnhancer = withFormik({
     if (teamName === '') {
       errors.teamName = 'Team name cannot be empty.';
     }
-    if (parseInt(selectedClient) === -1) {
+    if (selectedClient === '-1') {
       errors.selectedClient = 'Please select a client';
     }
     return errors;
@@ -37,31 +40,24 @@ const FormikEnhancer = withFormik({
 });
 
 export const CreateTeamForm = props => {
-  const { 
-    clients, 
-    values, 
-    handleSubmit, 
-    handleChange, 
-    handleBlur, 
-    handleReset,
-    isValid, 
-    touched, 
-    errors,
-    teamSubmitted,
-    resetTeamSubmitted,
-  } = props;
 
-  if (teamSubmitted && values.selectedClient !== -1) {
-    handleReset();
-    resetTeamSubmitted();
-  }
+  const {
+    clients,
+    values,
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    isValid,
+    touched,
+    errors,
+  } = props;
 
   return (
     <FormContainer>
       <FormStyleContainer>
         <form onSubmit={handleSubmit}>
 
-          <div className={errors.selectedClient && touched.selectedClient ? 'formgroup formgroup--invalid' : 'formgroup' }>
+          <div className={errors.selectedClient && touched.selectedClient ? 'formgroup formgroup--invalid' : 'formgroup'}>
             <label htmlFor="selectedClient">Select a Client</label>
             <select
               id="selectedClient"
@@ -72,7 +68,7 @@ export const CreateTeamForm = props => {
             >
               {
                 clients.map((client) => {
-                  const {value, displayValue} = client;
+                  const { value, displayValue } = client;
                   return (
                     <option key={value} value={value}>{displayValue}</option>
                   );
@@ -82,7 +78,7 @@ export const CreateTeamForm = props => {
             <span>{errors.selectedClient}</span>
           </div>
 
-          <div className={errors.teamName && touched.teamName ? 'formgroup formgroup--invalid' : 'formgroup' }>
+          <div className={errors.teamName && touched.teamName ? 'formgroup formgroup--invalid' : 'formgroup'}>
             <label htmlFor="teamname">Team Name</label>
             <input
               type="text"
@@ -111,13 +107,10 @@ CreateTeamForm.propTypes = {
   handleSubmit: PT.func.isRequired,
   handleChange: PT.func.isRequired,
   handleBlur: PT.func.isRequired,
-  handleReset: PT.func.isRequired,
   isValid: PT.bool.isRequired,
   errors: PT.object.isRequired,
   touched: PT.object.isRequired,
   values: PT.object.isRequired,
-  teamSubmitted: PT.bool.isRequired,
-  resetTeamSubmitted: PT.func,
 };
 
 CreateTeamForm.defaultProps = {
