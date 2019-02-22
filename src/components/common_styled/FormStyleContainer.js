@@ -37,7 +37,6 @@ export const FormStyleContainer = styled.div`
     background-color: ${props => props.theme.colours.unoBlue};
     color: ${props => props.theme.colours.white};
     font-weight: bold;
-    cursor: pointer;
   }
 
   form > label {
