@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const ContainerStyle = styled.div`
-  min-width: 200px;
+  min-width: 250px;
   height: 100vh;
   padding: 20px 10px 10px 10px;
   background-color: ${props => props.theme.colours.lightgrey};
