@@ -50,7 +50,7 @@ export default Wrapped =>
       return (
         <Wrapped
           clients={this.state.clients}
-          handleFormSubmit={e => this.handleFormSubmit(e)}
+          handleFormSubmit={data => this.handleFormSubmit(data)}
         />
       );
     }
