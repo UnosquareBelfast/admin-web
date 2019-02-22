@@ -68,6 +68,11 @@ injectGlobal`
   @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600');
   @import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css');
 
+	*, *:after, *:before {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+	}
+
   html {
     font-size: ${theme.fonts.pixelSize.small};
     @media (min-width: 768px) {
@@ -106,7 +111,22 @@ injectGlobal`
   input,
   select {
     font-size: ${convertPxToRem(theme.fonts.pixelSize.default)}
-  }
+	}
+
+	input:-webkit-autofill,
+	input:-webkit-autofill:hover, 
+	input:-webkit-autofill:focus, 
+	input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+	}
+	
+	button {
+		transition: opacity 500ms;
+	}
+	button:disabled,
+	button[disabled] {
+		opacity: 0.4;
+	}
 
   small, .small{
     font-size: ${convertPxToRem(theme.fonts.pixelSize.small)}
