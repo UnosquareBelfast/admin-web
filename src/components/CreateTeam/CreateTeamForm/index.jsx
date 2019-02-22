@@ -25,7 +25,7 @@ const FormikEnhancer = withFormik({
     if (teamName === '') {
       errors.teamName = 'Team name cannot be empty.';
     }
-    if (selectedClient === '-1') {
+    if (parseInt(selectedClient) === -1) {
       errors.selectedClient = 'Please select a client';
     }
     return errors;
@@ -33,12 +33,22 @@ const FormikEnhancer = withFormik({
 
   handleSubmit: (payload, bag) => {
     bag.props.handleFormSubmit(payload);
+    bag.resetForm();
   },
 
 });
 
 export const CreateTeamForm = props => {
-  const { handleSubmit, handleChange, handleBlur, clients, errors, isValid, touched, values } = props;
+  const { 
+    clients, 
+    values, 
+    handleSubmit, 
+    handleChange, 
+    handleBlur, 
+    isValid, 
+    touched, 
+    errors, 
+  } = props;
 
   return (
     <FormContainer>
