@@ -19,9 +19,9 @@ export const FormStyleContainer = styled.div`
     padding: 7px 8px;
     border-radius: 5px;
     border-style: solid;
-		border-width: 1px;
-		height: 40px;
-		background-color: ${props => props.theme.colours.white};
+    border-width: 1px;
+    height: 40px;
+    background-color: ${props => props.theme.colours.white};
     border-color: ${props => props.theme.colours.grey};
   }
 
@@ -78,41 +78,41 @@ export const FormStyleContainer = styled.div`
     border-color: ${props => props.theme.colours.red};
     border-width: 1.5px;
     outline: none;
-	}
-	
+  }
+  
 
-	.formgroup {
+  .formgroup {
 
-		margin: 0 0 20px 0;
-		width: 100%;
-		max-width: 100%;
+    margin: 0 0 20px 0;
+    width: 100%;
+    max-width: 100%;
 
-		label,
-		input,
-		textarea,
-		select {
-			margin: 0 0 2px 0;
-			display: block;
-			width: 100%;
-		}
-		span{
-			display: none;
-		}
-		&--invalid {
-			label { 
-				color: ${props => props.theme.colours.red}; 
-			}
-			input,
-			textarea,
-			select {
-				border-color: ${props => props.theme.colours.red};
-				border-width: 1.5px;
-    		outline: none;
-			}
-			span {
-				display: block;
-				color: ${props => props.theme.colours.red};
-			}
-		}
-	}
+    label,
+    input,
+    textarea,
+    select {
+      margin: 0 0 2px 0;
+      display: block;
+      width: 100%;
+    }
+    span{
+      display: none;
+    }
+    &--invalid {
+      label { 
+        color: ${props => props.theme.colours.red}; 
+      }
+      input,
+      textarea,
+      select {
+        border-color: ${props => props.theme.colours.red};
+        border-width: 1.5px;
+        outline: none;
+      }
+      span {
+        display: block;
+        color: ${props => props.theme.colours.red};
+      }
+    }
+  }
 `;
