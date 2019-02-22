@@ -7,6 +7,8 @@ export default Wrapped =>
   class extends Component {
     static propTypes = {
       onSuccess: PT.func,
+      teamSubmitted: PT.bool,
+      resetTeamSubmitted: PT.func,
     };
 
     constructor(props) {
@@ -17,6 +19,7 @@ export default Wrapped =>
     }
 
     componentDidMount() {
+
       getAllClients()
         .then(response => {
           const clients = response.data;
@@ -42,6 +45,12 @@ export default Wrapped =>
         );
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+      const teamSubmittedhasChanged = nextProps.teamSubmitted !== this.props.teamSubmitted;
+      const clientListhasChanged = nextState.clients.length !== this.state.clients.length;
+      return teamSubmittedhasChanged || clientListhasChanged;
+    }
+
     handleFormSubmit = data => {
       this.props.onSuccess(data);
     };
@@ -51,6 +60,8 @@ export default Wrapped =>
         <Wrapped
           clients={this.state.clients}
           handleFormSubmit={data => this.handleFormSubmit(data)}
+          teamSubmitted={this.props.teamSubmitted}
+          resetTeamSubmitted={this.props.resetTeamSubmitted}
         />
       );
     }

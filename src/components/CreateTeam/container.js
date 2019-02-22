@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
+import { PropTypes as PT } from 'prop-types';
 import { createTeam } from '../../services/teamService';
 import swal from 'sweetalert2';
 import { Toast } from '../../config/Notifications';
 
 export default Wrapped =>
   class extends Component {
+
+    static propTypes = {
+      history: PT.shape({
+        replace: PT.func.isRequired,
+      }),
+    }
+
+    state = {
+      teamSubmitted: false,
+    }
+
     submitRequest = data => {
       const request = {
         clientId: data.selectedClient,
@@ -12,9 +24,13 @@ export default Wrapped =>
       };
       createTeam(request)
         .then(() => {
-          Toast({
-            type: 'success',
-            title: 'Team created successfully! 👍',
+          this.setState({
+            teamSubmitted: true,
+          }, () => {
+            Toast({
+              type: 'success',
+              title: 'Team created successfully! 👍',
+            });
           });
         })
         .catch(error => {
@@ -22,7 +38,20 @@ export default Wrapped =>
         });
     };
 
+    resetTeamSubmitted = () => {
+      this.setState({
+        teamSubmitted: false,
+      });
+    };
+
     render() {
-      return <Wrapped {...this.props} submitRequest={this.submitRequest} />;
+      return (
+        <Wrapped 
+          navigateTo={this.props.history.replace} 
+          submitRequest={this.submitRequest} 
+          teamSubmitted={this.state.teamSubmitted}
+          resetTeamSubmitted={this.resetTeamSubmitted}
+        />
+      );
     }
   };

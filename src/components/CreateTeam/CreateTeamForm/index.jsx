@@ -33,7 +33,6 @@ const FormikEnhancer = withFormik({
 
   handleSubmit: (payload, bag) => {
     bag.props.handleFormSubmit(payload);
-    bag.resetForm();
   },
 
 });
@@ -45,10 +44,18 @@ export const CreateTeamForm = props => {
     handleSubmit, 
     handleChange, 
     handleBlur, 
+    handleReset,
     isValid, 
     touched, 
-    errors, 
+    errors,
+    teamSubmitted,
+    resetTeamSubmitted,
   } = props;
+
+  if (teamSubmitted && values.selectedClient !== -1) {
+    handleReset();
+    resetTeamSubmitted();
+  }
 
   return (
     <FormContainer>
@@ -105,10 +112,13 @@ CreateTeamForm.propTypes = {
   handleSubmit: PT.func.isRequired,
   handleChange: PT.func.isRequired,
   handleBlur: PT.func.isRequired,
+  handleReset: PT.func.isRequired,
   isValid: PT.bool.isRequired,
   errors: PT.object.isRequired,
   touched: PT.object.isRequired,
   values: PT.object.isRequired,
+  teamSubmitted: PT.bool.isRequired,
+  resetTeamSubmitted: PT.func,
 };
 
 CreateTeamForm.defaultProps = {
