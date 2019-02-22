@@ -1,9 +1,8 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import container from './container';
 
 import { FormContainer } from './styled';
-import { FormStyleContainer } from '../../common_styled/FormStyleContainer';
+import { FormStyleContainer } from '../common_styled/FormStyleContainer';
 import { withFormik } from 'formik';
 
 
@@ -125,4 +124,4 @@ CreateTeamForm.defaultProps = {
   clients: [],
 };
 
-export default container(FormikEnhancer(CreateTeamForm));
+export default FormikEnhancer(CreateTeamForm);
