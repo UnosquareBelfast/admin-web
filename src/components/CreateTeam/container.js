@@ -16,10 +16,6 @@ export default Wrapped =>
 
     state = {
       clients: [],
-      formValues: {
-        selectedClient: '-1',
-        teamName: '',
-      },
     }
 
     componentDidMount() {
@@ -49,23 +45,14 @@ export default Wrapped =>
         );
     }
 
-    resetFormOnSuccessfulSubmit = () => {
-      this.setState({
-        formValues: {
-          selectedClient: '-1',
-          teamName: ' ',
-        },
-      });
-    }
-
-    submitRequest = data => {
+    submitRequest = ({selectedClient, teamName}, resetForm) => {
       const request = {
-        clientId: data.selectedClient,
-        teamName: data.teamName,
+        clientId: selectedClient,
+        teamName: teamName,
       };
       createTeam(request)
         .then(() => {
-          this.resetFormOnSuccessfulSubmit();
+          resetForm();
           Toast({
             type: 'success',
             title: 'Team created successfully! 👍',
@@ -78,13 +65,12 @@ export default Wrapped =>
 
     render() {
 
-      const { clients, formValues } = this.state;
+      const { clients } = this.state;
       const { history: { replace } } = this.props;
 
       return (
         <Wrapped 
           clients={clients}
-          formValues={formValues}
           navigateTo={replace} 
           submitRequest={this.submitRequest} 
         />

@@ -14,8 +14,11 @@ const FormikEnhancer = withFormik({
   enableReinitialize: true,
 
   // validateOn
-  mapPropsToValues: ({ formValues }) => {
-    return (formValues);
+  mapPropsToValues: () => {
+    return ({
+      selectedClient: '-1',
+      teamName: '',
+    });
   },
 
   // Custom sync validation
@@ -30,8 +33,8 @@ const FormikEnhancer = withFormik({
     return errors;
   },
 
-  handleSubmit: (payload, bag) => {
-    bag.props.handleFormSubmit(payload);
+  handleSubmit: (payload, {props, resetForm}) => {
+    props.handleFormSubmit(payload, resetForm);
   },
 
 });
