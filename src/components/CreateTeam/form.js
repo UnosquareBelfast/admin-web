@@ -7,18 +7,15 @@ import { withFormik } from 'formik';
 
 
 const FormikEnhancer = withFormik({
+
   displayName: 'Create Team Form',
 
   // This updates the form when props change.
   enableReinitialize: true,
 
   // validateOn
-  mapPropsToValues: (props) => {
-    const { initialFormValues } = props;
-    return ({
-      selectedClient: initialFormValues.selectedClient,
-      teamName: initialFormValues.teamName,
-    });
+  mapPropsToValues: ({ formValues }) => {
+    return (formValues);
   },
 
   // Custom sync validation
@@ -57,7 +54,14 @@ export const CreateTeamForm = props => {
       <FormStyleContainer>
         <form onSubmit={handleSubmit}>
 
-          <div className={errors.selectedClient && touched.selectedClient ? 'formgroup formgroup--invalid' : 'formgroup'}>
+          <div 
+            className={
+              errors.selectedClient && 
+              touched.selectedClient ? 
+                'formgroup formgroup--invalid' : 
+                'formgroup'
+            }
+          >
             <label htmlFor="selectedClient">Select a Client</label>
             <select
               id="selectedClient"
@@ -67,10 +71,11 @@ export const CreateTeamForm = props => {
               onBlur={handleBlur}
             >
               {
-                clients.map((client) => {
-                  const { value, displayValue } = client;
+                clients.map( ({value, displayValue }) => {
                   return (
-                    <option key={value} value={value}>{displayValue}</option>
+                    <option 
+                      key={value} 
+                      value={value}>{displayValue}</option>
                   );
                 })
               }
@@ -78,7 +83,14 @@ export const CreateTeamForm = props => {
             <span>{errors.selectedClient}</span>
           </div>
 
-          <div className={errors.teamName && touched.teamName ? 'formgroup formgroup--invalid' : 'formgroup'}>
+          <div 
+            className={
+              errors.teamName && 
+              touched.teamName ? 
+                'formgroup formgroup--invalid' : 
+                'formgroup'
+            }
+          >
             <label htmlFor="teamname">Team Name</label>
             <input
               type="text"
@@ -103,14 +115,33 @@ export const CreateTeamForm = props => {
 };
 
 CreateTeamForm.propTypes = {
-  clients: PT.array,
+
+  // Props
+  clients: PT.arrayOf(
+    PT.shape({
+      displayValue: PT.string,
+      value: PT.string,
+    }),
+  ),
+  values: PT.shape({
+    selectedClient: PT.string,
+    teamName: PT.string,
+  }),
+
+  // Formik Props
   handleSubmit: PT.func.isRequired,
   handleChange: PT.func.isRequired,
   handleBlur: PT.func.isRequired,
   isValid: PT.bool.isRequired,
-  errors: PT.object.isRequired,
-  touched: PT.object.isRequired,
-  values: PT.object.isRequired,
+  errors: PT.shape({
+    selectedClient: PT.string,
+    teamName: PT.string,
+  }),
+  touched: PT.shape({
+    selectedClient: PT.bool,
+    teamName: PT.bool,
+  }),
+
 };
 
 CreateTeamForm.defaultProps = {

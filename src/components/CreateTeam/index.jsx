@@ -5,7 +5,7 @@ import CreateTeamForm from './form';
 import { Button } from '../common';
 import { CornerButton } from '../common_styled';
 
-export const CreateTeam = ({ clients, initialFormValues, submitRequest, navigateTo }) => {
+export const CreateTeam = ({ clients, formValues, submitRequest, navigateTo }) => {
   return (
     <div>
       <CornerButton>
@@ -15,14 +15,23 @@ export const CreateTeam = ({ clients, initialFormValues, submitRequest, navigate
         />
       </CornerButton>
       <h2>Create Team</h2>
-      <CreateTeamForm clients={clients} handleFormSubmit={submitRequest} initialFormValues={initialFormValues} />
+      <CreateTeamForm 
+        clients={clients} 
+        formValues={formValues} 
+        handleFormSubmit={submitRequest} 
+      />
     </div>
   );
 };
 
 CreateTeam.propTypes = {
-  clients: PT.array,
-  initialFormValues: PT.shape({
+  clients: PT.arrayOf(
+    PT.shape({
+      displayValue: PT.string,
+      value: PT.string,
+    }),
+  ),
+  formValues: PT.shape({
     selectedClient: PT.string,
     teamName: PT.string,
   }),
