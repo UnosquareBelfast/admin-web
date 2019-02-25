@@ -55,11 +55,11 @@ export default Wrapped =>
           resetForm();
           Toast({
             type: 'success',
-            title: 'Team created successfully! 👍',
+            title: `${teamName} team created successfully! 👍`,
           });
         })
         .catch(error => {
-          swal('Error', `Error creating team: ${error.message}`, 'error');
+          swal('Error', `Error creating ${teamName} team: ${error.message}`, 'error');
         });
     };
 
