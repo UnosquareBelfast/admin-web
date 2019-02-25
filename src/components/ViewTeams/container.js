@@ -20,7 +20,7 @@ export default Wrapped =>
     teamSearch = clientId => {
       getTeamsFromClient(clientId)
         .then(response => {
-          const teams = response.data;
+          const teams = response.data || [];
           this.setState({ teams });
         })
         .catch(error =>
