@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const FilterContainer = styled.div`
   border: 1px solid lightgrey;
   border-bottom: none;
-  height: 20px;
   padding: 10px;
   padding-bottom: 15px;
   > div {
@@ -24,7 +23,7 @@ export const FilterContainer = styled.div`
   }
   input {
     display: inline-block;
-    height: 22px;
+    height: 26px;
     border: 1px solid lightgrey;
     border-left: none;
     border-radius: 0 3px 3px 0;
