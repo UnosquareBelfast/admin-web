@@ -15,11 +15,20 @@ export default Wrapped =>
     }
 
     getPendingHolidays = () => {
-      getEventsByStatus(holidayStatus.PENDING, eventTypes.ANNUAL_LEAVE).then(
-        response => {
-          this.setState({ pendingHolidays: response.data });
-        }
-      );
+      getEventsByStatus(holidayStatus.PENDING, eventTypes.ANNUAL_LEAVE)
+        .then( ({data: pendingHolidays}) => {
+
+          // sort pending holidays by start date
+          pendingHolidays.sort( (a, b) => {
+            let dateOne = a.eventDates[0].startDate;
+            let dateTwo = b.eventDates[0].startDate;
+            return new Date(dateOne) - new Date(dateTwo);
+          });
+
+          // update the pending holidays state
+          this.setState({ pendingHolidays });
+          
+        });
     };
 
     selectHoliday = holiday => this.setState({ selectedHoliday: holiday });
