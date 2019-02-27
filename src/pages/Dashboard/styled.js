@@ -75,9 +75,11 @@ export const InnerLayout = styled.div`
   }
 
   .rbc-off-range-bg {
-    background: ${props => props.theme.colours.lightgrey};
-    cursor: not-allowed;
-  }
+    background: ${props => props.theme.colours.lightgrey} !important;
+		cursor: not-allowed;
+		position: relative;
+		z-index: 5;
+	}
 
   .rbc-off-range a {
     color: ${props => props.theme.colours.grey} !important;
@@ -92,7 +94,7 @@ export const InnerLayout = styled.div`
   }
 
   .rbc-today {
-    background-color: ${props => props.theme.colours.lightBlue};
+		background-color: ${props => props.theme.colours.lightBlue};
   }
 `;
 
