@@ -213,6 +213,30 @@ const DashboardContainer = Wrapped =>
 
       return true;
     };
+    
+    checkIfManditoryEvent = (startDate) => {
+
+      // set the maditory dates (year is never checked)
+      const mandatoryDates = ['2019-00-01', '2019-05-27', '2019-12-25'];
+
+      // Check if the startDate has the same day and month as any of the mandatory dates
+      const isMandatoryDate = mandatoryDates.some( dateString => {
+        const isSameday = startDate.isSame(dateString, 'day');
+        const isSameMonth = startDate.isSame(dateString, 'month');
+        return isSameday && isSameMonth;
+      });
+
+      // alert message if true
+      if (isMandatoryDate) {
+        Toast({
+          type: 'warning',
+          title: 'Cannot select manditory events',
+        });
+        return true;
+      } else {
+        return false;
+      }
+    }
 
     selectCalendarSlot = bookingEvent => {
       const {
@@ -221,12 +245,14 @@ const DashboardContainer = Wrapped =>
 
       if (bookingEvent.hasOwnProperty('employee')) {
         if (bookingEvent.employee.employeeId === employeeId) {
-          this.setState(
-            {
-              selectedBooking: { ...bookingEvent },
-            },
-            () => this.toggleBookingModal(true)
-          );
+          if (!this.checkIfManditoryEvent(bookingEvent.start)) {
+            this.setState(
+              {
+                selectedBooking: { ...bookingEvent },
+              },
+              () => this.toggleBookingModal(true)
+            );
+          }
         }
       } else {
         if (this.validateSlotSelection(bookingEvent)) {
