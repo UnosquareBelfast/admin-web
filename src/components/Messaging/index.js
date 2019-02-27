@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
+import eventTypes, { typeText } from '../../constants/eventTypes';
+
 import container from './container';
 import {
   StyleContainer,
@@ -81,7 +83,9 @@ const Messaging = ({
   updateMessage,
   currentMessage,
   hideNav,
+  title,
 }) => {
+
   return (
     <StyleContainer>
       <div style={{ position: 'relative' }}>
@@ -93,7 +97,7 @@ const Messaging = ({
             />
           </div>
         )}
-        {!hideNav && <h2>Holiday Messages</h2>}
+        {!hideNav && <h2>{ `${title} Messages` }</h2>}
         <ChatBox>{renderMessages(messages)}</ChatBox>
         <div className="replyBox">
           <span>Send Reply: </span>
@@ -113,12 +117,17 @@ const Messaging = ({
 };
 
 Messaging.propTypes = {
+  title: PT.string,
   messages: PT.array.isRequired,
   toggleMessagingView: PT.func,
   sendMessage: PT.func.isRequired,
   updateMessage: PT.func.isRequired,
   currentMessage: PT.string.isRequired,
   hideNav: PT.bool,
+};
+
+Messaging.defaultProps = {
+  title: typeText[eventTypes.PUBLIC_HOLIDAY],
 };
 
 export default container(Messaging);
