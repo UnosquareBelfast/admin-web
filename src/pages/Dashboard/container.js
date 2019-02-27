@@ -216,14 +216,14 @@ const DashboardContainer = Wrapped =>
     
     checkIfManditoryEvent = (startDate) => {
 
-      // set the maditory dates (year is never checked)
+      // set the manditory dates (year is never checked)
       const mandatoryDates = ['2019-00-01', '2019-05-27', '2019-12-25'];
 
       // Check if the startDate has the same day and month as any of the mandatory dates
       const isMandatoryDate = mandatoryDates.some( dateString => {
-        const isSameday = startDate.isSame(dateString, 'day');
+        const isSameDay = startDate.isSame(dateString, 'day');
         const isSameMonth = startDate.isSame(dateString, 'month');
-        return isSameday && isSameMonth;
+        return isSameDay && isSameMonth;
       });
 
       // alert message if true
