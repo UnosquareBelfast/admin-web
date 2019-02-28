@@ -10,42 +10,26 @@ export default Wrapped =>
       history: PT.object,
       match: PT.object,
     };
-    constructor(props) {
-      super(props);
-      this.state = {
-        success: null,
-        error: null,
-      };
-    }
 
-    submitRequest = data => {
+    submitRequest = (data, resetForm) => {
       createClient(data)
-        .then(() =>
-          Toast({ type: 'success', title: 'Client created sucessfully!' })
-        )
+        .then(() => {
+          resetForm();
+          Toast({ 
+            type: 'success', 
+            title: `${data.clientName} created sucessfully! 👍`, 
+          });
+        })
         .catch(error =>
-          swal('Error', `Error creating client:${error.message}`, 'error')
+          swal('Error', `Error creating ${data.clientName}:${error.message}`, 'error')
         );
     };
 
-    clientsFailedToCreated = error => {
-      this.setState({ error });
-    };
-
     render() {
-      const { params } = this.props.match;
-      let clientId = 0;
-      if (Object.keys(params).length > 0 && params.constructor === Object) {
-        clientId = params.clientId;
-      }
 
       return (
         <Wrapped
-          history={this.props.history}
-          goToAllClients={this.goToAllClients}
-          clientId={parseInt(clientId)}
-          success={this.state.success}
-          error={this.state.error}
+          navigateTo={this.props.history.push}
           submitRequest={this.submitRequest}
         />
       );
