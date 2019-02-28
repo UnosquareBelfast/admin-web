@@ -6,7 +6,7 @@ import { Button } from '../common';
 import { CornerButton } from '../common_styled';
 
 export const CreateClient = props => {
-  const { clientId, updateClient, createClient, history } = props;
+  const { clientId, submitRequest, history } = props;
 
   return (
     <div>
@@ -19,8 +19,7 @@ export const CreateClient = props => {
       </CornerButton>
       <CreateClientForm
         clientId={clientId}
-        onRequestUpdate={updateClient}
-        onRequestCreate={createClient}
+        onRequestCreate={submitRequest}
       />
     </div>
   );
@@ -29,8 +28,7 @@ export const CreateClient = props => {
 CreateClient.propTypes = {
   history: PT.object.isRequired,
   clientId: PT.number.isRequired,
-  updateClient: PT.func.isRequired,
-  createClient: PT.func.isRequired,
+  submitRequest: PT.func.isRequired,
 };
 
 export default container(CreateClient);

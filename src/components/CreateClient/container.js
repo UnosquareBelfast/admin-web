@@ -18,7 +18,7 @@ export default Wrapped =>
       };
     }
 
-    createClient = data => {
+    submitRequest = data => {
       createClient(data)
         .then(() =>
           Toast({ type: 'success', title: 'Client created sucessfully!' })
@@ -46,7 +46,7 @@ export default Wrapped =>
           clientId={parseInt(clientId)}
           success={this.state.success}
           error={this.state.error}
-          createClient={this.createClient}
+          submitRequest={this.submitRequest}
         />
       );
     }

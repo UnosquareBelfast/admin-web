@@ -7,7 +7,6 @@ export default Wrapped =>
     static propTypes = {
       clientId: PT.number.isRequired,
       onRequestCreate: PT.func.isRequired,
-      onRequestUpdate: PT.func.isRequired,
     };
 
     constructor(props) {
@@ -67,7 +66,6 @@ export default Wrapped =>
             this.handleFormStatus(name, value, formIsValid)
           }
           submitFormCreate={e => this.handleClientCreate(e)}
-          submitFormUpdate={e => this.handleClientUpdate(e)}
         />
       );
     }
