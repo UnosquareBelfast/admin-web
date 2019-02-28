@@ -48,6 +48,20 @@ export const setCalendarEvents = events => {
   };
 };
 
+export const setCalendarTeamEvents = events => {
+  return {
+    type: actionTypes.SET_CALENDAR_TEAM_EVENTS,
+    payload: events,
+  };
+};
+
+export const clearCalendarEvents = () => {
+  return {
+    type: actionTypes.CLEAR_CALENDAR_EVENTS,
+    payload: [],
+  };
+};
+
 export const setError = error => {
   return {
     type: actionTypes.SET_ERROR,
@@ -79,15 +93,19 @@ export const fetchEvents = (date, eventView, force = false) => dispatch => {
 
     // If force is true, we need a clean slate. Wipe all events.
     if (force) {
-      dispatch(setCalendarEvents([]));
+      dispatch(clearCalendarEvents());
     }
 
     // Set up a function that will run on success.
-    const onSuccess = data => {
+    const onSuccess = (data, isUserEvents) => {
       shouldBeLoading = false;
       dispatch(setLoadingAsync(false));
       transformEvents(data).then(transformedEvents => {
-        dispatch(setCalendarEvents(transformedEvents));
+        if (isUserEvents) {
+          dispatch(setCalendarEvents(transformedEvents));
+        } else {
+          dispatch(setCalendarTeamEvents(transformedEvents));
+        }
       });
     };
 
@@ -100,14 +118,15 @@ export const fetchEvents = (date, eventView, force = false) => dispatch => {
     };
 
     // Fetch personal events only.
-    if (eventView === eventsView.PERSONAL_EVENTS) {
+    const isUserEvents = eventView === eventsView.PERSONAL_EVENTS;
+    if (isUserEvents) {
       getUsersEvents(date)
-        .then(({ data }) => onSuccess(data))
+        .then(({ data }) => onSuccess(data, isUserEvents))
         .catch(error => onError(error));
       // Fetch team's events as well as your own.
     } else if (eventView === eventsView.TEAM_EVENTS) {
       getTeamsEvents(date)
-        .then(({ data }) => onSuccess(data))
+        .then(({ data }) => onSuccess(data, isUserEvents))
         .catch(error => onError(error));
     }
   }
