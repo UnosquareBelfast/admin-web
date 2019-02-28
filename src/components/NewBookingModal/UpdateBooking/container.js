@@ -7,7 +7,6 @@ import Swal from 'sweetalert2';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { getUserId } from '../../../reducers';
-import { theme } from './../../../styled';
 
 const Container = Wrapped =>
   class extends React.Component {
