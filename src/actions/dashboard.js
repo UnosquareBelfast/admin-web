@@ -55,9 +55,9 @@ export const setCalendarTeamEvents = events => {
   };
 };
 
-export const clearCalendarEvents = () => {
+export const clearAllCalendarEvents = () => {
   return {
-    type: actionTypes.CLEAR_CALENDAR_EVENTS,
+    type: actionTypes.CLEAR_ALL_EVENTS,
     payload: [],
   };
 };
@@ -93,7 +93,7 @@ export const fetchEvents = (date, eventView, force = false) => dispatch => {
 
     // If force is true, we need a clean slate. Wipe all events.
     if (force) {
-      dispatch(clearCalendarEvents());
+      dispatch(clearAllCalendarEvents());
     }
 
     // Set up a function that will run on success.

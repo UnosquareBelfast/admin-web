@@ -2,7 +2,7 @@ import {
   SET_EVENT_VIEW,
   SET_CALENDAR_EVENTS,
   SET_CALENDAR_TEAM_EVENTS,
-  CLEAR_CALENDAR_EVENTS,
+  CLEAR_ALL_EVENTS,
   SET_ERROR,
   SELECT_EVENT,
   UPDATE_EVENT_DURATION,
@@ -57,7 +57,7 @@ const ACTION_HANDLERS = {
     ...state,
     allEvents: action.payload,
   }),
-  [CLEAR_CALENDAR_EVENTS]: (state, action) => ({
+  [CLEAR_ALL_EVENTS]: (state, action) => ({
     ...state,
     allEvents: action.payload,
   }),
