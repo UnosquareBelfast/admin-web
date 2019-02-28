@@ -1,12 +1,12 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import CreateClientForm from './CreateClientForm';
+import CreateClientForm from './form';
 import { Button } from '../common';
 import { CornerButton } from '../common_styled';
 
 export const CreateClient = props => {
-  const { clientId, submitRequest, history } = props;
+  const { submitRequest, navigateTo } = props;
 
   return (
     <div>
@@ -14,20 +14,18 @@ export const CreateClient = props => {
       <CornerButton>
         <Button
           label="View all clients"
-          onClick={() => history.push('/admin/clients')}
+          onClick={() => navigateTo('/admin/clients')}
         />
       </CornerButton>
       <CreateClientForm
-        clientId={clientId}
-        onRequestCreate={submitRequest}
+        handleFormSubmit={submitRequest}
       />
     </div>
   );
 };
 
 CreateClient.propTypes = {
-  history: PT.object.isRequired,
-  clientId: PT.number.isRequired,
+  navigateTo: PT.func.isRequired,
   submitRequest: PT.func.isRequired,
 };
 
