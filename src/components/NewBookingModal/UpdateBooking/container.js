@@ -75,31 +75,18 @@ const Container = Wrapped =>
         selectedBooking: { eventId },
       } = this.props;
       const { refreshCalendar, toggleModal } = this.props;
-      Swal({
-        title: 'Cancel Booking',
-        text: 'Are you sure you wish to cancel this booking?',
-        type: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Yes',
-        confirmButtonColor: theme.colours.unoBlue,
-        cancelButtonText: 'No',
-      }).then(deleteBooking => {
-        if (deleteBooking.value === true) {
-          cancelEvent(eventId)
-            .then(() => {
-              refreshCalendar();
-              toggleModal(false);
-            })
-            .catch(error =>
-              Swal({
-                title: 'Could not cancel holiday',
-                text: error.message,
-                type: 'error',
-              })
-            );
-        }
-      });
-      
+      cancelEvent(eventId)
+        .then(() => {
+          refreshCalendar();
+          toggleModal(false);
+        })
+        .catch(error =>
+          Swal({
+            title: 'Could not cancel holiday',
+            text: error.message,
+            type: 'error',
+          })
+        );
     };
 
     render() {
