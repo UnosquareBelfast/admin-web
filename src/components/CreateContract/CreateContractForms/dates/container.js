@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import moment from 'moment';
 
 export default Wrapped =>
   class extends Component {
@@ -11,43 +10,23 @@ export default Wrapped =>
 
     constructor(props) {
       super(props);
-      this.state = {
-        formData: {
-          startDate: moment(),
-          endDate: moment(),
-          isOpenEnded: false,
-        },
-        formIsValid: false,
+    }
+
+    handleDateSectionSubmit = ({startDate, endDate, isOpenEnded }) => {
+
+      const data = {
+        startDate: startDate.startOf(),
+        endDate: endDate.endOf(),
+        isOpenEnded,
       };
-    }
 
-    handleFormStatus(name, value, formIsValid) {
-      const updatedFormData = { ...this.state.formData };
-      updatedFormData[name] = value;
-      this.setState({
-        formData: updatedFormData,
-        formIsValid,
-      });
-    }
-
-    handleFormSubmit = event => {
-      event.preventDefault();
-      const formData = { ...this.state.formData };
-      formData.startDate = formData.startDate.startOf();
-      formData.endDate = formData.endDate.endOf();
-
-      return this.props.onSuccess(formData);
+      return this.props.onSuccess(data);
     };
 
     render() {
       return (
         <Wrapped
-          formData={this.state.formData}
-          formIsValid={this.state.formIsValid}
-          formStatus={(name, value, formIsValid) =>
-            this.handleFormStatus(name, value, formIsValid)
-          }
-          submitForm={e => this.handleFormSubmit(e)}
+          handleDateSectionSubmit={this.handleDateSectionSubmit}
         />
       );
     }
