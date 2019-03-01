@@ -190,14 +190,8 @@ DateForm.propTypes = {
   setFieldValue: PT.func.isRequired,
   isValid: PT.bool.isRequired,
   errors: PT.shape({
-    startDate: PT.oneOfType([
-      PT.string,
-      PT.object,
-    ]),
-    endDate: PT.oneOfType([
-      PT.string,
-      PT.object,
-    ]),
+    startDate: PT.string,
+    endDate: PT.string,
   }),
   touched: PT.shape({
     startDate: PT.bool,
