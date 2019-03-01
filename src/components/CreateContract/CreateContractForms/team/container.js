@@ -7,7 +7,6 @@ export default Wrapped =>
   class extends Component {
     static propTypes = {
       onSuccess: PT.func,
-      onFailed: PT.func,
     };
 
     constructor(props) {
@@ -19,8 +18,6 @@ export default Wrapped =>
         },
         clients: [],
         teams: [],
-        formIsValid: false,
-        error: false,
       };
     }
 
@@ -38,6 +35,10 @@ export default Wrapped =>
           });
           return acc;
         }, []);
+        clientsFormatted.unshift({
+          value: '-1',
+          displayValue: 'Please select a client',
+        });
         this.setState({
           formData: {
             ...this.state.formData,
@@ -48,37 +49,26 @@ export default Wrapped =>
       });
     };
 
-    handleFormStatus(name, value, formIsValid) {
-      const updatedFormData = { ...this.state.formData };
-      updatedFormData[name] = value;
-      this.setState({
-        formData: updatedFormData,
-        formIsValid,
-      });
-    }
-
-    handleFormSubmit = event => {
-      event.preventDefault();
-
-      let selectedTeam = this.state.teams.filter(
-        team => team.value == this.state.formData.selectedTeam
-      );
-      selectedTeam = selectedTeam[0];
+    handleTeamSectionSubmit = ({selectedClientId, selectedTeamId}) => {
 
       let selectedClient = this.state.clients.filter(
-        client => client.value == this.state.formData.selectedClient
+        user => user.value == selectedClientId
       );
       selectedClient = selectedClient[0];
+
+      let selectedTeam = this.state.teams.filter(
+        user => user.value == selectedTeamId
+      );
+      selectedTeam = selectedTeam[0];
 
       const data = { selectedTeam, selectedClient };
 
       return this.props.onSuccess(data);
     };
 
-    handleTeamSearch = event => {
-      event.preventDefault();
+    handleTeamSearch = selectedClientId => {
 
-      getTeamsFromClient(this.state.formData.selectedClient)
+      getTeamsFromClient(selectedClientId)
         .then(response => {
           const teams = response.data;
           const teamsFormatted = teams.reduce((acc, team) => {
@@ -88,6 +78,10 @@ export default Wrapped =>
             });
             return acc;
           }, []);
+          teamsFormatted.unshift({
+            value: '-1',
+            displayValue: 'Please select a team',
+          });
           this.setState({
             formData: {
               ...this.state.formData,
@@ -104,34 +98,23 @@ export default Wrapped =>
         });
     };
 
-    handleFormReset = event => {
+    handleTeamFormReset = resetForm => {
       event.preventDefault();
       this.setState({
-        formData: {
-          selectedClient: this.state.formData.selectedClient,
-          selectedTeam: -1,
-        },
         teams: [],
-        clients: this.state.clients,
-        formIsValid: false,
-        error: false,
+      }, () => {
+        resetForm();
       });
     };
 
     render() {
       return (
         <Wrapped
-          formData={this.state.formData}
-          formIsValid={this.state.formIsValid}
-          formStatus={(name, value, formIsValid) =>
-            this.handleFormStatus(name, value, formIsValid)
-          }
-          submitForm={e => this.handleFormSubmit(e)}
-          searchTeam={e => this.handleTeamSearch(e)}
-          resetForm={e => this.handleFormReset(e)}
           teams={this.state.teams}
           clients={this.state.clients}
-          error={this.state.error}
+          handleTeamSectionSubmit={this.handleTeamSectionSubmit}
+          searchTeam={this.handleTeamSearch}
+          handleFormReset={this.handleTeamFormReset}
         />
       );
     }

@@ -1,92 +1,181 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { Form, Input, Errorbox } from '../../../common';
+
+import { withFormik } from 'formik';
+
+import { FormStyleContainer } from '../../../common_styled/FormStyleContainer';
 import { FormContainer } from '../styled';
+
+const FormikEnhancer = withFormik({
+
+  displayName: 'Create Contract - Team Form',
+
+  // This updates the form when props change.
+  enableReinitialize: true,
+
+  // validateOn
+  mapPropsToValues: () => {
+    return ({
+      selectedClientId: '-1',
+      selectedTeamId: '-1',
+    });
+  },
+
+  // Custom sync validation
+  validate: ({ selectedClientId, selectedTeamId }) => {
+    let errors = {};
+    if (selectedClientId === '-1') {
+      errors.selectedClientId = 'Please select a client';
+    }
+    if (selectedTeamId === '-1') {
+      errors.selectedTeamId = 'Please select a team';
+    }
+    return errors;
+  },
+
+  handleSubmit: (payload, { props, resetForm }) => {
+    props.handleTeamSectionSubmit(payload, resetForm);
+  },
+
+});
+
 
 export const TeamForm = props => {
   const {
-    submitForm,
-    formStatus,
-    formData,
-    teams,
     clients,
-    error,
-    resetForm,
     searchTeam,
+    teams,
+    values,
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    isValid,
+    touched,
+    errors,
+    handleFormReset,
+    resetForm,
   } = props;
-
-  const searchActions = [
-    {
-      label: 'Search',
-      event: searchTeam,
-      disabled: formData.selectedClient == -1,
-    },
-  ];
-
-  const submitActions = [
-    {
-      label: 'Next Step',
-      event: submitForm,
-      disabled: false,
-    },
-    {
-      label: 'Reset',
-      event: resetForm,
-      disabled: false,
-    },
-  ];
 
   return (
     <FormContainer>
-      <h3>Find team for contract</h3>
-      <Form
-        formData={formData}
-        formStatus={formStatus}
-        actions={teams.length === 0 ? searchActions : submitActions}
-      >
-        <Input
-          label="Pick a client:"
-          type="select"
-          htmlAttrs={{
-            name: 'selectedClient',
-            options: clients,
-            disabled: teams.length > 0,
-          }}
-          value={formData.selectedClient}
-          rules={{}}
-        />
-        <Input
-          label="Pick a team:"
-          type="select"
-          htmlAttrs={{
-            name: 'selectedTeam',
-            options: teams,
-            disabled: teams.length === 0,
-          }}
-          value={formData.selectedTeam}
-          rules={{}}
-        />
-      </Form>
-      {error && (
-        <Errorbox
-          error={{ message: 'Could not find teams, are you sure they exist?' }}
-        />
-      )}
+      <FormStyleContainer>
+        <h3>Find team for contract</h3>
+        <form onSubmit={handleSubmit}>
+
+          <div
+            className={
+              errors.selectedClientId &&
+                touched.selectedClientId ?
+                'formgroup formgroup--invalid' :
+                'formgroup'
+            }
+          >
+            <label htmlFor="selectedClientId">Select a Client</label>
+            <select
+              id="selectedClientId"
+              name="selectedClientId"
+              value={values.selectedClientId}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            >
+              {
+                clients.map(({ value, displayValue }) => {
+                  return (
+                    <option
+                      key={value}
+                      value={value}>{displayValue}</option>
+                  );
+                })
+              }
+            </select>
+            <span>{errors.selectedClientId}</span>
+          </div>
+
+          {
+            teams.length === 0 ?
+
+              <button
+                type="button"
+                disabled={values.firstName === '' || values.lastName === ''}
+                onClick={() => searchTeam(values.selectedClientId)}
+              >
+                Search teams
+              </button>
+
+              :
+
+              <React.Fragment>
+                <div
+                  className={
+                    errors.selectedTeamId &&
+                      touched.selectedTeamId ?
+                      'formgroup formgroup--invalid' :
+                      'formgroup'
+                  }
+                >
+                  <label htmlFor="selectedTeamId">Select a Team</label>
+                  <select
+                    id="selectedTeamId"
+                    name="selectedTeamId"
+                    value={values.selectedTeamId}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  >
+                    {
+                      teams.map(({ value, displayValue }) => {
+                        return (
+                          <option
+                            key={value}
+                            value={value}>{displayValue}</option>
+                        );
+                      })
+                    }
+                  </select>
+                  <span>{errors.selectedTeamId}</span>
+                </div>
+
+                <div className="btngroup btngroup--submit-reset">
+                  <button type="submit" disabled={!isValid}>
+                    Submit
+                  </button>
+                  <button type="button" onClick={() => handleFormReset(resetForm)}>
+                    Reset Form
+                  </button>
+                </div>
+
+              </React.Fragment>
+          }
+        </form>
+      </FormStyleContainer>
     </FormContainer>
   );
 };
 
 TeamForm.propTypes = {
-  formData: PT.object.isRequired,
-  submitForm: PT.func.isRequired,
-  resetForm: PT.func.isRequired,
-  formStatus: PT.func.isRequired,
-  formIsValid: PT.bool.isRequired,
-  error: PT.bool,
   teams: PT.array,
+  searchTeam: PT.func,
   clients: PT.array,
-  searchTeam: PT.func.isRequired,
+
+  // Formik Props
+  values: PT.shape({
+    selectedClientId: PT.string,
+    selectedTeamId: PT.string,
+  }),
+  handleSubmit: PT.func.isRequired,
+  handleChange: PT.func.isRequired,
+  handleBlur: PT.func.isRequired,
+  isValid: PT.bool.isRequired,
+  errors: PT.shape({
+    selectedClientId: PT.string,
+    teamName: PT.string,
+  }),
+  touched: PT.shape({
+    selectedClientId: PT.bool,
+    teamName: PT.bool,
+  }),
+  handleFormReset: PT.func,
+  resetForm: PT.func,
 };
 
 TeamForm.defaultProps = {
@@ -94,4 +183,4 @@ TeamForm.defaultProps = {
   teams: [],
 };
 
-export default container(TeamForm);
+export default container(FormikEnhancer(TeamForm));
