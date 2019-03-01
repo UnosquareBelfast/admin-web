@@ -114,6 +114,19 @@ export const FormStyleContainer = styled.div`
         color: ${props => props.theme.colours.red};
       }
     }
+
+    &--checkbox {
+      label{
+        display: inline-block;
+        width: auto;
+      }
+      input[type='checkbox']{
+        display: inline-block;
+        width: auto;
+        vertical-align: middle;
+        margin-left: 10px;
+      }
+    }
   }
 
   .btngroup {
