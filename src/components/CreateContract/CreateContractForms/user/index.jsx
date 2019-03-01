@@ -82,6 +82,7 @@ export const UserForm = props => {
               value={values.firstName}
               onChange={handleChange}
               onBlur={handleBlur}
+              disabled={users.length > 0}
             />
             <span>{errors.firstName}</span>
           </div>
@@ -103,6 +104,7 @@ export const UserForm = props => {
               value={values.lastName}
               onChange={handleChange}
               onBlur={handleBlur}
+              disabled={users.length > 0}
             />
             <span>{errors.lastName}</span>
           </div>
