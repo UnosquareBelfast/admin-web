@@ -1,41 +1,22 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
+import swal from 'sweetalert2';
 import { getUserByName } from '../../../../services/userService';
 
 export default Wrapped =>
   class extends Component {
     static propTypes = {
       onSuccess: PT.func,
-      onFailed: PT.func,
     };
 
-    constructor(props) {
-      super(props);
-      this.state = {
-        formData: {
-          userFullName: '',
-          selectedUserId: -1,
-        },
-        formIsValid: false,
-        error: false,
-        users: [],
-      };
-    }
+    state = {
+      users: [],
+    };
 
-    handleFormStatus(name, value, formIsValid) {
-      const updatedFormData = { ...this.state.formData };
-      updatedFormData[name] = value;
-      this.setState({
-        formData: updatedFormData,
-        formIsValid,
-      });
-    }
-
-    handleFormSubmit = event => {
-      event.preventDefault();
-
+    handleUserSectionSubmit = ({selectedUserId}) => {
+      
       let selectedUser = this.state.users.filter(
-        user => user.value == this.state.formData.selectedUserId
+        user => user.value == selectedUserId
       );
       selectedUser = selectedUser[0];
 
@@ -46,12 +27,8 @@ export default Wrapped =>
       return this.props.onSuccess(data);
     };
 
-    handleUserSearch = event => {
+    handleUserSearch = (forename, surname) => {
       event.preventDefault();
-      const fullname = this.state.formData.userFullName.split(' ');
-      const forename = fullname[0];
-      const surname = fullname[1];
-
       getUserByName(forename, surname)
         .then(response => {
           const users = response.data;
@@ -62,46 +39,38 @@ export default Wrapped =>
             });
             return acc;
           }, []);
+          usersFormatted.unshift({
+            value: '-1',
+            displayValue: 'Please select a user',
+          });
           this.setState({
-            error: false,
-            formData: {
-              ...this.state.formData,
-              selectedUserId: usersFormatted[0].value,
-            },
             users: usersFormatted,
           });
         })
-        .catch(() => {
-          this.setState({ error: true });
-        });
+        .catch(error =>
+          swal(
+            'Error',
+            `Could not retreive clients: ${error.message}`,
+            'error',
+          ),
+        );
     };
 
-    handleFormReset = event => {
-      event.preventDefault();
+    handleUserFormReset = resetForm => {
       this.setState({
-        formData: {
-          userFullName: '',
-          selectedUserId: -1,
-        },
-        formIsValid: false,
-        error: false,
         users: [],
+      }, () => {
+        resetForm();
       });
     };
 
     render() {
       return (
         <Wrapped
-          formData={this.state.formData}
-          formIsValid={this.state.formIsValid}
-          formStatus={(name, value, formIsValid) =>
-            this.handleFormStatus(name, value, formIsValid)
-          }
-          submitForm={e => this.handleFormSubmit(e)}
-          searchUser={e => this.handleUserSearch(e)}
-          resetForm={e => this.handleFormReset(e)}
           users={this.state.users}
-          error={this.state.error}
+          handleUserSectionSubmit={this.handleUserSectionSubmit}
+          searchUser={this.handleUserSearch}
+          handleFormReset={this.handleUserFormReset}
         />
       );
     }
