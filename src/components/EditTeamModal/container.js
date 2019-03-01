@@ -10,7 +10,7 @@ const Container = Wrapped =>
 
     handleFormSubmit = (original, data) => {
       updateTeam(original.clientId, original.teamId, data.teamName).then(() => {
-        this.props.closeModal(null, true);
+        this.props.closeModal(null, original.clientId);
       });
     };
 
