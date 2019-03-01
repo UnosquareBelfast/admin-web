@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-
 import { withFormik } from 'formik';
 
 import { FormStyleContainer } from '../../../common_styled/FormStyleContainer';
@@ -46,6 +45,7 @@ export const TeamForm = props => {
     clients,
     searchTeam,
     teams,
+    teamResults,
     values,
     handleSubmit,
     handleChange,
@@ -78,6 +78,7 @@ export const TeamForm = props => {
               value={values.selectedClientId}
               onChange={handleChange}
               onBlur={handleBlur}
+              disabled={teams.length > 0}
             >
               {
                 clients.map(({ value, displayValue }) => {
@@ -93,6 +94,11 @@ export const TeamForm = props => {
           </div>
 
           {
+            teamResults !== '' &&
+            <p><strong>{teamResults}</strong></p>
+          }
+
+          {
             teams.length === 0 ?
 
               <button
@@ -105,7 +111,7 @@ export const TeamForm = props => {
 
               :
 
-              <React.Fragment>
+              <Fragment>
                 <div
                   className={
                     errors.selectedTeamId &&
@@ -144,7 +150,7 @@ export const TeamForm = props => {
                   </button>
                 </div>
 
-              </React.Fragment>
+              </Fragment>
           }
         </form>
       </FormStyleContainer>
@@ -154,6 +160,7 @@ export const TeamForm = props => {
 
 TeamForm.propTypes = {
   teams: PT.array,
+  teamResults: PT.string,
   searchTeam: PT.func,
   clients: PT.array,
 

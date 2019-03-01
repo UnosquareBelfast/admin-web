@@ -12,12 +12,9 @@ export default Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        formData: {
-          selectedClient: -1,
-          selectedTeam: -1,
-        },
         clients: [],
         teams: [],
+        teamResults: '',
       };
     }
 
@@ -40,10 +37,6 @@ export default Wrapped =>
           displayValue: 'Please select a client',
         });
         this.setState({
-          formData: {
-            ...this.state.formData,
-            selectedClient: clientsFormatted[0].value,
-          },
           clients: clientsFormatted,
         });
       });
@@ -83,17 +76,13 @@ export default Wrapped =>
             displayValue: 'Please select a team',
           });
           this.setState({
-            formData: {
-              ...this.state.formData,
-              selectedTeam: teamsFormatted[0].value,
-            },
             teams: teamsFormatted,
-            error: false,
+            teamResults: `${teams.length} ${teams.length > 1 ? 'teams' : 'team'} found.`,
           });
         })
         .catch(() => {
           this.setState({
-            error: true,
+            teamResults: 'No Teams Found',
           });
         });
     };
@@ -102,6 +91,7 @@ export default Wrapped =>
       event.preventDefault();
       this.setState({
         teams: [],
+        teamResults: '',
       }, () => {
         resetForm();
       });
@@ -111,6 +101,7 @@ export default Wrapped =>
       return (
         <Wrapped
           teams={this.state.teams}
+          teamResults={this.state.teamResults}
           clients={this.state.clients}
           handleTeamSectionSubmit={this.handleTeamSectionSubmit}
           searchTeam={this.handleTeamSearch}
