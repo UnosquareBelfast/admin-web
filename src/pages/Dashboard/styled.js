@@ -75,8 +75,10 @@ export const InnerLayout = styled.div`
   }
 
   .rbc-off-range-bg {
-    background: ${props => props.theme.colours.lightgrey};
+    background: ${props => props.theme.colours.lightgrey} !important;
     cursor: not-allowed;
+    position: relative;
+    z-index: 5;
   }
 
   .rbc-off-range a {
