@@ -115,4 +115,20 @@ export const FormStyleContainer = styled.div`
       }
     }
   }
+
+  .btngroup {
+    display: flex;
+    button {
+      flex: 1 0 auto;
+      margin-right: 4px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    &--submit-reset button:first-child {
+      flex: 2 0 auto;
+    }
+  }
 `;
