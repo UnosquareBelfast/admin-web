@@ -28,7 +28,7 @@ export default Wrapped =>
     };
 
     handleUserSearch = (forename, surname) => {
-      event.preventDefault();
+
       getUserByName(forename, surname)
         .then(response => {
           const users = response.data;

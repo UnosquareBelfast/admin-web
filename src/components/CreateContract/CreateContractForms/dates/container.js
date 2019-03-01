@@ -5,7 +5,6 @@ export default Wrapped =>
   class extends Component {
     static propTypes = {
       onSuccess: PT.func,
-      onFailed: PT.func,
     };
 
     constructor(props) {
