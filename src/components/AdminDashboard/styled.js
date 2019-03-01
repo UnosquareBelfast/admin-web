@@ -23,7 +23,7 @@ export const InnerLayout = styled.div`
           :hover {
             color: white;
             background: ${({ theme }) => theme.colours.unoBlue};
-            border: 0;
+            border-color: ${({ theme }) => theme.colours.unoBlue};
           }
         }
       }
@@ -36,12 +36,10 @@ export const InnerLayout = styled.div`
 
     > div {
       padding: 0px;
-      margin: 15px;
+      margin-right: 50px;
+      margin-bottom: 25px;
       display: flex;
       flex-direction: column;
-      box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.25);
-      border: 1px solid ${({ theme }) => theme.colours.grey};
-      border-radius: 4px;
       width: 400px;
     }
   }
