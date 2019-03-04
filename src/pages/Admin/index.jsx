@@ -4,7 +4,6 @@ import { Route, Switch } from 'react-router-dom';
 import container from './container';
 import {
   TeamOverview,
-  CreateUser,
   CreateClient,
   AllEmployees,
   PendingHolidays,
@@ -26,7 +25,6 @@ export const Admin = props => (
         <Route path="/admin/teams/new/" component={CreateTeam} />
         <Route exact path="/admin/contracts/" component={ViewContracts} />
         <Route path="/admin/contracts/new/" component={CreateContract} />
-        <Route path="/admin/employees/new/" component={CreateUser} />
         <Route exact path="/admin/employees/" component={AllEmployees} />
         <Route path="/admin/holidays/pending/" component={PendingHolidays} />
         <Route path="/admin/holidays/" component={AllHolidays} />
