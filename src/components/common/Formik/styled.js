@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 /*
-	Label
+  Label
 */
 export const Label = styled.label`
   display: block;
@@ -11,37 +11,37 @@ export const Label = styled.label`
 `;
 
 /*
-	Error
+  Error
 */
 export const Error = styled.span`
   display: block;
-	font-weight: ${props => props.theme.fonts.weight.bold};
-	color: ${props => props.theme.colours.red}
+  font-weight: ${props => props.theme.fonts.weight.bold};
+  color: ${props => props.theme.colours.red}
 `;
 
 /*
-	Input
+  Input
 */
 export const Input = styled.input`
-	outline: none;
-	border: 2px solid ${props => props.theme.colours.grey};
-	background-color: ${props => props.theme.colours.white};
-	font: inherit;
-	padding: 0 10px;
-	margin-bottom: 4px;
-	display: block;
-	width: 100%;
-	line-height: 40px;
-	height: 40px;
-	&:focus {
-		outline: none;
-		border: 2px solid ${props => props.theme.colours.unoBlue};
-		background-color: ${props => props.theme.colours.lightBlue};
-	}
+  outline: none;
+  border: 2px solid ${props => props.theme.colours.grey};
+  background-color: ${props => props.theme.colours.white};
+  font: inherit;
+  padding: 0 10px;
+  margin-bottom: 4px;
+  display: block;
+  width: 100%;
+  line-height: 40px;
+  height: 40px;
+  &:focus {
+    outline: none;
+    border: 2px solid ${props => props.theme.colours.unoBlue};
+    background-color: ${props => props.theme.colours.lightBlue};
+  }
 `;
 
 /*
-	Date Picker
+  Date Picker
 */
 export const DatePickerContainer = styled.div`
   position: relative;
@@ -61,24 +61,24 @@ export const DatePickerContainer = styled.div`
       display: block;
       width: 100%;
     }
-	}
-	
-	input {
-		outline: none;
-		border: 2px solid ${props => props.theme.colours.grey};
-		background-color: ${props => props.theme.colours.white};
-		font: inherit;
-		padding: 0 10px;
-		margin-bottom: 4px;
-		display: block;
-		width: 100%;
-		line-height: 40px;
-		height: 40px;
-		&:focus {
-			outline: none;
-			border: 2px solid ${props => props.theme.colours.unoBlue};
-			background-color: ${props => props.theme.colours.lightBlue};
-		}
+  }
+  
+  input {
+    outline: none;
+    border: 2px solid ${props => props.theme.colours.grey};
+    background-color: ${props => props.theme.colours.white};
+    font: inherit;
+    padding: 0 10px;
+    margin-bottom: 4px;
+    display: block;
+    width: 100%;
+    line-height: 40px;
+    height: 40px;
+    &:focus {
+      outline: none;
+      border: 2px solid ${props => props.theme.colours.unoBlue};
+      background-color: ${props => props.theme.colours.lightBlue};
+    }
   }
 
   &.invalid {
@@ -95,7 +95,7 @@ export const DatePickerContainer = styled.div`
 
 
 /*
-	SelectField
+  SelectField
 */
 export const SelectContainer = styled.div`
   position: relative;
@@ -116,80 +116,80 @@ export const SelectContainer = styled.div`
 `;
 
 export const Select = styled.select`
-	outline: none;
-	border: 2px solid ${props => props.theme.colours.grey};
-	background-color: ${props => props.theme.colours.white};
-	font: inherit;
-	padding: 0 10px;
-	margin-bottom: 4px;
-	display: block;
-	width: 100%;
-	line-height: 40px;
-	height: 40px;
+  outline: none;
+  border: 2px solid ${props => props.theme.colours.grey};
+  background-color: ${props => props.theme.colours.white};
+  font: inherit;
+  padding: 0 10px;
+  margin-bottom: 4px;
+  display: block;
+  width: 100%;
+  line-height: 40px;
+  height: 40px;
   -webkit-appearance: none;
   outline: none;
   position: realative;
   &::-ms-expand {
     display: none;
-	}
-	&:focus {
-		outline: none;
-		border: 2px solid ${props => props.theme.colours.unoBlue};
-		background-color: ${props => props.theme.colours.lightBlue};
-	}
+  }
+  &:focus {
+    outline: none;
+    border: 2px solid ${props => props.theme.colours.unoBlue};
+    background-color: ${props => props.theme.colours.lightBlue};
+  }
 `;
 
 
 /*
-	Button
-	1. Standard Button
-	2. Ghost Button
+  Button
+  1. Standard Button
+  2. Ghost Button
 */
 export const Button = styled.button`
-	line-height: 40px;
-	border-radius: 5px;
-	border: 2px solid ${props => props.theme.colours.unoBlue};
-	width: 100%;
-	background-color: ${props => props.theme.colours.unoBlue};
-	color: ${props => props.theme.colours.white};
-	font-weight: bold;
+  line-height: 40px;
+  border-radius: 5px;
+  border: 2px solid ${props => props.theme.colours.unoBlue};
+  width: 100%;
+  background-color: ${props => props.theme.colours.unoBlue};
+  color: ${props => props.theme.colours.white};
+  font-weight: bold;
 
-	&:disabled {
-		opacity: 0.4;
-		cursor: none;
+  &:disabled {
+    opacity: 0.4;
+    cursor: none;
     cursor: not-allowed;
-		pointer-events: none;
-	}
+    pointer-events: none;
+  }
 `;
 
 export const GhostButton = styled(Button)`
-	background-color: ${props => props.theme.colours.white};
-	color: ${props => props.theme.colours.unoBlue};
+  background-color: ${props => props.theme.colours.white};
+  color: ${props => props.theme.colours.unoBlue};
 `;
 
 
 /*
-	FormGroup
+  FormGroup
 */
 export const InputGroup = styled.div`
   width: 100%;
   margin-bottom: 20px;
-	
-	&.invalid {
-		${Label} { 
-			color: ${props => props.theme.colours.red}; 
-		}
-		${SelectContainer}:after {
-			border-color: ${props => props.theme.colours.red} transparent
+  
+  &.invalid {
+    ${Label} { 
+      color: ${props => props.theme.colours.red}; 
+    }
+    ${SelectContainer}:after {
+      border-color: ${props => props.theme.colours.red} transparent
       transparent transparent;
-		}
-		${Input},
-		${Select} {
-			border-color: ${props => props.theme.colours.red};
-			border-width: 1.5px;
-			outline: none;
-		}
-	}
+    }
+    ${Input},
+    ${Select} {
+      border-color: ${props => props.theme.colours.red};
+      border-width: 1.5px;
+      outline: none;
+    }
+  }
 
   &.disabled {
     display: none;
@@ -217,24 +217,24 @@ export const InputGroup = styled.div`
     }
 
     &.is-checked {
-			&:before{
-				background-color: ${props => props.theme.colours.unoBlue};
-			}
-			
-			&.invalid {
-				min-height: 50px;
-			}
+      &:before{
+        background-color: ${props => props.theme.colours.unoBlue};
+      }
+      
+      &.invalid {
+        min-height: 50px;
+      }
     }
 
     ${Label} {
-			padding-left: 20px;
-			position: relative;
-			font-weight: ${props => props.theme.fonts.weight.regular};
+      padding-left: 20px;
+      position: relative;
+      font-weight: ${props => props.theme.fonts.weight.regular};
     }
 
     input[type='checkbox'] {
       display: none;
-		}
-		
+    }
+    
   }
 `;
