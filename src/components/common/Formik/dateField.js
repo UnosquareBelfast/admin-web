@@ -1,6 +1,5 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import moment from 'moment';
 
 import FormGroup from './formgroup';
 
