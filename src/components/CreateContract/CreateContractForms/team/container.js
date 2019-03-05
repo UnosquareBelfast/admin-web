@@ -46,13 +46,11 @@ export default Wrapped =>
 
       let selectedClient = this.state.clients.filter(
         user => user.value == selectedClientId
-      );
-      selectedClient = selectedClient[0];
+      )[0];
 
       let selectedTeam = this.state.teams.filter(
         user => user.value == selectedTeamId
-      );
-      selectedTeam = selectedTeam[0];
+      )[0];
 
       const data = { selectedTeam, selectedClient };
 
