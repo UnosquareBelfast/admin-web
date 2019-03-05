@@ -16,17 +16,14 @@ const FormGroup = (props) => {
   const formatCss = () => {    
 
     let formGroupCss = [];
-    const containsCheckbox = layout.includes('contains-checkbox');
-
-    if (containsCheckbox) {
-      formGroupCss.push(layout);
-    }
+    formGroupCss.push(layout);
 
     if (error !== '') {
       formGroupCss.push('invalid');
     }
 
     return formGroupCss.join(' ');
+    
   };
 
   return (
@@ -52,7 +49,7 @@ FormGroup.propTypes = {
 };
 
 FormGroup.defaultProps = {
-  layout: 'block',
+  layout: 'block-layout',
   error: '',
 };
 

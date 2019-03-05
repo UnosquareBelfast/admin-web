@@ -9,7 +9,7 @@ const CheckBoxField = ({
   ...props
 }) => {
 
-  const layoutCss = ['contains-checkbox'];
+  const layoutCss = ['checkbox-layout'];
   const checkboxActive = field.value;
   if (checkboxActive) {
     layoutCss.push('is-checked');

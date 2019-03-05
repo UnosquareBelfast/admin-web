@@ -187,7 +187,7 @@ export const InputGroup = styled.div`
     }
   }
 
-  &.contains-checkbox {
+  &.checkbox-layout {
     position: relative;
 
     &:before {
