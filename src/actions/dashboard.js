@@ -58,7 +58,6 @@ export const setCalendarTeamEvents = events => {
 export const clearAllCalendarEvents = () => {
   return {
     type: actionTypes.CLEAR_ALL_EVENTS,
-    payload: [],
   };
 };
 

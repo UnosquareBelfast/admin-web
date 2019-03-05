@@ -57,9 +57,9 @@ const ACTION_HANDLERS = {
     ...state,
     allEvents: action.payload,
   }),
-  [CLEAR_ALL_EVENTS]: (state, action) => ({
+  [CLEAR_ALL_EVENTS]: (state) => ({
     ...state,
-    allEvents: action.payload,
+    allEvents: [],
   }),
   [SET_ERROR]: (state, action) => ({
     ...state,
