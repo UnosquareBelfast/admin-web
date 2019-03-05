@@ -11,7 +11,7 @@ export default Wrapped =>
       super(props);
     }
 
-    handleDateSectionSubmit = ({startDate, endDate, isOpenEnded }) => {
+    handleDateSectionSubmit = ({ startDate, endDate, isOpenEnded }) => {
 
       const data = {
         startDate: startDate.startOf(),
