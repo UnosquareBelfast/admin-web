@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { ContainerStyle } from './styled';
 
-const index = ({ clients, selectTeam }) => {
+const index = ({ clients, selectTeam, selectedTeam }) => {
   const renderSidebar = () => {
     return clients.map(client => {
       return (
@@ -18,7 +18,9 @@ const index = ({ clients, selectTeam }) => {
     return clientTeams.map(team => (
       <p
         key={team.teamName}
-        className="team-link"
+        className={
+          selectedTeam && selectedTeam.teamName === team.teamName ? 'team-link active' : 'team-link'
+        }
         onClick={() => selectTeam(team)}
       >
         {team.teamName}
@@ -38,6 +40,7 @@ const index = ({ clients, selectTeam }) => {
 
 index.propTypes = {
   clients: PT.array.isRequired,
+  selectedTeam: PT.object,
   selectTeam: PT.func.isRequired,
 };
 
