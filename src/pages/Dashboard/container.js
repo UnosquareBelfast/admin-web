@@ -214,9 +214,9 @@ const DashboardContainer = Wrapped =>
       return true;
     };
     
-    checkIfManditoryEvent = (startDate) => {
+    checkIfMandatoryEvent = (startDate) => {
 
-      // set the manditory dates (year is never checked)
+      // set the mandatory dates (year is never checked)
       const mandatoryDates = ['2019-00-01', '2019-05-27', '2019-12-25'];
 
       // Check if the startDate has the same day and month as any of the mandatory dates
@@ -230,7 +230,7 @@ const DashboardContainer = Wrapped =>
       if (isMandatoryDate) {
         Toast({
           type: 'warning',
-          title: 'Cannot select manditory events',
+          title: 'Cannot select mandatory events',
         });
         return true;
       } else {
@@ -245,7 +245,7 @@ const DashboardContainer = Wrapped =>
 
       if (bookingEvent.hasOwnProperty('employee')) {
         if (bookingEvent.employee.employeeId === employeeId) {
-          if (!this.checkIfManditoryEvent(bookingEvent.start)) {
+          if (!this.checkIfMandatoryEvent(bookingEvent.start)) {
             this.setState(
               {
                 selectedBooking: { ...bookingEvent },
