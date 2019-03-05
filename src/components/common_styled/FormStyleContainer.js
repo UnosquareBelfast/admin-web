@@ -80,39 +80,4 @@ export const FormStyleContainer = styled.div`
     outline: none;
   }
   
-
-  .formgroup {
-
-    margin: 0 0 20px 0;
-    width: 100%;
-    max-width: 100%;
-
-    label,
-    input,
-    textarea,
-    select {
-      margin: 0 0 2px 0;
-      display: block;
-      width: 100%;
-    }
-    span{
-      display: none;
-    }
-    &--invalid {
-      label { 
-        color: ${props => props.theme.colours.red}; 
-      }
-      input,
-      textarea,
-      select {
-        border-color: ${props => props.theme.colours.red};
-        border-width: 1.5px;
-        outline: none;
-      }
-      span {
-        display: block;
-        color: ${props => props.theme.colours.red};
-      }
-    }
-  }
 `;
