@@ -34,7 +34,6 @@ export const Input = styled.input`
   line-height: 40px;
   height: 40px;
   &:focus {
-    outline: none;
     border: 2px solid ${props => props.theme.colours.unoBlue};
     background-color: ${props => props.theme.colours.lightBlue};
   }
@@ -75,7 +74,6 @@ export const DatePickerContainer = styled.div`
     line-height: 40px;
     height: 40px;
     &:focus {
-      outline: none;
       border: 2px solid ${props => props.theme.colours.unoBlue};
       background-color: ${props => props.theme.colours.lightBlue};
     }
@@ -127,13 +125,11 @@ export const Select = styled.select`
   line-height: 40px;
   height: 40px;
   -webkit-appearance: none;
-  outline: none;
   position: realative;
   &::-ms-expand {
     display: none;
   }
   &:focus {
-    outline: none;
     border: 2px solid ${props => props.theme.colours.unoBlue};
     background-color: ${props => props.theme.colours.lightBlue};
   }
@@ -185,19 +181,9 @@ export const InputGroup = styled.div`
     }
     ${Input},
     ${Select} {
+      background-color: ${props => props.theme.colours.white};
       border-color: ${props => props.theme.colours.red};
       border-width: 1.5px;
-      outline: none;
-    }
-  }
-
-  &.disabled {
-    display: none;
-    visibility: hidden !important;
-    ${Label} {
-      cursor: none;
-      cursor: not-allowed;
-      pointer-events: none;
     }
   }
 
