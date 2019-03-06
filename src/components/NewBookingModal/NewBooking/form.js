@@ -1,8 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
-import { withFormik } from 'formik';
-import DatePicker from 'react-datepicker';
+import { withFormik, Form, Field } from 'formik';
+import { SelectField, DateField, CheckBoxField } from '../../common/Formik';
+import { Button, FormValidationErrorMessage } from '../../common/Formik/styled';
+
 import { isSameDay, getDurationBetweenDates } from '../../../utilities/dates';
 import { checkOverlappingEvents } from '../../../utilities/dashboardEvents';
 import { getHolidayStats } from '../../../reducers';
@@ -81,11 +83,9 @@ const FormikEnhancer = withFormik({
 
 class RawForm extends Component {
   static propTypes = {
+    eventTypes: PT.array.isRequired,
     values: PT.object.isRequired,
-    touched: PT.object.isRequired,
     errors: PT.object.isRequired,
-    handleChange: PT.func.isRequired,
-    handleSubmit: PT.func.isRequired,
     setFieldValue: PT.func.isRequired,
   };
 
@@ -95,85 +95,59 @@ class RawForm extends Component {
 
   renderErrors = errors => {
     return (
-      <ul>
+      <FormValidationErrorMessage>
         {Object.values(errors).map((error, index) => (
           <li key={Object.keys(errors)[index]}>{error}</li>
         ))}
-      </ul>
+      </FormValidationErrorMessage>
     );
-  };
-
-  dateSelectionChanged = value => {
-    const { values, setFieldValue } = this.props;
-    if (values.endDate.isBefore(value)) {
-      setFieldValue('startDate', value);
-      setFieldValue('endDate', value);
-    } else if (values.isHalfDay) {
-      setFieldValue('endDate', value);
-      setFieldValue('startDate', value);
-    } else {
-      setFieldValue('startDate', value);
-    }
   };
 
   render() {
     const {
+      eventTypes,
       values,
-      touched,
       errors,
-      handleChange,
-      handleSubmit,
-      setFieldValue,
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="eventTypeId">Booking Type</label>
-        <select
-          id="eventTypeId"
-          onChange={handleChange}
-          value={values.eventTypeId}
-          className={errors.eventTypeId && touched.eventTypeId ? 'error' : ''}
-        >
-          <option value={1}>Annual Leave</option>
-          <option value={2}>Working From Home</option>
-        </select>
-        <label htmlFor="startDate">Start Date</label>
-        <DatePicker
-          id="startDate"
-          selected={values.startDate}
-          onChange={value => this.dateSelectionChanged(value)}
-          className={errors.startDate && touched.startDate ? 'error' : ''}
+      <Form>
+
+        <Field
+          component={SelectField}
+          title="Booking Type"
+          name="eventTypeId"
+          options={eventTypes}
         />
+
+        <Field
+          component={DateField}
+          title="Start Date"
+          name="startDate"
+          placeholder="Enter a start date"
+        />
+
         {values.halfDay === false && (
-          <Fragment>
-            <label htmlFor="endDate">End Date</label>
-            <DatePicker
-              id="endDate"
-              selected={values.endDate}
-              onChange={value => setFieldValue('endDate', value)}
-              className={errors.endDate && touched.endDate ? 'error' : ''}
-              minDate={values.startDate}
-            />
-          </Fragment>
-        )}
-        <div className="checkbox">
-          <input
-            type="checkbox"
-            id="halfDay"
-            name="halfDay"
-            value={values.halfDay}
-            onChange={handleChange}
-            className={errors.halfDay && touched.halfDay ? 'error' : ''}
-            disabled={!isSameDay(values.startDate, values.endDate)}
+          <Field
+            component={DateField}
+            title="End Date"
+            name="endDate"
+            placeholder="Enter an end date"
           />
-          <label htmlFor="halfDay">Half Day</label>
-        </div>
+        )}
+
+        <Field
+          component={CheckBoxField}
+          title="Half Day"
+          name="halfDay"
+          disabled={!isSameDay(values.startDate, values.endDate)}
+        />
+
         {Object.keys(errors).length ? this.renderErrors(errors) : null}
-        <button type="submit" disabled={Object.keys(errors).length > 0}>
+        <Button type="submit" disabled={Object.keys(errors).length > 0}>
           Submit
-        </button>
-      </form>
+        </Button>
+      </Form>
     );
   }
 }
