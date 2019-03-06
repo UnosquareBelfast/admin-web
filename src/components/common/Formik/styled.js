@@ -163,6 +163,29 @@ export const GhostButton = styled(Button)`
   color: ${props => props.theme.colours.unoBlue};
 `;
 
+/*
+  Button group
+*/
+
+export const ButtonGroup = styled.div`
+  display: flex;
+  ${Button} {
+    flex: 1 0 auto;
+    margin-right: 4px;
+    width: auto;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+`;
+
+export const ButtonGroupSubmitReset = styled(ButtonGroup)`
+  ${Button}:first-child {
+    flex: 2 0 auto;
+  }
+`;
+
 
 /*
   FormGroup
