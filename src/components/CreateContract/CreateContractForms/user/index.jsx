@@ -1,9 +1,11 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { withFormik } from 'formik';
+import { withFormik, Form, Field } from 'formik';
 
-import { FormStyleContainer } from '../../../common_styled/FormStyleContainer';
+import { InputField, SelectField } from '../../../common/Formik';
+import { Button, GhostButton, ButtonGroupSubmitReset } from '../../../common/Formik/styled';
+
 import { FormContainer } from '../styled';
 
 const FormikEnhancer = withFormik({
@@ -49,121 +51,64 @@ export const UserForm = props => {
     searchUser,
     users,
     values,
-    handleSubmit,
-    handleChange,
-    handleBlur,
     isValid,
-    touched,
-    errors,
     handleFormReset,
     resetForm,
   } = props;
 
   return (
     <FormContainer>
-      <FormStyleContainer>
-        <h3>Find user for contract</h3>
-        <form onSubmit={handleSubmit}>
+      <h3>Find user for contract</h3>
+      <Form>
 
-          <div
-            className={
-              errors.firstName &&
-                touched.firstName ?
-                'formgroup formgroup--invalid' :
-                'formgroup'
-            }
-          >
-            <label htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              placeholder="Enter a first name"
-              value={values.firstName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              disabled={users.length > 0}
-            />
-            <span>{errors.firstName}</span>
-          </div>
+        <Field
+          component={InputField}
+          title="First Name"
+          name="firstName"
+          placeholder="Enter a first name"
+        />
 
-          <div
-            className={
-              errors.lastName &&
-                touched.lastName ?
-                'formgroup formgroup--invalid' :
-                'formgroup'
-            }
-          >
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              placeholder="Enter a lastName"
-              value={values.lastName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              disabled={users.length > 0}
-            />
-            <span>{errors.lastName}</span>
-          </div>
+        <Field
+          component={InputField}
+          title="Last Name"
+          name="lastName"
+          placeholder="Enter a last name"
+        />
 
-          {
-            users.length === 0 ?
+        {
+          users.length === 0 ?
 
-              <button
-                type="button"
-                disabled={values.firstName === '' || values.lastName === ''}
-                onClick={() => searchUser(values.firstName, values.lastName)}
-              >
-                Search user
-              </button>
+            <Button
+              type="button"
+              disabled={values.firstName === '' || values.lastName === ''}
+              onClick={() => searchUser(values.firstName, values.lastName)}
+            >
+              Search user
+            </Button>
 
-              :
+            :
 
-              <React.Fragment>
-                <div 
-                  className={
-                    errors.selectedUserId && 
-                    touched.selectedUserId ? 
-                      'formgroup formgroup--invalid' : 
-                      'formgroup'
-                  }
-                >
-                  <label htmlFor="selectedUserId">Select a User</label>
-                  <select
-                    id="selectedUserId"
-                    name="selectedUserId"
-                    value={values.selectedUserId}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  >
-                    {
-                      users.map(({ value, displayValue }) => {
-                        return (
-                          <option
-                            key={value}
-                            value={value}>{displayValue}</option>
-                        );
-                      })
-                    }
-                  </select>
-                  <span>{errors.selectedUserId}</span>
-                </div>
-                
-                <div className="btngroup btngroup--submit-reset">                
-                  <button type="submit" disabled={!isValid}>
-                    Submit
-                  </button>
-                  <button type="button" onClick={() => handleFormReset(resetForm)}>
-                      Reset Form
-                  </button>
-                </div>
-              </React.Fragment>
-          }
-        </form>
-      </FormStyleContainer>
+            <React.Fragment>
+
+              <Field
+                component={SelectField}
+                title="Select a user"
+                name="selectedUserId"
+                options={users}
+              />
+
+              <ButtonGroupSubmitReset>
+                <Button type="submit" disabled={!isValid}>
+                  Submit
+                </Button>
+                <GhostButton type="button" onClick={() => handleFormReset(resetForm)}>
+                  Reset Form
+                </GhostButton>
+              </ButtonGroupSubmitReset>
+
+            </React.Fragment>
+        }
+      </Form>
     </FormContainer>
   );
 };
@@ -172,27 +117,13 @@ UserForm.propTypes = {
   users: PT.array,
   searchUser: PT.func,
 
-  
+
   // Formik Props
   values: PT.shape({
     firstName: PT.string,
     surname: PT.string,
-    selectedUserId: PT.string,
   }),
-  handleSubmit: PT.func.isRequired,
-  handleChange: PT.func.isRequired,
-  handleBlur: PT.func.isRequired,
   isValid: PT.bool.isRequired,
-  errors: PT.shape({
-    firstName: PT.string,
-    surname: PT.string,
-    selectedUserId: PT.string,
-  }),
-  touched: PT.shape({
-    firstName: PT.bool,
-    surname: PT.bool,
-    selectedUserId: PT.bool,
-  }),
   handleFormReset: PT.func,
   resetForm: PT.func,
 };
