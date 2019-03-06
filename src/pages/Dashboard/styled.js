@@ -96,6 +96,30 @@ export const InnerLayout = styled.div`
   .rbc-today {
     background-color: ${props => props.theme.colours.lightBlue};
   }
+
+  .rbc-day-bg:not(.rbc-today):not(.rbc-off-range-bg) {
+    cursor: pointer;
+    position: relative;
+    &:before {
+      transition: all 500ms;
+      position: absolute;
+      content: 'Create a booking';
+      font-size: ${props => props.theme.fonts.pixelSize.xsmall}px;
+      color: ${props => props.theme.colours.white};
+      top: calc(50% - 11px);
+      left: calc(50% - 20px);
+      width: 40px;
+    }
+    &:hover {
+      &:before {
+        color: ${props => props.theme.colours.grey};
+        font-size: ${props => props.theme.fonts.pixelSize.small}px;
+        top: calc(50% - 16px);
+        left: calc(50% - 28px);
+        width: 56px;
+      }
+    }
+  }
 `;
 
 export const CalendarLayoutContainer = styled.div`
