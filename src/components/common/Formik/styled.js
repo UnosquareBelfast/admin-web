@@ -142,13 +142,12 @@ export const Select = styled.select`
   2. Ghost Button
 */
 export const Button = styled.button`
-  line-height: 40px;
+  line-height: 30px;
   border-radius: 5px;
   border: 2px solid ${props => props.theme.colours.unoBlue};
   width: 100%;
   background-color: ${props => props.theme.colours.unoBlue};
   color: ${props => props.theme.colours.white};
-  font-weight: bold;
 
   &:disabled {
     opacity: 0.4;
