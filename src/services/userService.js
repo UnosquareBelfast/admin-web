@@ -16,10 +16,6 @@ export const getUserByName = (forename, surname) => {
   return axios.get(`/Employee/findByForenameAndSurname/${forename}/${surname}`);
 };
 
-export const createUser = data => {
-  return axios.post('Authentication/register/', data);
-};
-
 export const updateUser = data => {
   return axios.put('Employee/', data);
 };

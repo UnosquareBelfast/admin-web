@@ -80,4 +80,68 @@ export const FormStyleContainer = styled.div`
     outline: none;
   }
   
+
+  .formgroup {
+
+    margin: 0 0 20px 0;
+    width: 100%;
+    max-width: 100%;
+
+    label,
+    input,
+    textarea,
+    select {
+      margin: 0 0 2px 0;
+      display: block;
+      width: 100%;
+    }
+    span{
+      display: none;
+    }
+    &--invalid {
+      label { 
+        color: ${props => props.theme.colours.red}; 
+      }
+      input,
+      textarea,
+      select {
+        border-color: ${props => props.theme.colours.red};
+        border-width: 1.5px;
+        outline: none;
+      }
+      span {
+        display: block;
+        color: ${props => props.theme.colours.red};
+      }
+    }
+
+    &--checkbox {
+      label{
+        display: inline-block;
+        width: auto;
+      }
+      input[type='checkbox']{
+        display: inline-block;
+        width: auto;
+        vertical-align: middle;
+        margin-left: 10px;
+      }
+    }
+  }
+
+  .btngroup {
+    display: flex;
+    button {
+      flex: 1 0 auto;
+      margin-right: 4px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    &--submit-reset button:first-child {
+      flex: 2 0 auto;
+    }
+  }
 `;

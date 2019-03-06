@@ -20,19 +20,9 @@ export const ButtonWrap = styled.div`
 
 export const FormContainer = styled.div`
   form {
-    @media (min-width: ${props => props.theme.mediaQueries.md}) {
-      margin-right: -10px;
-      margin-left: -10px;
-    }
-
-    & > div:not(${ButtonWrap}) {
-      @media (min-width: ${props => props.theme.mediaQueries.md}) {
-        margin: 0 0 20px 0;
-        width: 50%;
-        padding: 0 10px;
-        box-sizing: border-box;
-        vertical-align: bottom;
-      }
+    width: 100%;
+    @media (min-width: ${props => props.theme.mediaQueries.lg}) {
+      width: 50%;
     }
   }
 `;
