@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import container from './container';
 import { withFormik, Form, Field } from 'formik';
 
+import container from './container';
 import { SelectField } from '../../../common/Formik';
 import { ButtonGroupSubmitReset, Button, GhostButton } from '../../../common/Formik/styled';
 import { FormContainer } from '../styled';
