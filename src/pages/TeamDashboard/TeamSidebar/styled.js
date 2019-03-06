@@ -42,10 +42,6 @@ export const ContainerStyle = styled.div`
       border-color: transparent transparent transparent transparent;
     }
 
-    &:first-of-type {
-      margin-top: 32px;
-    }
-
     &:hover {
       background-color: ${props => props.theme.colours.unoBlue};
       color: ${props => props.theme.colours.white};
