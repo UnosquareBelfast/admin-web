@@ -40,6 +40,27 @@ export const Input = styled.input`
 `;
 
 /*
+  TextArea
+*/
+export const TextArea = styled.textarea`
+  outline: none;
+  border: 2px solid ${props => props.theme.colours.grey};
+  background-color: ${props => props.theme.colours.white};
+  font: inherit;
+  padding: 8px 10px;
+  margin-bottom: 4px;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  line-height: 22px;
+  min-height: 40px;
+  &:focus {
+    border: 2px solid ${props => props.theme.colours.unoBlue};
+    background-color: ${props => props.theme.colours.lightBlue};
+  }
+`;
+
+/*
   Date Picker
 */
 export const DatePickerContainer = styled.div`
@@ -142,7 +163,7 @@ export const Select = styled.select`
   2. Ghost Button
 */
 export const Button = styled.button`
-  line-height: 40px;
+  line-height: 30px;
   border-radius: 5px;
   border: 2px solid ${props => props.theme.colours.unoBlue};
   width: 100%;
@@ -163,6 +184,28 @@ export const GhostButton = styled(Button)`
   color: ${props => props.theme.colours.unoBlue};
 `;
 
+/*
+  Button group
+*/
+
+export const ButtonGroup = styled.div`
+  display: flex;
+  ${Button} {
+    flex: 1 0 auto;
+    margin-right: 4px;
+    width: auto;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+`;
+
+export const ButtonGroupSubmitReset = styled(ButtonGroup)`
+  ${Button}:first-child {
+    flex: 2 0 auto;
+  }
+`;
+
 
 /*
   FormGroup
@@ -180,6 +223,7 @@ export const InputGroup = styled.div`
       transparent transparent;
     }
     ${Input},
+    ${TextArea},
     ${Select} {
       background-color: ${props => props.theme.colours.white};
       border-color: ${props => props.theme.colours.red};
@@ -221,6 +265,31 @@ export const InputGroup = styled.div`
     input[type='checkbox'] {
       display: none;
     }
+
+    &.is-disabled {
+      &:before {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+      ${Label} {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+    }
     
+  }
+`;
+
+/*
+  Form Validation Error Message
+*/
+export const FormValidationErrorMessage = styled.ul`
+  padding: 10px;
+  background-color: ${props => props.theme.colours.red};
+  color: white;
+  border-radius: 3px;
+  li {
+    list-style: none;
+    margin: 5px 0;
   }
 `;
