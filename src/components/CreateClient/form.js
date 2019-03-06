@@ -2,8 +2,9 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 
 import { FormContainer } from './styled';
-import { FormStyleContainer } from '../common_styled/FormStyleContainer';
-import { withFormik } from 'formik';
+import { withFormik, Form, Field } from 'formik';
+import { InputField } from '../common/Formik';
+import { Button } from '../common/Formik/styled';
 
 
 const FormikEnhancer = withFormik({
@@ -38,68 +39,31 @@ const FormikEnhancer = withFormik({
 export const CreateClientForm = props => {
 
   const {
-    values,
-    handleSubmit,
-    handleChange,
-    handleBlur,
     isValid,
-    touched,
-    errors,
   } = props;
 
   return (
     <FormContainer>
-      <FormStyleContainer>
-        <form onSubmit={handleSubmit}>
+      <Form>
 
-          <div
-            className={
-              errors.clientName &&
-                touched.clientName ?
-                'formgroup formgroup--invalid' :
-                'formgroup'
-            }
-          >
-            <label htmlFor="clientName">Client Name</label>
-            <input
-              type="text"
-              id="clientName"
-              name="clientName"
-              placeholder="Enter a Client name"
-              value={values.clientName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-            <span>{errors.clientName}</span>
-          </div>
+        <Field
+          component={InputField}
+          title="Client Name"
+          name="clientName"
+          placeholder="Enter a client name"
+        />
 
-          <button type="submit" disabled={!isValid}>
-            Submit
-          </button>
+        <Button type="submit" disabled={!isValid}>
+          Submit
+        </Button>
 
-        </form>
-      </FormStyleContainer>
+      </Form>
     </FormContainer>
   );
 };
 
 CreateClientForm.propTypes = {
-
-  values: PT.shape({
-    clientName: PT.string,
-  }),
-
-  // Formik Props
-  handleSubmit: PT.func.isRequired,
-  handleChange: PT.func.isRequired,
-  handleBlur: PT.func.isRequired,
   isValid: PT.bool.isRequired,
-  errors: PT.shape({
-    clientName: PT.string,
-  }),
-  touched: PT.shape({
-    clientName: PT.bool,
-  }),
 };
 
 export default FormikEnhancer(CreateClientForm);
