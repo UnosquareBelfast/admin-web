@@ -2,9 +2,10 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 
 import { FormContainer } from './styled';
-import { FormStyleContainer } from '../common_styled/FormStyleContainer';
-import { withFormik } from 'formik';
+import { withFormik, Form, Field } from 'formik';
 
+import { InputField, SelectField } from '../common/Formik';
+import { Button } from '../common/Formik/styled';
 
 const FormikEnhancer = withFormik({
 
@@ -33,7 +34,7 @@ const FormikEnhancer = withFormik({
     return errors;
   },
 
-  handleSubmit: (payload, {props, resetForm}) => {
+  handleSubmit: (payload, { props, resetForm }) => {
     props.handleFormSubmit(payload, resetForm);
   },
 
@@ -43,76 +44,32 @@ export const CreateTeamForm = props => {
 
   const {
     clients,
-    values,
-    handleSubmit,
-    handleChange,
-    handleBlur,
     isValid,
-    touched,
-    errors,
   } = props;
 
   return (
     <FormContainer>
-      <FormStyleContainer>
-        <form onSubmit={handleSubmit}>
+      <Form>
 
-          <div 
-            className={
-              errors.selectedClient && 
-              touched.selectedClient ? 
-                'formgroup formgroup--invalid' : 
-                'formgroup'
-            }
-          >
-            <label htmlFor="selectedClient">Select a Client</label>
-            <select
-              id="selectedClient"
-              name="selectedClient"
-              value={values.selectedClient}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            >
-              {
-                clients.map( ({value, displayValue }) => {
-                  return (
-                    <option 
-                      key={value} 
-                      value={value}>{displayValue}</option>
-                  );
-                })
-              }
-            </select>
-            <span>{errors.selectedClient}</span>
-          </div>
+        <Field
+          component={SelectField}
+          title="Select a Client"
+          name="selectedClient"
+          options={clients}
+        />
 
-          <div 
-            className={
-              errors.teamName && 
-              touched.teamName ? 
-                'formgroup formgroup--invalid' : 
-                'formgroup'
-            }
-          >
-            <label htmlFor="teamname">Team Name</label>
-            <input
-              type="text"
-              id="teamName"
-              name="teamName"
-              placeholder="Enter a Team name"
-              value={values.teamName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-            <span>{errors.teamName}</span>
-          </div>
+        <Field
+          component={InputField}
+          title="Team Name"
+          name="teamName"
+          placeholder="Enter a team name"
+        />
 
-          <button type="submit" disabled={!isValid}>
-            Submit
-          </button>
+        <Button type="submit" disabled={!isValid}>
+          Submit
+        </Button>
 
-        </form>
-      </FormStyleContainer>
+      </Form>
     </FormContainer>
   );
 };
@@ -126,24 +83,9 @@ CreateTeamForm.propTypes = {
       value: PT.string,
     }),
   ),
-  values: PT.shape({
-    selectedClient: PT.string,
-    teamName: PT.string,
-  }),
 
   // Formik Props
-  handleSubmit: PT.func.isRequired,
-  handleChange: PT.func.isRequired,
-  handleBlur: PT.func.isRequired,
   isValid: PT.bool.isRequired,
-  errors: PT.shape({
-    selectedClient: PT.string,
-    teamName: PT.string,
-  }),
-  touched: PT.shape({
-    selectedClient: PT.bool,
-    teamName: PT.bool,
-  }),
 
 };
 

@@ -1,6 +1,8 @@
 import {
   SET_EVENT_VIEW,
   SET_CALENDAR_EVENTS,
+  SET_CALENDAR_TEAM_EVENTS,
+  CLEAR_ALL_EVENTS,
   SET_ERROR,
   SELECT_EVENT,
   UPDATE_EVENT_DURATION,
@@ -50,6 +52,14 @@ const ACTION_HANDLERS = {
   [SET_CALENDAR_EVENTS]: (state, action) => ({
     ...state,
     allEvents: action.payload,
+  }),
+  [SET_CALENDAR_TEAM_EVENTS]: (state, action) => ({
+    ...state,
+    allEvents: action.payload,
+  }),
+  [CLEAR_ALL_EVENTS]: (state) => ({
+    ...state,
+    allEvents: [],
   }),
   [SET_ERROR]: (state, action) => ({
     ...state,
