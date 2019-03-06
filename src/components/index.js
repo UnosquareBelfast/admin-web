@@ -7,7 +7,6 @@ export { default as BookingModal } from './NewBookingModal';
 export { default as CreateClient } from './CreateClient';
 export { default as CreateContract } from './CreateContract';
 export { default as CreateTeam } from './CreateTeam';
-export { default as CreateUser } from './CreateUser';
 export { default as Legend } from './Legend';
 export { default as PendingHolidays } from './PendingHolidays';
 export { default as RangeDayPicker } from './common/RangeDayPicker';

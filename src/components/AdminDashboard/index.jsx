@@ -10,7 +10,6 @@ const AdminDashboard = () => {
         <div>
           <h3>Employees</h3>
           <Link to="/admin/employees">View Employees</Link>
-          <Link to="/admin/employees/new">Create Employee</Link>
         </div>
         <div>
           <h3>Holidays</h3>
