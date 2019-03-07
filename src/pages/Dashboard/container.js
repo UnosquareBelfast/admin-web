@@ -214,17 +214,9 @@ const DashboardContainer = Wrapped =>
       return true;
     };
     
-    checkIfMandatoryEvent = (startDate) => {
+    checkIfMandatoryEvent = ({eventType}) => {
 
-      // set the mandatory dates (year is never checked)
-      const mandatoryDates = ['2019-00-01', '2019-05-27', '2019-12-25'];
-
-      // Check if the startDate has the same day and month as any of the mandatory dates
-      const isMandatoryDate = mandatoryDates.some( dateString => {
-        const isSameDay = startDate.isSame(dateString, 'day');
-        const isSameMonth = startDate.isSame(dateString, 'month');
-        return isSameDay && isSameMonth;
-      });
+      const isMandatoryDate = eventType.eventTypeId === eventTypes.PUBLIC_HOLIDAY;
 
       // alert message if true
       if (isMandatoryDate) {
@@ -245,7 +237,7 @@ const DashboardContainer = Wrapped =>
 
       if (bookingEvent.hasOwnProperty('employee')) {
         if (bookingEvent.employee.employeeId === employeeId) {
-          if (!this.checkIfMandatoryEvent(bookingEvent.start)) {
+          if (!this.checkIfMandatoryEvent(bookingEvent)) {
             this.setState(
               {
                 selectedBooking: { ...bookingEvent },
