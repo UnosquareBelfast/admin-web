@@ -42,24 +42,55 @@ export const ChatBox = styled.div`
 
 export const Message = styled.div`
   padding: 10px;
+  margin-bottom: 10px;
   background-color: ${({ msgColor }) => msgColor};
   border-radius: 8px;
   color: white;
-  line-height: 24px;
-  margin-bottom: 10px;
-`;
+  line-height: 18px;
+  position: relative;
+  font-size: ${props => props.theme.fonts.pixelSize.small}px;
 
-export const MessageMetaWrap = styled.div`
-  display: flex;
-  justify-content: space-between;
-  color: ${props => props.theme.colours.darkGrey};
-  font-size: 13px;
-  padding: 0 10px;
-  margin-bottom: 5px;
+  &:before {
+    display: block;
+    content: '';
+    position: absolute;
+    bottom: -8px
+    left: 50px
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 7px 0 7px;
+    border-color: ${({ msgColor }) => msgColor} transparent transparent transparent;
+  }
+
+  span{
+    display: block;
+    margin-top: 4px;
+    font-size: ${(props) => props.theme.fonts.pixelSize.xsmall}px;
+  }
 
   > span > svg {
     margin-right: 5px;
   }
+`;
+
+export const MessageMetaWrap = styled.div`
+  color: ${props => props.theme.colours.darkGrey};
+  font-size: 13px;
+  padding: 0 10px;
+  margin-bottom: 20px;
+
+  > span > svg {
+    margin-right: 5px;
+  }
+`;
+
+export const MessageItemLeft = styled.div`
+  margin: 0 40% 15px 10px;
+`;
+
+export const MessageItemRight = styled.div`
+  margin: 0 10px 15px 40%;
 `;
 
 export const ReplyBox = styled.input`

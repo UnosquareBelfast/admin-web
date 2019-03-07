@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import eventTypes, { typeText } from '../../constants/eventTypes';
 
@@ -6,6 +6,8 @@ import container from './container';
 import {
   StyleContainer,
   ChatBox,
+  MessageItemLeft,
+  MessageItemRight,
   Message,
   MessageMetaWrap,
   ReplyBox,
@@ -22,32 +24,37 @@ import { messageTypeColors } from '../../constants/messageTypes';
 import moment from 'moment';
 
 const MessageBlock = ({
+  myMessage,
   message,
   author,
   lastModified,
   eventMessageId,
   eventMessageTypeId,
 }) => {
+
+  const MessageItem = myMessage ? MessageItemLeft : MessageItemRight;
+
   return (
-    <Fragment key={eventMessageId}>
+    <MessageItem key={eventMessageId}>
+      <Message msgColor={messageTypeColors[eventMessageTypeId]}>
+        {message}
+        <span>
+          <FontAwesomeIcon icon={faClock} />
+          {lastModified}
+        </span>
+      </Message>
       <MessageMetaWrap>
         <span>
           <FontAwesomeIcon icon={faUser} />
           {author}
         </span>
-        <span>
-          <FontAwesomeIcon icon={faClock} />
-          {lastModified}
-        </span>
       </MessageMetaWrap>
-      <Message msgColor={messageTypeColors[eventMessageTypeId]}>
-        {message}
-      </Message>
-    </Fragment>
+    </MessageItem>
   );
 };
 
 MessageBlock.propTypes = {
+  myMessage: PT.bool.isRequired,
   message: PT.string.isRequired,
   author: PT.string.isRequired,
   lastModified: PT.string.isRequired,
@@ -55,7 +62,7 @@ MessageBlock.propTypes = {
   eventMessageTypeId: PT.number.isRequired,
 };
 
-const renderMessages = messages => {
+const renderMessages = (userName, messages) => {
   return messages.map(message => {
     const {
       employee,
@@ -64,11 +71,14 @@ const renderMessages = messages => {
       eventMessageTypeId,
     } = message;
 
+    const employeeName = `${employee.forename} ${employee.surname}`;
+
     return (
       <MessageBlock
+        myMessage={employeeName === userName}
         message={message.message}
-        author={`${employee.forename} ${employee.surname}`}
-        lastModified={moment(lastModified).format('LLLL')}
+        author={employeeName}
+        lastModified={moment(lastModified).format('dddd, Do MMMM YYYY, h:mma')}
         key={eventMessageId}
         eventMessageTypeId={eventMessageTypeId}
       />
@@ -76,15 +86,18 @@ const renderMessages = messages => {
   });
 };
 
-const Messaging = ({
-  messages,
-  toggleMessagingView,
-  sendMessage,
-  updateMessage,
-  currentMessage,
-  hideNav,
-  title,
-}) => {
+const Messaging = (props) => {
+
+  const {
+    userName,
+    messages,
+    toggleMessagingView,
+    sendMessage,
+    updateMessage,
+    currentMessage,
+    hideNav,
+    title,
+  } = props;
 
   return (
     <StyleContainer>
@@ -98,7 +111,7 @@ const Messaging = ({
           </div>
         )}
         {!hideNav && <h2>{ `${title} Messages` }</h2>}
-        <ChatBox>{renderMessages(messages)}</ChatBox>
+        <ChatBox>{renderMessages(userName, messages)}</ChatBox>
         <div className="replyBox">
           <span>Send Reply: </span>
           <div>
@@ -117,6 +130,7 @@ const Messaging = ({
 };
 
 Messaging.propTypes = {
+  userName: PT.string,
   title: PT.string,
   messages: PT.array.isRequired,
   toggleMessagingView: PT.func,
