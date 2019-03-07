@@ -4,9 +4,9 @@ import { ContainerStyle } from './styled';
 
 const index = ({ clients, selectTeam, selectedTeam }) => {
   const renderSidebar = () => {
-    return clients.map(client => {
+    return clients.map( (client, index) => {
       return (
-        <Fragment key={client}>
+        <Fragment key={client + index}>
           <h4 className="client">{client.clientName}</h4>
           {renderTeamLinks(client.teams)}
         </Fragment>
@@ -15,9 +15,9 @@ const index = ({ clients, selectTeam, selectedTeam }) => {
   };
 
   const renderTeamLinks = clientTeams => {
-    return clientTeams.map(team => (
+    return clientTeams.map( (team, index) => (
       <p
-        key={team.teamName}
+        key={team.teamName + index}
         className={
           selectedTeam && selectedTeam.teamName === team.teamName ? 'team-link active' : 'team-link'
         }
