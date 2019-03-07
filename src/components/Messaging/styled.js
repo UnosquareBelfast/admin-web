@@ -17,6 +17,7 @@ export const StyleContainer = styled.div`
   }
 
   padding: 0 15px 10px 15px;
+  height: 100%;
 
   h2 {
     margin: 15px 0 20px 0;
@@ -34,7 +35,7 @@ export const StyleContainer = styled.div`
 
 export const ChatBox = styled.div`
   padding: 10px;
-  height: 300px;
+  height: calc(100% - 140px);
   overflow-y: scroll;
   background-color: ${props => props.theme.colours.lightgrey};
   border-radius: 3px;
