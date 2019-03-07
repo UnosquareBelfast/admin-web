@@ -18,7 +18,7 @@ export const ContainerStyle = styled.div`
     position: relative;
     margin: 0 0 5px 0;
     color: ${props => props.theme.colours.unoBlue};
-    background-color: transparent;
+    background-color: ${props => props.theme.colours.white};
     border: 2px solid ${props => props.theme.colours.unoBlue};
     padding: 0 12px;
     line-height: 30px;
