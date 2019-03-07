@@ -4,19 +4,17 @@ import Rodal from 'rodal';
 
 const Modal = props => {
   const { children, visible, closeModal, width, height } = props;
-  const customStyles = {
-    width: width,
-    minWidth: '400px',
-    height: height,
-    bottom: 'auto',
-    top: '60px',
-  };
   return (
     <Rodal
       visible={visible}
       onClose={closeModal}
-      customStyles={customStyles}
-      {...props}
+      customStyles={{
+        width: width,
+        minWidth: '400px',
+        height: height,
+        bottom: 'auto',
+        top: '60px',
+      }}
     >
       {children}
     </Rodal>
