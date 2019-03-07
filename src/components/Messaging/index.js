@@ -1,6 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import eventTypes, { typeText } from '../../constants/eventTypes';
+import moment from 'moment';
 
 import container from './container';
 import {
@@ -41,7 +42,7 @@ const renderMessages = (userName, messages) => {
           {myMessage}
           <span>
             <FontAwesomeIcon icon={faClock} />
-            {lastModified}
+            {moment(lastModified).format('LLLL')}
           </span>
         </Message>
         <MessageMetaWrap>
@@ -70,28 +71,26 @@ const Messaging = (props) => {
 
   return (
     <StyleContainer>
-      <div style={{ position: 'relative' }}>
-        {!hideNav && (
-          <div className="chatIconWrap">
-            <FontAwesomeIcon
-              icon={faCalendarAlt}
-              onClick={() => toggleMessagingView(false)}
-            />
-          </div>
-        )}
-        {!hideNav && <h2>{ `${title} Messages` }</h2>}
-        <ChatBox>{renderMessages(userName, messages)}</ChatBox>
-        <div className="replyBox">
-          <span>Send Reply: </span>
-          <div>
-            <ReplyBox
-              value={currentMessage}
-              onChange={event => updateMessage(event.target.value)}
-            />
-            <SendButton onClick={sendMessage}>
-              <FontAwesomeIcon icon={faPaperPlane} />
-            </SendButton>
-          </div>
+      {!hideNav && (
+        <div className="chatIconWrap">
+          <FontAwesomeIcon
+            icon={faCalendarAlt}
+            onClick={() => toggleMessagingView(false)}
+          />
+        </div>
+      )}
+      {!hideNav && <h2>{ `${title} Messages` }</h2>}
+      <ChatBox>{renderMessages(userName, messages)}</ChatBox>
+      <div className="replyBox">
+        <span>Send Reply: </span>
+        <div>
+          <ReplyBox
+            value={currentMessage}
+            onChange={event => updateMessage(event.target.value)}
+          />
+          <SendButton onClick={sendMessage}>
+            <FontAwesomeIcon icon={faPaperPlane} />
+          </SendButton>
         </div>
       </div>
     </StyleContainer>
