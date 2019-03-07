@@ -20,16 +20,14 @@ export const FormStyleContainer = styled.div`
     border-radius: 5px;
     border-style: solid;
     border-width: 1px;
+    height: 40px;
+    background-color: ${props => props.theme.colours.white};
     border-color: ${props => props.theme.colours.grey};
   }
 
   textarea {
     margin-bottom: 0;
     resize: vertical;
-  }
-
-  input {
-    height: 23px;
   }
 
   button {
@@ -39,7 +37,6 @@ export const FormStyleContainer = styled.div`
     background-color: ${props => props.theme.colours.unoBlue};
     color: ${props => props.theme.colours.white};
     font-weight: bold;
-    cursor: pointer;
   }
 
   form > label {
@@ -81,5 +78,70 @@ export const FormStyleContainer = styled.div`
     border-color: ${props => props.theme.colours.red};
     border-width: 1.5px;
     outline: none;
+  }
+  
+
+  .formgroup {
+
+    margin: 0 0 20px 0;
+    width: 100%;
+    max-width: 100%;
+
+    label,
+    input,
+    textarea,
+    select {
+      margin: 0 0 2px 0;
+      display: block;
+      width: 100%;
+    }
+    span{
+      display: none;
+    }
+    &--invalid {
+      label { 
+        color: ${props => props.theme.colours.red}; 
+      }
+      input,
+      textarea,
+      select {
+        border-color: ${props => props.theme.colours.red};
+        border-width: 1.5px;
+        outline: none;
+      }
+      span {
+        display: block;
+        color: ${props => props.theme.colours.red};
+      }
+    }
+
+    &--checkbox {
+      label{
+        display: inline-block;
+        width: auto;
+      }
+      input[type='checkbox']{
+        display: inline-block;
+        width: auto;
+        vertical-align: middle;
+        margin-left: 10px;
+      }
+    }
+  }
+
+  .btngroup {
+    display: flex;
+    button {
+      flex: 1 0 auto;
+      margin-right: 4px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    &--submit-reset button:first-child {
+      flex: 2 0 auto;
+    }
   }
 `;

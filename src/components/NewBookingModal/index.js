@@ -47,6 +47,7 @@ const BookingModal = props => {
           <Messaging
             toggleMessagingView={toggleMessagingView}
             eventId={selectedBooking.eventId}
+            title={selectedBooking.eventType.description}
           />
         ) : (
           renderBookingForm()
