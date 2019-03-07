@@ -27,8 +27,9 @@ const MessageContainer = Wrapped =>
     }
 
     sendGetMessageRequest = () => {
-      getEventMessages(this.props.eventId).then(response => {
-        this.setState({ messages: response.data });
+      getEventMessages(this.props.eventId).then( ({data}) => {
+        data.sort((a, b) => new Date(a.lastModified) - new Date(b.lastModified));
+        this.setState({ messages: data });
       });
     };
 
