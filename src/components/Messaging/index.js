@@ -69,6 +69,8 @@ const Messaging = (props) => {
     title,
   } = props;
 
+  const setChatBoxheight = hideNav === undefined ? 'calc(100% - 140px)' : 'calc(100% - 290px)'
+
   return (
     <StyleContainer>
       {!hideNav && (
@@ -80,7 +82,7 @@ const Messaging = (props) => {
         </div>
       )}
       {!hideNav && <h2>{ `${title} Messages` }</h2>}
-      <ChatBox>{renderMessages(userName, messages)}</ChatBox>
+      <ChatBox setChatBoxheight={setChatBoxheight}>{renderMessages(userName, messages)}</ChatBox>
       <div className="replyBox">
         <span>Send Reply: </span>
         <div>

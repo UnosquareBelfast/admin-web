@@ -41,7 +41,11 @@ const HolidayModal = ({
   const duration = getEventDayAmount(holiday);
   const disableRejectionReasonButton = !capturedRejectionReasonText.length > 0;
   return (
-    <Modal closeModal={closeModal} width={ shouldShowAdminControls() ? '60%' : '40%' }>
+    <Modal 
+      closeModal={closeModal} 
+      width={ shouldShowAdminControls() ? '60%' : '40%' }
+      height="80vh"
+    >
       <StyleContainer>
         <div>
           <h2>Manage Holiday</h2>
