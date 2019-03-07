@@ -42,7 +42,7 @@ export const ChatBox = styled.div`
 
 export const Message = styled.div`
   padding: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
   background-color: ${({ msgColor }) => msgColor};
   border-radius: 8px;
   color: white;
@@ -55,7 +55,7 @@ export const Message = styled.div`
     content: '';
     position: absolute;
     bottom: -8px
-    left: 50px
+    left: 20px
     width: 0;
     height: 0;
     border-style: solid;
@@ -76,8 +76,8 @@ export const Message = styled.div`
 
 export const MessageMetaWrap = styled.div`
   color: ${props => props.theme.colours.darkGrey};
-  font-size: 13px;
-  padding: 0 10px;
+  font-size: ${(props) => props.theme.fonts.pixelSize.small}px;
+  padding: 0 0 0 20px;
   margin-bottom: 20px;
 
   > span > svg {
@@ -86,15 +86,17 @@ export const MessageMetaWrap = styled.div`
 `;
 
 export const MessageItemLeft = styled.div`
-  margin: 0 40% 15px 10px;
+  margin: 0 40% 0 10px;
 `;
 
 export const MessageItemRight = styled.div`
-  margin: 0 10px 15px 40%;
+  margin: 0 10px 0 40%;
+  position: relative;
+  top: -10px;
 `;
 
 export const ReplyBox = styled.input`
-  margin-top: 5px;
+  margin-top: 6px;
   padding: 7px 8px;
   border-radius: 5px;
   border-style: solid;

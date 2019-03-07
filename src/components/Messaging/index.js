@@ -21,67 +21,36 @@ import {
   faPaperPlane,
 } from '@fortawesome/fontawesome-free-solid';
 import { messageTypeColors } from '../../constants/messageTypes';
-import moment from 'moment';
 
-const MessageBlock = ({
-  myMessage,
-  message,
-  author,
-  lastModified,
-  eventMessageId,
-  eventMessageTypeId,
-}) => {
-
-  const MessageItem = myMessage ? MessageItemLeft : MessageItemRight;
-
-  return (
-    <MessageItem key={eventMessageId}>
-      <Message msgColor={messageTypeColors[eventMessageTypeId]}>
-        {message}
-        <span>
-          <FontAwesomeIcon icon={faClock} />
-          {lastModified}
-        </span>
-      </Message>
-      <MessageMetaWrap>
-        <span>
-          <FontAwesomeIcon icon={faUser} />
-          {author}
-        </span>
-      </MessageMetaWrap>
-    </MessageItem>
-  );
-};
-
-MessageBlock.propTypes = {
-  myMessage: PT.bool.isRequired,
-  message: PT.string.isRequired,
-  author: PT.string.isRequired,
-  lastModified: PT.string.isRequired,
-  eventMessageId: PT.number.isRequired,
-  eventMessageTypeId: PT.number.isRequired,
-};
 
 const renderMessages = (userName, messages) => {
-  return messages.map(message => {
+  return messages.map( (message, index) => {
     const {
       employee,
       lastModified,
-      eventMessageId,
       eventMessageTypeId,
     } = message;
 
     const employeeName = `${employee.forename} ${employee.surname}`;
+    const myMessage = message.message;
+    const MessageItem = employeeName === userName ? MessageItemLeft : MessageItemRight;
 
     return (
-      <MessageBlock
-        myMessage={employeeName === userName}
-        message={message.message}
-        author={employeeName}
-        lastModified={moment(lastModified).format('dddd, Do MMMM YYYY, h:mma')}
-        key={eventMessageId}
-        eventMessageTypeId={eventMessageTypeId}
-      />
+      <MessageItem key={index}>
+        <Message msgColor={messageTypeColors[eventMessageTypeId]}>
+          {myMessage}
+          <span>
+            <FontAwesomeIcon icon={faClock} />
+            {lastModified}
+          </span>
+        </Message>
+        <MessageMetaWrap>
+          <span>
+            <FontAwesomeIcon icon={faUser} />
+            {employeeName}
+          </span>
+        </MessageMetaWrap>
+      </MessageItem>
     );
   });
 };
