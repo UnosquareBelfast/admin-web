@@ -43,7 +43,8 @@ const BookingModal = props => {
 
   return (
     <Modal 
-      minWidth="50%"
+      width={messagingViewVisible ? '60%' : '40%'}
+      height={messagingViewVisible ? '80%' : 'auto'}
       visible={modalVisible} 
       onClose={() => toggleModal(false)}
     >

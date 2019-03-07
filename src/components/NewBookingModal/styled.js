@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
 export const BookingModalStyleContainer = styled.div`
+  height: 100%;
+  position: relative;
+  
   .chatIconWrap {
     position: absolute;
     top: -13px;

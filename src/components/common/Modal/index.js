@@ -3,11 +3,11 @@ import { PropTypes as PT } from 'prop-types';
 import Rodal from 'rodal';
 
 const Modal = props => {
-  const { children, visible, closeModal, minWidth } = props;
+  const { children, visible, closeModal, width, height } = props;
   const customStyles = {
-    width: minWidth,
+    width: width,
     minWidth: '400px',
-    height: 'auto',
+    height: height,
     bottom: 'auto',
     top: '60px',
   };
@@ -24,14 +24,16 @@ const Modal = props => {
 };
 
 Modal.propTypes = {
-  minWidth: PT.string,
+  width: PT.string,
+  height: PT.string,
   children: PT.node.isRequired,
   closeModal: PT.func,
   visible: PT.bool,
 };
 
 Modal.defaultProps = {
-  minWidth: '35%',
+  width: '35%',
+  height: 'auto',
   closeModal: () => { },
   visible: true,
 };
