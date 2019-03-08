@@ -79,7 +79,7 @@ const TeamDashboard = ({
         />
       )}
       <Layout>
-        <TeamSidebar clients={clients} selectTeam={selectTeam} />
+        <TeamSidebar clients={clients} selectTeam={selectTeam} selectedTeam={selectedTeam} />
         {selectedTeam && renderTeamDetails()}
       </Layout>
     </Fragment>
