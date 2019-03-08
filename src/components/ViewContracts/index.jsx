@@ -1,23 +1,28 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import SearchUserForm from './SearchUser';
+import SearchUserForm from './form';
 import { DataTable } from '../';
 import ContractCells from '../DataTable/Cells/contracts';
 import { Button } from '../common';
 import { CornerButton } from '../common_styled';
 
-export const ViewContracts = ({ contracts, updateContracts, history }) => {
+export const ViewContracts = ({ users, contracts, getUsers, contractSearch, navigateTo }) => {
+
   return (
     <div>
       <CornerButton>
         <Button
-          onClick={() => history.replace('/admin/contracts/new')}
+          onClick={() => navigateTo('/admin/contracts/new')}
           label="Create Contract"
         />
       </CornerButton>
       <h2>View Contracts</h2>
-      <SearchUserForm onSuccess={updateContracts} />
+      <SearchUserForm 
+        users={users}
+        searchUsers={getUsers} 
+        contractSearch={contractSearch}
+      />
       <DataTable
         data={contracts}
         cells={ContractCells}
@@ -29,9 +34,11 @@ export const ViewContracts = ({ contracts, updateContracts, history }) => {
 };
 
 ViewContracts.propTypes = {
+  users: PT.array.isRequired,
+  getUsers: PT.func.isRequired,
   contracts: PT.array.isRequired,
-  updateContracts: PT.func.isRequired,
-  history: PT.object.isRequired,
+  contractSearch: PT.func.isRequired,
+  navigateTo: PT.func.isRequired,
 };
 
 export default container(ViewContracts);
