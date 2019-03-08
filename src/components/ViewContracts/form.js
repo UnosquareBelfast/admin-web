@@ -59,12 +59,12 @@ export const SearchUserForm = props => {
         <ButtonGroupWithInput>
           <Field
             component={InputField}
-            title="Search users' Full Name"
+            title="Search Employee's Full Name"
             name="fullName"
             placeholder="Enter a full name"
           />        
           <Button type="submit" disabled={!isValid}>
-            Search User
+            Search Employee
           </Button>
         </ButtonGroupWithInput>
 
