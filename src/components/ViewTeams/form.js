@@ -24,7 +24,7 @@ const FormikEnhancer = withFormik({
 export const ViewTeamsForm = props => {
   const { clients, teamSearch, setFieldValue } = props;
 
-  const updateDateTeam = (event) => {
+  const updateTeam = (event) => {
     const value = event.target.value;
     teamSearch(event.target.value);
     setFieldValue('selectedClient', value);
@@ -39,7 +39,7 @@ export const ViewTeamsForm = props => {
             title="Select a Client"
             name="selectedClient"
             options={clients}
-            onChange={updateDateTeam}
+            onChange={updateTeam}
           />
         </Form>
       </FormContainer>
