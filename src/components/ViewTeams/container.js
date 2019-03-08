@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { getTeamsFromClient } from '../../services/teamService';
+import { getAllClients } from '../../services/clientService';
+
 import swal from 'sweetalert2';
 
 export default Wrapped =>
@@ -12,9 +14,38 @@ export default Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
+        clients: [],
         teams: [],
         selectedTeam: null,
       };
+    }
+
+    componentDidMount() {
+
+      getAllClients()
+        .then(response => {
+          const clients = response.data;
+          if (clients.length > 0) {
+            const formattedClients = clients.reduce((acc, client) => {
+              acc.push({
+                value: client.clientId,
+                displayValue: client.clientName,
+              });
+              return acc;
+            }, []);
+            formattedClients.unshift({
+              value: '-1',
+              displayValue: 'Please select a client',
+            });
+            this.setState(
+              {
+                clients: formattedClients,
+              });
+          }
+        })
+        .catch(error =>
+          swal('Error', `Could not retreive clients: ${error.message}`, 'error')
+        );
     }
 
     teamSearch = clientId => {
@@ -38,7 +69,8 @@ export default Wrapped =>
     render() {
       return (
         <Wrapped
-          history={this.props.history}
+          navigateTo={this.props.history.push}
+          clients={this.state.clients}
           teamSearch={this.teamSearch}
           teams={this.state.teams}
           selectedTeam={this.state.selectedTeam}
