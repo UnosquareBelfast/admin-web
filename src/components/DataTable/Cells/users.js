@@ -1,5 +1,6 @@
 import { countryText } from '../../../constants/countries';
 import { standardTextFilter } from './cellUtils';
+import { roleText } from '../../../constants/roles';
 
 const fullName = {
   id: 'fullName',
@@ -34,7 +35,7 @@ const location = {
 const role = {
   id: 'role',
   Header: 'Role',
-  accessor: user => user.employeeRoleDescription,
+  accessor: user => roleText[user.employeeRoleId],
   filterMethod: ({ value }, { role }) => standardTextFilter(role, value),
 };
 
