@@ -142,13 +142,12 @@ export const Select = styled.select`
   2. Ghost Button
 */
 export const Button = styled.button`
-  line-height: 40px;
+  line-height: 30px;
   border-radius: 5px;
   border: 2px solid ${props => props.theme.colours.unoBlue};
   width: 100%;
   background-color: ${props => props.theme.colours.unoBlue};
   color: ${props => props.theme.colours.white};
-  font-weight: bold;
 
   &:disabled {
     opacity: 0.4;
@@ -161,6 +160,29 @@ export const Button = styled.button`
 export const GhostButton = styled(Button)`
   background-color: ${props => props.theme.colours.white};
   color: ${props => props.theme.colours.unoBlue};
+`;
+
+/*
+  Button group
+*/
+
+export const ButtonGroup = styled.div`
+  display: flex;
+  ${Button} {
+    flex: 1 0 auto;
+    margin-right: 4px;
+    width: auto;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+`;
+
+export const ButtonGroupSubmitReset = styled(ButtonGroup)`
+  ${Button}:first-child {
+    flex: 2 0 auto;
+  }
 `;
 
 
