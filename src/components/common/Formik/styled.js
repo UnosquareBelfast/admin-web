@@ -170,6 +170,10 @@ export const Button = styled.button`
   background-color: ${props => props.theme.colours.unoBlue};
   color: ${props => props.theme.colours.white};
 
+  &:focus {
+    outline: none;
+  }
+
   &:disabled {
     opacity: 0.4;
     cursor: none;
@@ -202,6 +206,25 @@ export const ButtonGroup = styled.div`
 export const ButtonGroupSubmitReset = styled(ButtonGroup)`
   ${Button}:first-child {
     flex: 2 0 auto;
+  }
+`;
+
+export const ButtonGroupWithInput = styled(ButtonGroup)`
+  display: block
+  width: auto;
+  position: relative;
+
+  ${Input} {
+    position: relative;
+    height: 46px;
+    line-height: 46px;
+    z-index: 1;
+  }
+  ${Button} {
+    position: absolute;
+    right: 4px;
+    top: 26px;
+    z-index: 2;
   }
 `;
 
