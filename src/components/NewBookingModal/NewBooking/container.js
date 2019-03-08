@@ -6,6 +6,7 @@ import { Toast } from '../../../config/Notifications';
 const Container = Wrapped =>
   class extends React.Component {
     static propTypes = {
+      eventTypes: PT.array.isRequired,
       start: PT.object.isRequired,
       end: PT.object.isRequired,
       refreshCalendar: PT.func.isRequired,
@@ -14,7 +15,6 @@ const Container = Wrapped =>
 
     constructor(props) {
       super(props);
-      this.state = {};
     }
 
     handleFormSubmit = data => {
@@ -42,9 +42,10 @@ const Container = Wrapped =>
     };
 
     render() {
-      const { start, end } = this.props;
+      const { start, end, eventTypes } = this.props;
       return (
         <Wrapped
+          eventTypes={eventTypes}
           handleFormSubmit={this.handleFormSubmit}
           start={start}
           end={end}

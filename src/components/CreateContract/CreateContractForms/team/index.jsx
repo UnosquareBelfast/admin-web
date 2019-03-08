@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import container from './container';
-import { withFormik } from 'formik';
+import { withFormik, Form, Field } from 'formik';
 
-import { FormStyleContainer } from '../../../common_styled/FormStyleContainer';
+import container from './container';
+import { SelectField } from '../../../common/Formik';
+import { ButtonGroupSubmitReset, Button, GhostButton } from '../../../common/Formik/styled';
 import { FormContainer } from '../styled';
 
 const FormikEnhancer = withFormik({
@@ -47,113 +48,62 @@ export const TeamForm = props => {
     teams,
     teamResults,
     values,
-    handleSubmit,
-    handleChange,
-    handleBlur,
     isValid,
-    touched,
-    errors,
     handleFormReset,
     resetForm,
   } = props;
 
   return (
     <FormContainer>
-      <FormStyleContainer>
-        <h3>Find team for contract</h3>
-        <form onSubmit={handleSubmit}>
+      <h3>Find team for contract</h3>
+      <Form>
 
-          <div
-            className={
-              errors.selectedClientId &&
-                touched.selectedClientId ?
-                'formgroup formgroup--invalid' :
-                'formgroup'
-            }
-          >
-            <label htmlFor="selectedClientId">Select a Client</label>
-            <select
-              id="selectedClientId"
-              name="selectedClientId"
-              value={values.selectedClientId}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              disabled={teams.length > 0}
+        <Field
+          component={SelectField}
+          title="Select a Client"
+          name="selectedClientId"
+          options={clients}
+        />
+
+        {
+          teamResults !== '' &&
+          <p><strong>{teamResults}</strong></p>
+        }
+
+        {
+          teams.length === 0 ?
+
+            <Button
+              type="button"
+              disabled={values.selectedClientId === '-1'}
+              onClick={() => searchTeam(values.selectedClientId)}
             >
-              {
-                clients.map(({ value, displayValue }) => {
-                  return (
-                    <option
-                      key={value}
-                      value={value}>{displayValue}</option>
-                  );
-                })
-              }
-            </select>
-            <span>{errors.selectedClientId}</span>
-          </div>
+              Search teams
+            </Button>
 
-          {
-            teamResults !== '' &&
-            <p><strong>{teamResults}</strong></p>
-          }
+            :
 
-          {
-            teams.length === 0 ?
+            <Fragment>
 
-              <button
-                type="button"
-                disabled={values.firstName === '' || values.lastName === ''}
-                onClick={() => searchTeam(values.selectedClientId)}
-              >
-                Search teams
-              </button>
+              <Field
+                component={SelectField}
+                title="Select a Team"
+                name="selectedTeamId"
+                options={teams}
+              />
 
-              :
+              <ButtonGroupSubmitReset>
+                <Button type="submit" disabled={!isValid}>
+                  Submit
+                </Button>
+                <GhostButton type="button" onClick={() => handleFormReset(resetForm)}>
+                  Reset Form
+                </GhostButton>
+              </ButtonGroupSubmitReset>
 
-              <Fragment>
-                <div
-                  className={
-                    errors.selectedTeamId &&
-                      touched.selectedTeamId ?
-                      'formgroup formgroup--invalid' :
-                      'formgroup'
-                  }
-                >
-                  <label htmlFor="selectedTeamId">Select a Team</label>
-                  <select
-                    id="selectedTeamId"
-                    name="selectedTeamId"
-                    value={values.selectedTeamId}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  >
-                    {
-                      teams.map(({ value, displayValue }) => {
-                        return (
-                          <option
-                            key={value}
-                            value={value}>{displayValue}</option>
-                        );
-                      })
-                    }
-                  </select>
-                  <span>{errors.selectedTeamId}</span>
-                </div>
-
-                <div className="btngroup btngroup--submit-reset">
-                  <button type="submit" disabled={!isValid}>
-                    Submit
-                  </button>
-                  <button type="button" onClick={() => handleFormReset(resetForm)}>
-                    Reset Form
-                  </button>
-                </div>
-
-              </Fragment>
-          }
-        </form>
-      </FormStyleContainer>
+            </Fragment>
+        }
+      </Form>
     </FormContainer>
   );
 };
@@ -169,18 +119,7 @@ TeamForm.propTypes = {
     selectedClientId: PT.string,
     selectedTeamId: PT.string,
   }),
-  handleSubmit: PT.func.isRequired,
-  handleChange: PT.func.isRequired,
-  handleBlur: PT.func.isRequired,
   isValid: PT.bool.isRequired,
-  errors: PT.shape({
-    selectedClientId: PT.string,
-    teamName: PT.string,
-  }),
-  touched: PT.shape({
-    selectedClientId: PT.bool,
-    teamName: PT.bool,
-  }),
   handleFormReset: PT.func,
   resetForm: PT.func,
 };

@@ -12,29 +12,30 @@ const UpdateBooking = ({
   toggleMessagingView,
   holidayStats,
   cancelEvent,
+  eventTypes,
 }) => {
   return (
-    <FormStyleContainer>
-      <div style={{ position: 'relative' }}>
-        <div className="chatIconWrap">
-          <FontAwesomeIcon
-            icon={faCommentAlt}
-            onClick={() => toggleMessagingView(true)}
-          />
-          <FontAwesomeIcon icon={faTrashAlt} onClick={() => cancelEvent()} />
-        </div>
-        <h2>Update Booking</h2>
-        <Form
-          handleFormSubmit={handleFormSubmit}
-          selectedBooking={selectedBooking}
-          holidayStats={holidayStats}
+    <div style={{ position: 'relative' }}>
+      <div className="chatIconWrap">
+        <FontAwesomeIcon
+          icon={faCommentAlt}
+          onClick={() => toggleMessagingView(true)}
         />
+        <FontAwesomeIcon icon={faTrashAlt} onClick={() => cancelEvent()} />
       </div>
-    </FormStyleContainer>
+      <h2>Update Booking</h2>
+      <Form
+        eventTypes={eventTypes}
+        handleFormSubmit={handleFormSubmit}
+        selectedBooking={selectedBooking}
+        holidayStats={holidayStats}
+      />
+    </div>
   );
 };
 
 UpdateBooking.propTypes = {
+  eventTypes: PT.array.isRequired,
   handleFormSubmit: PT.func.isRequired,
   selectedBooking: PT.object.isRequired,
   toggleMessagingView: PT.func.isRequired,

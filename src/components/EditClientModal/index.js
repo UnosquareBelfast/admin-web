@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import Container from './container';
 import { Modal } from '../../components/common';
-import { FormStyleContainer } from '../common_styled/FormStyleContainer';
-import { withFormik } from 'formik';
+import { withFormik, Form, Field } from 'formik';
+import { InputField } from '../common/Formik';
+import { Button } from '../common/Formik/styled';
 
 const FormikEnhancer = withFormik({
   displayName: 'Edit Client Form',
@@ -39,43 +40,30 @@ class EditTeamModal extends Component {
       clientName: PT.string.isRequired,
     }),
     closeModal: PT.func.isRequired,
-    values: PT.object.isRequired,
-    errors: PT.object.isRequired,
-    handleChange: PT.func.isRequired,
-    handleSubmit: PT.func.isRequired,
+    isValid: PT.bool.isRequired,
   };
 
   render() {
     const {
       client,
       closeModal,
-      values,
-      errors,
-      handleChange,
-      handleSubmit,
+      isValid,
     } = this.props;
 
     return (
       <Modal closeModal={() => closeModal()}>
-        <div>
-          <h2>Edit {client.clientName}</h2>
-          <FormStyleContainer>
-            <form onSubmit={handleSubmit}>
-              <label htmlFor="clientName">New Client Name</label>
-              <input
-                type="text"
-                id="clientName"
-                name="clientName"
-                value={values.clientName}
-                onChange={handleChange}
-                className={errors.clientName ? 'error' : ''}
-              />
-              <button type="submit" disabled={Object.keys(errors).length > 0}>
-                Submit
-              </button>
-            </form>
-          </FormStyleContainer>
-        </div>
+        <h2>Edit {client.clientName}</h2>
+        <Form>
+          <Field
+            component={InputField}
+            title="Client Name"
+            name="clientName"
+            placeholder="Enter a client name"
+          />
+          <Button type="submit" disabled={!isValid}>
+            Update client
+          </Button>
+        </Form>
       </Modal>
     );
   }

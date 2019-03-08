@@ -2,11 +2,11 @@ import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { ContainerStyle } from './styled';
 
-const index = ({ clients, selectTeam }) => {
+const index = ({ clients, selectTeam, selectedTeam }) => {
   const renderSidebar = () => {
-    return clients.map(client => {
+    return clients.map( (client, index) => {
       return (
-        <Fragment key={client}>
+        <Fragment key={client + index}>
           <h4 className="client">{client.clientName}</h4>
           {renderTeamLinks(client.teams)}
         </Fragment>
@@ -15,10 +15,12 @@ const index = ({ clients, selectTeam }) => {
   };
 
   const renderTeamLinks = clientTeams => {
-    return clientTeams.map(team => (
+    return clientTeams.map( (team, index) => (
       <p
-        key={team.teamName}
-        className="team-link"
+        key={team.teamName + index}
+        className={
+          selectedTeam && selectedTeam.teamName === team.teamName ? 'team-link active' : 'team-link'
+        }
         onClick={() => selectTeam(team)}
       >
         {team.teamName}
@@ -38,6 +40,7 @@ const index = ({ clients, selectTeam }) => {
 
 index.propTypes = {
   clients: PT.array.isRequired,
+  selectedTeam: PT.object,
   selectTeam: PT.func.isRequired,
 };
 
