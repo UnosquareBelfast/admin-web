@@ -60,7 +60,10 @@ SelectField.propTypes = {
   options: PT.arrayOf(
     PT.shape({
       displayValue: PT.string,
-      value: PT.string,
+      value: PT.oneOfType([
+        PT.string,
+        PT.number,
+      ]),
     })
   ).isRequired,
 };
