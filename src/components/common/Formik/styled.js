@@ -169,7 +169,6 @@ export const Button = styled.button`
   width: 100%;
   background-color: ${props => props.theme.colours.unoBlue};
   color: ${props => props.theme.colours.white};
-  font-weight: bold;
 
   &:disabled {
     opacity: 0.4;

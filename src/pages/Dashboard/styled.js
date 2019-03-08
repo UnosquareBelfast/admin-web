@@ -119,6 +119,17 @@ export const InnerLayout = styled.div`
         width: 56px;
       }
     }
+    &:nth-child(6),
+    &:nth-child(7) {
+      &:before {
+        color: transparent;
+        &:hover {
+          &:before {
+            color: transparent;
+          }
+        }
+      }
+    }
   }
 `;
 

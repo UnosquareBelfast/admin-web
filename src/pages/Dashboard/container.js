@@ -213,6 +213,22 @@ const DashboardContainer = Wrapped =>
 
       return true;
     };
+    
+    checkIfMandatoryEvent = ({eventType}) => {
+
+      const isMandatoryDate = eventType.eventTypeId === eventTypes.PUBLIC_HOLIDAY;
+
+      // alert message if true
+      if (isMandatoryDate) {
+        Toast({
+          type: 'warning',
+          title: 'Cannot select mandatory events',
+        });
+        return true;
+      } else {
+        return false;
+      }
+    }
 
     selectCalendarSlot = bookingEvent => {
       const {
@@ -221,12 +237,14 @@ const DashboardContainer = Wrapped =>
 
       if (bookingEvent.hasOwnProperty('employee')) {
         if (bookingEvent.employee.employeeId === employeeId) {
-          this.setState(
-            {
-              selectedBooking: { ...bookingEvent },
-            },
-            () => this.toggleBookingModal(true)
-          );
+          if (!this.checkIfMandatoryEvent(bookingEvent)) {
+            this.setState(
+              {
+                selectedBooking: { ...bookingEvent },
+              },
+              () => this.toggleBookingModal(true)
+            );
+          }
         }
       } else {
         if (this.validateSlotSelection(bookingEvent)) {
