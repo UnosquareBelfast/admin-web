@@ -125,7 +125,7 @@ export const Select = styled.select`
   line-height: 40px;
   height: 40px;
   -webkit-appearance: none;
-  position: realative;
+  position: relative;
   &::-ms-expand {
     display: none;
   }
@@ -183,7 +183,6 @@ export const InputGroup = styled.div`
     ${Select} {
       background-color: ${props => props.theme.colours.white};
       border-color: ${props => props.theme.colours.red};
-      border-width: 1.5px;
     }
   }
 
@@ -222,5 +221,143 @@ export const InputGroup = styled.div`
       display: none;
     }
     
+  }
+`;
+
+/*
+  Search Group Form For Filtering React Tables
+*/
+export const SearchGroup = styled.div`
+  width: 100%;
+  max-width: 700px; 
+  display: flex;
+  align-items: center;
+  ${Label} {
+    margin: 0 10px 0 0;
+  }
+  ${SelectContainer} {
+    width: 200px;
+  }
+  ${Select} {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-width: 1px;
+    border-right: none;
+    &:focus {
+      border-color: ${props => props.theme.colours.grey};
+      background-color: ${props => props.theme.colours.white};
+    }
+  }
+  ${Input} {
+    border-width: 1px;
+    width: calc(100% - 150px);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+`;
+
+/*
+  Search Group Form For Filtering React Tables
+*/
+export const ReactTableContainer = styled.div`
+
+  .rt-resizable-header {
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .rt-resizable-header-content {
+    font-weight: ${props => props.theme.fonts.weight.bold};
+    text-transform: uppercase;
+    text-align: left;
+    padding: 0 5px;
+  }
+
+  .ReactTable .rt-thead .rt-th, 
+  .ReactTable .rt-thead .rt-td {
+    padding: 10px 5px;
+    border-right: 1px solid lightgrey;
+  }
+
+  .ReactTable .rt-thead .rt-th.-sort-asc, 
+  .ReactTable .rt-thead .rt-td.-sort-asc {
+    box-shadow: inset 0 3px 0 0 ${props => props.theme.colours.unoBlue};
+  }
+
+  .ReactTable .rt-thead .rt-th.-sort-desc,
+  .ReactTable .rt-thead .rt-th.-sort-desc {
+    box-shadow: inset 0 -3px 0 0 ${props => props.theme.colours.unoBlue};
+  }
+
+  .ReactTable .rt-th, .ReactTable .rt-td {
+    padding: 10px;
+  }
+  
+  .ReactTable .rt-tbody .rt-td {
+    border-right: 1px solid lightgrey;
+  }
+
+  .ReactTable.-highlight .rt-tbody .rt-tr:not(.-padRow):hover {
+    background: ${props => props.theme.colours.lightBlue};
+  }
+
+  .select-wrap.-pageSizeOptions {
+    position: relative;
+    width: 140px
+    overflow: hidden;
+
+    &:after {
+      position: absolute;
+      content: '';
+      top: 16px;
+      right: 8px;
+      width: 0;
+      height: 0;
+      border: 10px solid transparent;
+      border-color: ${props => props.theme.colours.unoBlue} transparent
+        transparent transparent;
+    }
+  }
+  select {
+    outline: none;
+    border: 1px solid ${props => props.theme.colours.grey};
+    background-color: ${props => props.theme.colours.white};
+    font: inherit;
+    margin-bottom: 4px;
+    display: block;
+    width: 100%;
+    height: 40px;
+    -webkit-appearance: none;
+    position: relative;
+    &::-ms-expand {
+      display: none;
+    }
+  }
+  .-pageJump input[type='number'] {
+    outline: none;
+    border: 1px solid ${props => props.theme.colours.grey};
+    background-color: ${props => props.theme.colours.white};
+    font: inherit;
+    padding: 0 10px;
+    display: block;
+    width: 100%;
+    line-height: 40px;
+    height: 40px;
+    &:focus {
+      border: 1px solid ${props => props.theme.colours.unoBlue};
+      background-color: ${props => props.theme.colours.lightBlue};
+    }
+  }
+
+  .-pagination .-previous .-btn,
+  .-pagination .-next .-btn {
+    background-color: ${props => props.theme.colours.unoBlue};
+    color: ${props => props.theme.colours.white};
+
+    &:not([disabled]):hover {
+      background-color: ${props => props.theme.colours.lightBlue};
+      color: ${props => props.theme.colours.unoBlue};
+    }
   }
 `;
