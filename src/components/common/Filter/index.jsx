@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { FilterContainer } from './styled';
+import { SearchGroup, SelectContainer, Label, Select, Input } from '../Formik/styled';
 
 class Filter extends Component {
   static propTypes = {
@@ -54,21 +55,24 @@ class Filter extends Component {
   render() {
     return (
       <FilterContainer>
-        <div>
-          <label>Search</label>
-          <select value={this.state.key} onChange={this.switchKey}>
-            {this.options.map(option => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-          <input
+        <SearchGroup>
+          <Label>Search</Label>
+          <SelectContainer>
+            <Select value={this.state.key} onChange={this.switchKey}>
+              {this.options.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+          </SelectContainer>
+          <Input
             type="text"
+            placeholder={`Enter by ${this.state.key}`}
             value={this.state.value}
             onChange={this.handleChange}
           />
-        </div>
+        </SearchGroup>
       </FilterContainer>
     );
   }
