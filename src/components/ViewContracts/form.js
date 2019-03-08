@@ -68,7 +68,6 @@ export const SearchUserForm = props => {
           </Button>
         </ButtonGroupWithInput>
 
-
         {
           users.length > 0 &&
           <Field
@@ -79,9 +78,6 @@ export const SearchUserForm = props => {
             onChange={updateContract}
           />
         }
-
-        
-
 
       </Form>
     </FormContainer>
