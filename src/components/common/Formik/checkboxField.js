@@ -6,6 +6,7 @@ import FormGroup from './formgroup';
 const CheckBoxField = ({
   field,
   form: { errors },
+  disabled,
   ...props
 }) => {
 
@@ -13,6 +14,9 @@ const CheckBoxField = ({
   const checkboxActive = field.value;
   if (checkboxActive) {
     layoutCss.push('is-checked');
+  }
+  if (disabled) {
+    layoutCss.push('is-disabled');
   }
 
   return (
@@ -28,7 +32,7 @@ const CheckBoxField = ({
         type="checkbox"
         id={field.name} 
         {...field} 
-        {...props}
+        disabled={disabled}
       />
     </FormGroup>
   );
@@ -45,6 +49,11 @@ CheckBoxField.propTypes = {
   form: PT.shape({
     errors: PT.object,
   }),
+  disabled: PT.bool,
+};
+
+CheckBoxField.defualtProps = {
+  disabled: false,
 };
 
 export default CheckBoxField;

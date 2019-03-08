@@ -1,5 +1,6 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
+import eventTypes, { typeText } from '../../constants/eventTypes';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -12,7 +13,19 @@ const Container = Wrapped =>
 
     constructor(props) {
       super(props);
-      this.state = { messagingViewVisible: false };
+      this.state = { 
+        messagingViewVisible: false,
+        eventTypes: [
+          {
+            value: eventTypes.ANNUAL_LEAVE.toString(),
+            displayValue: typeText[eventTypes.ANNUAL_LEAVE],
+          },
+          {
+            value: eventTypes.WFH.toString(),
+            displayValue: typeText[eventTypes.WFH],
+          },
+        ], 
+      };
     }
 
     toggleMessagingView = isVisible => {
@@ -27,7 +40,7 @@ const Container = Wrapped =>
         refreshCalendar,
       } = this.props;
 
-      const { messagingViewVisible } = this.state;
+      const { messagingViewVisible, eventTypes } = this.state;
 
       return (
         <Wrapped
@@ -37,6 +50,7 @@ const Container = Wrapped =>
           refreshCalendar={refreshCalendar}
           messagingViewVisible={messagingViewVisible}
           toggleMessagingView={this.toggleMessagingView}
+          eventTypes={eventTypes}
         />
       );
     }

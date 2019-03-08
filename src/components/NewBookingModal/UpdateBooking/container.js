@@ -11,6 +11,7 @@ import { getUserId } from '../../../reducers';
 const Container = Wrapped =>
   class extends React.Component {
     static propTypes = {
+      eventTypes: PT.array.isRequired,
       userId: PT.number.isRequired,
       selectedBooking: PT.object.isRequired,
       refreshCalendar: PT.func.isRequired,
@@ -89,10 +90,11 @@ const Container = Wrapped =>
     };
 
     render() {
-      const { selectedBooking, toggleMessagingView } = this.props;
+      const { selectedBooking, toggleMessagingView, eventTypes } = this.props;
       const { holidayStats } = this.state;
       return (
         <Wrapped
+          eventTypes={eventTypes}
           handleFormSubmit={this.handleFormSubmit}
           selectedBooking={selectedBooking}
           toggleMessagingView={toggleMessagingView}

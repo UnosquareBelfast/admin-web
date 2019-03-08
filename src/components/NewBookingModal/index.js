@@ -15,6 +15,7 @@ const BookingModal = props => {
     refreshCalendar,
     toggleMessagingView,
     messagingViewVisible,
+    eventTypes,
   } = props;
   const isBeingUpdated = selectedBooking.hasOwnProperty('eventId');
 
@@ -22,6 +23,7 @@ const BookingModal = props => {
     if (isBeingUpdated) {
       return (
         <UpdateBooking
+          eventTypes={eventTypes}
           selectedBooking={selectedBooking}
           refreshCalendar={refreshCalendar}
           toggleModal={toggleModal}
@@ -31,6 +33,7 @@ const BookingModal = props => {
     } else {
       return (
         <NewBooking
+          eventTypes={eventTypes}
           toggleModal={toggleModal}
           refreshCalendar={refreshCalendar}
           start={selectedBooking.start}
@@ -64,6 +67,7 @@ BookingModal.propTypes = {
   refreshCalendar: PT.func.isRequired,
   toggleMessagingView: PT.func.isRequired,
   messagingViewVisible: PT.bool.isRequired,
+  eventTypes: PT.array.isRequired,
 };
 
 export default container(BookingModal);
