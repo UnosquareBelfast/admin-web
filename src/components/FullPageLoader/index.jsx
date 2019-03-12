@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
-import { isLoading } from '../../reducers';
+import { isLoading } from '../../store/reducers';
 import { InnerContainer } from './styled';
 import { Spinner } from '../common';
 

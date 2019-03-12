@@ -7,7 +7,7 @@ import { approveEvent, rejectEvent } from '../../services/eventService';
 import swal from 'sweetalert2';
 import holidayStatus from '../../constants/holidayStatus';
 import { Toast } from '../../config/Notifications';
-import { getUser } from '../../reducers';
+import { getUser } from '../../store/reducers';
 
 const HolidayModalContainer = Wrapped =>
   class extends Component {

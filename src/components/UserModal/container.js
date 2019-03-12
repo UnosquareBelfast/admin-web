@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { getUser } from '../../reducers';
+import { getUser } from '../../store/reducers';
 import { getHolidayStats } from '../../services/holidayService';
 import swal from 'sweetalert2';
 import { isEmpty } from 'lodash';

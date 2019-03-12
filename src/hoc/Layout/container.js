@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { getUser } from '../../reducers';
+import { getUser } from '../../store/reducers';
 import roles from '../../constants/roles';
 import menuItems, { adminItems } from '../../config/navConfig';
 

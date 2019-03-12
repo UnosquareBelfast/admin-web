@@ -1,6 +1,6 @@
 import axios from 'axios';
 import store from '../store';
-import { resetUser } from '../actions/user';
+import { resetUser } from '../store/actions/user';
 
 const baseURL = process.env.DOMAIN;
 const instance = axios.create({

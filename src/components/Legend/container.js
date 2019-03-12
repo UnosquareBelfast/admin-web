@@ -6,7 +6,7 @@ import map from 'lodash/fp/map';
 import compact from 'lodash/fp/compact';
 import uniqBy from 'lodash/fp/uniqBy';
 import flow from 'lodash/fp/flow';
-import { getEventView } from '../../reducers';
+import { getEventView } from '../../store/reducers';
 import eventCategory from '../../constants/eventCategory';
 import holidayStatus, {
   statusText,

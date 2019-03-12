@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { getUser } from '../../reducers';
+import { getUser } from '../../store/reducers';
 import roles from '../../constants/roles';
 
 const AdminContainer = Wrapped =>

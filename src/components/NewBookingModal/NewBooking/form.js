@@ -7,7 +7,7 @@ import { Button, FormValidationErrorMessage } from '../../common/Formik/styled';
 
 import { isSameDay, getDurationBetweenDates } from '../../../utilities/dates';
 import { checkOverlappingEvents } from '../../../utilities/dashboardEvents';
-import { getHolidayStats } from '../../../reducers';
+import { getHolidayStats } from '../../../store/reducers';
 import eventTypes from '../../../constants/eventTypes';
 import store from '../../../store';
 

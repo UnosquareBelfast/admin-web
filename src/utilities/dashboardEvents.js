@@ -4,7 +4,7 @@ import eventTypes from '../constants/roles';
 import mandatoryEvents from './mandatoryEvents';
 import { flow } from 'lodash/fp';
 import store from '../store';
-import { getAllEvents, getUserId } from '../reducers';
+import { getAllEvents, getUserId } from '../store/reducers';
 import holidayStatus from '../constants/holidayStatus';
 
 export const transformEvents = allEvents => {
