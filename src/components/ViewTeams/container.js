@@ -23,8 +23,7 @@ export default Wrapped =>
     componentDidMount() {
 
       getAllClients()
-        .then(response => {
-          const clients = response.data;
+        .then(({data: clients}) => {
           if (clients.length > 0) {
             const formattedClients = clients.reduce((acc, client) => {
               acc.push({
@@ -50,8 +49,8 @@ export default Wrapped =>
 
     teamSearch = clientId => {
       getTeamsFromClient(clientId)
-        .then(response => {
-          const teams = response.data || [];
+        .then(({data}) => {
+          const teams = data || [];
           this.setState({ teams });
         })
         .catch(error =>
@@ -67,13 +66,14 @@ export default Wrapped =>
     };
 
     render() {
+      const { clients, teams, selectedTeam } = this.state;
       return (
         <Wrapped
           navigateTo={this.props.history.push}
-          clients={this.state.clients}
+          clients={clients}
           teamSearch={this.teamSearch}
-          teams={this.state.teams}
-          selectedTeam={this.state.selectedTeam}
+          teams={teams}
+          selectedTeam={selectedTeam}
           selectTeam={this.selectTeam}
         />
       );
