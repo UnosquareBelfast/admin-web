@@ -2,9 +2,14 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { getEventMessages, sendMessage } from '../../services/eventService';
 
-const Container = Wrapped =>
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { getUser } from '../../reducers';
+
+const MessageContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
+      userName: PT.string.isRequired,
       toggleMessagingView: PT.func,
       eventId: PT.number.isRequired,
     };
@@ -22,8 +27,9 @@ const Container = Wrapped =>
     }
 
     sendGetMessageRequest = () => {
-      getEventMessages(this.props.eventId).then(response => {
-        this.setState({ messages: response.data });
+      getEventMessages(this.props.eventId).then( ({data}) => {
+        data.sort((a, b) => new Date(a.lastModified) - new Date(b.lastModified));
+        this.setState({ messages: data });
       });
     };
 
@@ -39,13 +45,15 @@ const Container = Wrapped =>
     };
 
     render() {
-      const { toggleMessagingView } = this.props;
+      const { toggleMessagingView, userName } = this.props;
+      const { messages, currentMessage } = this.state;
       return (
         <Wrapped
-          messages={this.state.messages}
+          userName={userName}
+          messages={messages}
           toggleMessagingView={toggleMessagingView}
           sendMessage={this.sendMessage}
-          currentMessage={this.state.currentMessage}
+          currentMessage={currentMessage}
           updateMessage={this.updateCurrentMessage}
           {...this.props}
         />
@@ -53,4 +61,12 @@ const Container = Wrapped =>
     }
   };
 
-export default Container;
+const mapStateToProps = state => {
+  const user = getUser(state);
+  const userName = `${user.forename} ${user.surname}`;
+  return {
+    userName,
+  };
+};
+
+export default compose(connect(mapStateToProps), MessageContainer);

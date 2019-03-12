@@ -17,6 +17,7 @@ const BookingModal = props => {
     messagingViewVisible,
     eventTypes,
   } = props;
+
   const isBeingUpdated = selectedBooking.hasOwnProperty('eventId');
 
   const renderBookingForm = () => {
@@ -44,7 +45,12 @@ const BookingModal = props => {
   };
 
   return (
-    <Modal visible={modalVisible} onClose={() => toggleModal(false)}>
+    <Modal 
+      width={messagingViewVisible ? '60%' : '40%'}
+      height={messagingViewVisible ? '80vh' : 'auto'}
+      visible={modalVisible} 
+      closeModal={() => toggleModal(false)}
+    >
       <BookingModalStyleContainer>
         {messagingViewVisible ? (
           <Messaging

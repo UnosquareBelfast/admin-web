@@ -17,6 +17,7 @@ export const StyleContainer = styled.div`
   }
 
   padding: 0 15px 10px 15px;
+  height: 100%;
 
   h2 {
     margin: 15px 0 20px 0;
@@ -34,7 +35,7 @@ export const StyleContainer = styled.div`
 
 export const ChatBox = styled.div`
   padding: 10px;
-  height: 300px;
+  height: ${({setChatBoxheight}) => setChatBoxheight};
   overflow-y: scroll;
   background-color: ${props => props.theme.colours.lightgrey};
   border-radius: 3px;
@@ -42,28 +43,61 @@ export const ChatBox = styled.div`
 
 export const Message = styled.div`
   padding: 10px;
+  margin-bottom: 16px;
   background-color: ${({ msgColor }) => msgColor};
   border-radius: 8px;
   color: white;
-  line-height: 24px;
-  margin-bottom: 10px;
-`;
+  line-height: 18px;
+  position: relative;
+  font-size: ${props => props.theme.fonts.pixelSize.small}px;
 
-export const MessageMetaWrap = styled.div`
-  display: flex;
-  justify-content: space-between;
-  color: ${props => props.theme.colours.darkGrey};
-  font-size: 13px;
-  padding: 0 10px;
-  margin-bottom: 5px;
+  &:before {
+    display: block;
+    content: '';
+    position: absolute;
+    bottom: -8px
+    left: 20px
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 7px 0 7px;
+    border-color: ${({ msgColor }) => msgColor} transparent transparent transparent;
+  }
+
+  span{
+    display: block;
+    margin-top: 4px;
+    font-size: ${(props) => props.theme.fonts.pixelSize.xsmall}px;
+  }
 
   > span > svg {
     margin-right: 5px;
   }
 `;
 
+export const MessageMetaWrap = styled.div`
+  color: ${props => props.theme.colours.darkGrey};
+  font-size: ${(props) => props.theme.fonts.pixelSize.small}px;
+  padding: 0 0 0 20px;
+  margin-bottom: 20px;
+
+  > span > svg {
+    margin-right: 5px;
+  }
+`;
+
+export const MessageItemLeft = styled.div`
+  margin: 0 40% 0 10px;
+`;
+
+export const MessageItemRight = styled.div`
+  margin: 0 10px 0 40%;
+  position: relative;
+  top: -10px;
+`;
+
 export const ReplyBox = styled.input`
-  margin-top: 5px;
+  margin-top: 6px;
   padding: 7px 8px;
   border-radius: 5px;
   border-style: solid;
