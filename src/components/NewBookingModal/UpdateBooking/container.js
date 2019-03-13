@@ -6,7 +6,7 @@ import { Toast } from '../../../config/Notifications';
 import Swal from 'sweetalert2';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { getUserId } from '../../../reducers';
+import { getUserId } from '../../../store/reducers';
 
 const Container = Wrapped =>
   class extends React.Component {

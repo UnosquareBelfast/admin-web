@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { loadingSince } from '../reducers';
-import { SET_LOADING } from '../actionTypes';
-import store from '../store';
+import { SET_LOADING } from './actionTypes';
+import store from '../index';
 
 export function setLoading(isLoading) {
   return {

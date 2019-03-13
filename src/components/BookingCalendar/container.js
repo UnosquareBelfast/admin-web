@@ -6,7 +6,7 @@ import {
   selectBooking,
   setEventBeingUpdated,
   updateEventDuration,
-} from '../../actions/dashboard';
+} from '../../store/actions/dashboard';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 const moment = extendMoment(Moment);

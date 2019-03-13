@@ -4,7 +4,7 @@ import { getEventMessages, sendMessage } from '../../services/eventService';
 
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { getUser } from '../../reducers';
+import { getUser } from '../../store/reducers';
 
 const MessageContainer = Wrapped =>
   class extends React.Component {

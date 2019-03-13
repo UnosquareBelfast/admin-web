@@ -1,4 +1,4 @@
-import { UPDATE_USER, RESET_USER } from '../actionTypes';
+import { UPDATE_USER, RESET_USER } from './actionTypes';
 
 export function updateUser(user) {
   return {

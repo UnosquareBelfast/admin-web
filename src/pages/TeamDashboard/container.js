@@ -3,8 +3,8 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { getEmployeesTeamsSnapshot } from '../../services/dashboardService';
-import { getUser } from '../../reducers/';
-import { setLoadingAsync } from '../../actions/loading';
+import { getUser } from '../../store/reducers/';
+import { setLoadingAsync } from '../../store/actions/loading';
 import roles from '../../constants/roles';
 
 const TeamDashboardContainer = Wrapped =>

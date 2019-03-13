@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import store from '../../store';
-import { updateUser } from '../../actions/user';
+import { updateUser } from '../../store/actions/user';
 import { getSignedInUser, checkAuth } from '../../services/userService';
 import AzureInstance from '../../config/AzureInstance';
 

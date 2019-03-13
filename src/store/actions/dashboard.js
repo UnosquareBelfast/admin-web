@@ -1,13 +1,13 @@
-import * as actionTypes from '../actionTypes';
-import { getUsersEvents, getTeamsEvents } from '../services/dashboardService';
-import eventsView from '../constants/eventsView';
+import * as actionTypes from './actionTypes';
+import { getUsersEvents, getTeamsEvents } from '../../services/dashboardService';
+import eventsView from '../../constants/eventsView';
 import { setLoadingAsync } from './loading';
 
 import {
   getEventDuration,
   requiresNewRequest,
   transformEvents,
-} from '../utilities/dashboardEvents';
+} from '../../utilities/dashboardEvents';
 
 /*
   Action Creators
