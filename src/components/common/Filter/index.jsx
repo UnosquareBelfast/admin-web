@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { FilterContainer } from './styled';
-import { SearchGroup, SelectContainer, Label, Select, Input } from '../Formik/styled';
+import { SearchGroup, SelectContainer, Select, Input } from '../Formik/styled';
 
 class Filter extends Component {
   static propTypes = {
