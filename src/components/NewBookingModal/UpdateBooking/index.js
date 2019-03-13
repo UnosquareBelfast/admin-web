@@ -2,7 +2,6 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import Form from './form';
-import { FormStyleContainer } from '../../common_styled/FormStyleContainer';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faCommentAlt, faTrashAlt } from '@fortawesome/fontawesome-free-solid';
 

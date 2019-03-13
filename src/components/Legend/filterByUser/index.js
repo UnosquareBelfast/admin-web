@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { Select } from '../../common_styled/';
+import { Select, SelectContainer } from '../../common/Formik/styled';
 
 const FilterByUser = ({ selectedEmployee, onChange, employeeList }) => {
   let options = [
@@ -22,9 +22,11 @@ const FilterByUser = ({ selectedEmployee, onChange, employeeList }) => {
   }
 
   return (
-    <Select value={selectedEmployee.employeeId} onChange={onChange}>
-      {options}
-    </Select>
+    <SelectContainer>
+      <Select value={selectedEmployee.employeeId} onChange={onChange}>
+        {options}
+      </Select>
+    </SelectContainer>
   );
 };
 
