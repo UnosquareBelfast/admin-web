@@ -56,7 +56,7 @@ class Filter extends Component {
   render() {
 
     const { options, key, value } = this.state;
-    const searchByOption = options.filter((option) => option.value === key );
+    const searchByOption = options.filter((option) => option.value === key);
     const searchByLabel = searchByOption[0].label.toLowerCase();
 
     return (
