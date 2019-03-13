@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { StyledLink } from '../../common_styled';
+import { StyledLink } from './styled';
 
 const Email = ({ children }) => (
   <StyledLink href={`mailto:${children}`}>{children}</StyledLink>

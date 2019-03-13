@@ -7,7 +7,7 @@ import { StyleContainer, Stat, FlexWrap, ButtonWrap, StatusH2 } from './styled';
 import { getEventDayAmount } from '../../utilities/dates';
 import { statusText } from '../../constants/holidayStatus';
 import roles from '../../constants/roles';
-import { InputText } from '../common_styled';
+import { Input } from '../common/Formik/styled';
 import holidayStatus from '../../constants/holidayStatus';
 import { Messaging } from '../';
 
@@ -98,7 +98,7 @@ const HolidayModal = ({
             <FlexWrap>
               <Stat>
                 <h2>{'Rejection Reason'}</h2>
-                <InputText onChange={assignRejectionReasonText} />
+                <Input onChange={assignRejectionReasonText} placeholder="Enter a reason" />
               </Stat>
             </FlexWrap>
             <FlexWrap>
