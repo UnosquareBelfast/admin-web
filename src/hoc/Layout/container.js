@@ -15,7 +15,7 @@ const NavContainer = Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        drawerOpen: localStorage.getItem('ac-nav-open') == 'true',
+        drawerOpen: false,
         menuItems,
       };
     }
@@ -27,9 +27,8 @@ const NavContainer = Wrapped =>
     }
 
     toggleDrawer = () => {
-      this.setState({ drawerOpen: !this.state.drawerOpen }, () => {
-        localStorage.setItem('ac-nav-open', this.state.drawerOpen);
-      });
+      const drawerOpen = !this.state.drawerOpen; 
+      this.setState({ drawerOpen });
     };
 
     render() {

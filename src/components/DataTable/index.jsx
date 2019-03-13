@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Filter } from '../common';
 import ReactTable from 'react-table';
+import { ReactTableContainer } from '../common/Formik/styled';
 
 class DataTable extends Component {
   static propTypes = {
@@ -47,28 +48,30 @@ class DataTable extends Component {
     const { data, pageSize: defaultPageSize, onRowClick } = this.props;
     const { page, pageSize } = this.state;
     return (
-      <ReactTable
-        {...this.props}
-        filtered={[
-          { id: this.state.filter.key, value: this.state.filter.value },
-        ]}
-        data={data}
-        columns={formattedColumns}
-        defaultPageSize={defaultPageSize}
-        page={page}
-        pageSize={pageSize}
-        className="-striped -highlight"
-        getTrProps={(state, rowInfo) => {
-          return {
-            onClick: () => onRowClick(rowInfo.original),
-            style: {
-              cursor: rowInfo ? 'pointer' : 'null',
-            },
-          };
-        }}
-        onPageChange={page => this.setState({ page })}
-        onPageSizeChange={(pageSize, page) => this.setState({ page, pageSize })}
-      />
+      <ReactTableContainer>
+        <ReactTable
+          {...this.props}
+          filtered={[
+            { id: this.state.filter.key, value: this.state.filter.value },
+          ]}
+          data={data}
+          columns={formattedColumns}
+          defaultPageSize={defaultPageSize}
+          page={page}
+          pageSize={pageSize}
+          className="-striped -highlight"
+          getTrProps={(state, rowInfo) => {
+            return {
+              onClick: () => onRowClick(rowInfo.original),
+              style: {
+                cursor: rowInfo ? 'pointer' : 'null',
+              },
+            };
+          }}
+          onPageChange={page => this.setState({ page })}
+          onPageSizeChange={(pageSize, page) => this.setState({ page, pageSize })}
+        />
+      </ReactTableContainer>
     );
   };
 
