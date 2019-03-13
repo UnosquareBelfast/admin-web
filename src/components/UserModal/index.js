@@ -1,13 +1,12 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { Modal, Button, Email } from '../../components/common';
+import { Modal, Email } from '../../components/common';
 import { StyleContainer, Stat, StatWrap } from './styled';
 
 const UserModal = ({
   user,
   closeModal,
-  history,
   approvedDays,
   pendingDays,
   availableDays,
@@ -33,10 +32,6 @@ const UserModal = ({
             <h4>Holidays Remaining</h4>
           </Stat>
         </StatWrap>
-        {/* <Button
-          label="View Full Profile"
-          onClick={() => history.push(`/user/${user.employeeId}`)}
-        /> */}
       </StyleContainer>
     </Modal>
   );

@@ -69,7 +69,7 @@ const Messaging = (props) => {
     title,
   } = props;
 
-  const setChatBoxheight = hideNav === undefined ? 'calc(100% - 140px)' : 'calc(100% - 290px)'
+  const setChatBoxheight = hideNav === undefined ? 'calc(100% - 140px)' : 'calc(100% - 290px)';
 
   return (
     <StyleContainer>
