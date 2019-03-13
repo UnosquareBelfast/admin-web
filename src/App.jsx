@@ -16,6 +16,14 @@ import { theme } from './styled';
 import Layout from './hoc/Layout';
 import AuthUserAndStore from './hoc/AuthUserAndStore';
 
+/* 
+  Used to extend moment and use moment.range
+  througout the application
+*/
+import Moment from 'moment';	
+import { extendMoment } from 'moment-range';	
+const moment = extendMoment(Moment);
+
 const authRoutes = (
   <Layout>
     <Switch>
