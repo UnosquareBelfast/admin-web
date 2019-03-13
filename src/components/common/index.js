@@ -5,8 +5,6 @@ export { default as Modal } from './Modal';
 export { default as RangeDayPicker } from './RangeDayPicker';
 export { default as Errorbox } from './Errorbox';
 export { default as Event } from './Event';
-export { default as Input } from './Input';
-export { default as Form } from './Form';
 export { default as Steps } from './Steps';
 export { default as Table } from './Table';
 export { default as Spinner } from './Spinner';

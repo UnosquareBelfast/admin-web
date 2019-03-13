@@ -1,6 +1,6 @@
 import React from 'react';
 import { BG, Panel, CTAButton } from './styled';
-import { Select } from '../../components/common_styled';
+import { Select, SelectContainer } from '../../components/common/Formik/styled';
 import countries from '../../constants/countries';
 import { registerEmployee } from '../../services/userService';
 import Swal from 'sweetalert2';
@@ -47,14 +47,16 @@ export default class extends React.Component {
             To register a new account with Unosquare, please first select your
             country.
           </p>
-          <Select
-            value={selectedCountry}
-            onChange={({ target }) =>
-              this.setState({ selectedCountry: target.value })
-            }
-          >
-            {countryOptions}
-          </Select>
+          <SelectContainer>
+            <Select
+              value={selectedCountry}
+              onChange={({ target }) =>
+                this.setState({ selectedCountry: target.value })
+              }
+            >
+              {countryOptions}
+            </Select>
+          </SelectContainer>
           <CTAButton
             disabled={selectedCountry === 0}
             onClick={this.submitRegistration}
