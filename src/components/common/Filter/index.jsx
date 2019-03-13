@@ -13,11 +13,10 @@ class Filter extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      options: [],
       value: '',
       key: '',
     };
-
-    this.options = [];
   }
 
   componentWillMount() {
@@ -43,8 +42,10 @@ class Filter extends Component {
       });
       return acc;
     }, []);
-    this.setState({ key: options[0].value });
-    return options;
+    this.setState({
+      options,
+      key: options[0].value, 
+    });
   };
 
   switchKey = event => {
@@ -53,13 +54,17 @@ class Filter extends Component {
   };
 
   render() {
+
+    const { options, key, value } = this.state;
+    const searchByOption = options.filter((option) => option.value === key );
+    const searchByLabel = searchByOption[0].label.toLowerCase();
+
     return (
       <FilterContainer>
         <SearchGroup>
-          <Label>Search</Label>
           <SelectContainer>
-            <Select value={this.state.key} onChange={this.switchKey}>
-              {this.options.map(option => (
+            <Select value={key} onChange={this.switchKey}>
+              {options.map(option => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
@@ -68,8 +73,8 @@ class Filter extends Component {
           </SelectContainer>
           <Input
             type="text"
-            placeholder={`Enter by ${this.state.key}`}
-            value={this.state.value}
+            placeholder={`Search by ${searchByLabel}`}
+            value={value}
             onChange={this.handleChange}
           />
         </SearchGroup>
