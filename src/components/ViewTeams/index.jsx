@@ -1,33 +1,40 @@
 import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import ViewTeamsForm from './ViewTeamsForm';
+import ViewTeamsForm from './form';
 import { DataTable, EditTeamModal } from '../';
 import TeamCells from '../DataTable/Cells/teams';
 import { Button } from '../common';
 import { CornerButton } from '../common_styled';
 
 export const ViewTeams = ({
+  clients,
   selectTeam,
   selectedTeam,
   teamSearch,
   teams,
-  history,
+  navigateTo,
 }) => {
   return (
     <Fragment>
       {selectedTeam && (
-        <EditTeamModal team={selectedTeam} closeModal={selectTeam} />
+        <EditTeamModal 
+          team={selectedTeam} 
+          closeModal={selectTeam} 
+        />
       )}
       <div>
         <CornerButton>
           <Button
-            onClick={() => history.replace('/admin/teams/new')}
+            onClick={() => navigateTo('/admin/teams/new')}
             label="New Team"
           />
         </CornerButton>
         <h2>View Teams</h2>
-        <ViewTeamsForm onChange={teamSearch} />
+        <ViewTeamsForm 
+          clients={clients} 
+          teamSearch={teamSearch} 
+        />
         <DataTable
           data={teams}
           cells={TeamCells}
@@ -41,11 +48,12 @@ export const ViewTeams = ({
 };
 
 ViewTeams.propTypes = {
+  clients: PT.array.isRequired,
   selectTeam: PT.func.isRequired,
   selectedTeam: PT.object,
   teamSearch: PT.func.isRequired,
   teams: PT.array.isRequired,
-  history: PT.object.isRequired,
+  navigateTo: PT.func.isRequired,
 };
 
 export default container(ViewTeams);
