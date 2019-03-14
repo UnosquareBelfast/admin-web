@@ -18,7 +18,7 @@ import AuthUserAndStore from './hoc/AuthUserAndStore';
 
 /* 
   Used to extend moment and use moment.range
-  througout the application
+  throughout the application
 */
 import Moment from 'moment';	
 import { extendMoment } from 'moment-range';	
