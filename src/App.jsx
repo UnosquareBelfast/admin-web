@@ -22,7 +22,7 @@ import AuthUserAndStore from './hoc/AuthUserAndStore';
 */
 import Moment from 'moment';	
 import { extendMoment } from 'moment-range';	
-const moment = extendMoment(Moment);
+extendMoment(Moment);
 
 const authRoutes = (
   <Layout>
