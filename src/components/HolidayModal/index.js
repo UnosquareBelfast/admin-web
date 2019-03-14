@@ -40,11 +40,13 @@ const HolidayModal = ({
 
   const duration = getEventDayAmount(holiday);
   const disableRejectionReasonButton = !capturedRejectionReasonText.length > 0;
+  const displayMessages = userDetails.employeeId !== employeeId;
+  
   return (
     <Modal 
       closeModal={closeModal} 
       width={ shouldShowAdminControls() ? '60%' : '40%' }
-      height="80vh"
+      height={ displayMessages ? '80vh' : 'auto' }
     >
       <StyleContainer>
         <div>
@@ -81,7 +83,10 @@ const HolidayModal = ({
         {shouldShowAdminControls() &&
           (!toggled && (
             <Fragment>
-              <Messaging hideNav eventId={eventId} />
+              { 
+                displayMessages &&
+                <Messaging hideNav eventId={eventId} />
+              }
               <Stat>
                 <ButtonWrap>
                   <Button label="Approve" onClick={approveHoliday} />

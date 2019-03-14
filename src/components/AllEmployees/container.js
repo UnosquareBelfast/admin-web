@@ -35,7 +35,6 @@ const AllEmployeesContainer = Wrapped =>
     render() {
       return (
         <Wrapped
-          history={this.props.history}
           users={this.state.users}
           selectedUser={this.state.selectedUser}
           selectUser={this.selectUser}

@@ -11,7 +11,3 @@ export const getTeamsEvents = date => {
 export const getEmployeesTeamsSnapshot = () => {
   return axios.get('/Dashboard/getEmployeeTeamSnapshot');
 };
-
-export const getTeamOverview = () => {
-  return axios.get('/Dashboard/getDashboardSnapshot');
-};
