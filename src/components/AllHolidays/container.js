@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getAllEvents } from '../../services/eventService';
+import { sortHolidayOrderByStatus } from '../../utilities/sortHolidayOrderByStatus';
 
 export default Wrapped =>
   class extends Component {
@@ -13,28 +14,10 @@ export default Wrapped =>
     }
 
     getHolidays = () => {
-      getAllEvents().then( ({data: allHolidays}) => {
+      getAllEvents().then( ({data}) => {
 
-        // sort holidays by start date
-        allHolidays.sort( (a, b) => {
-          let dateOne = a.eventDates[0].startDate;
-          let dateTwo = b.eventDates[0].startDate;
-          return new Date(dateOne) - new Date(dateTwo);
-        });
-
-        // split up pending holdays from all holidays 
-        let pendingHolidays = [];
-        let nonPendingHolidays = [];
-        allHolidays.map((holiday) => {
-          if ( holiday.eventStatus.eventStatusId === 1 ) {
-            pendingHolidays.push(holiday);
-          } else {
-            nonPendingHolidays.push(holiday);
-          }
-        });
-
-        // add pending holidays to start of array, order by date
-        const holidays = [...pendingHolidays, ...nonPendingHolidays];
+        // add holidays in order of pending, approved, rejected, approved
+        const holidays = sortHolidayOrderByStatus(data);
 
         // update the holidays state
         this.setState({ holidays });
@@ -52,7 +35,6 @@ export default Wrapped =>
     render() {
       return (
         <Wrapped
-          {...this.props}
           holidays={this.state.holidays}
           selectedHoliday={this.state.selectedHoliday}
           selectHoliday={this.selectHoliday}

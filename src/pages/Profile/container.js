@@ -9,6 +9,7 @@ import { isEmpty } from 'lodash';
 import { getContractsByEmployeeId } from '../../services/contractService';
 import eventTypes from '../../constants/eventTypes';
 import swal from 'sweetalert2';
+import { sortHolidayOrderByStatus } from '../../utilities/sortHolidayOrderByStatus';
 
 const ProfileContainer = Wrapped =>
   class extends React.Component {
@@ -70,8 +71,10 @@ const ProfileContainer = Wrapped =>
     getHolidays() {
       this.setState({ holidaysLoading: true });
       getEvents(this.props.userDetails.employeeId, eventTypes.ANNUAL_LEAVE)
-        .then(response => {
-          const holidays = response.data;
+        .then(({ data }) => {
+
+          // add holidays in order of pending, approved, rejected, approved
+          const holidays = sortHolidayOrderByStatus(data);
 
           this.setState({ holidays }, () => {
             this.setState({
