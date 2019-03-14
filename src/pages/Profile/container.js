@@ -9,7 +9,7 @@ import { isEmpty } from 'lodash';
 import { getContractsByEmployeeId } from '../../services/contractService';
 import eventTypes from '../../constants/eventTypes';
 import swal from 'sweetalert2';
-import { sortHolidayOrderByStatus } from '../../utilities/sortHolidayOrderByStatus';
+import { sortHolidayOrderByStatus } from '../../utilities/holidayOrdering';
 
 const ProfileContainer = Wrapped =>
   class extends React.Component {

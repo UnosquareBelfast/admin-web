@@ -1,20 +1,24 @@
 import holidayStatus from '../constants/holidayStatus';
 
-export const sortHolidayOrderByStatus = holidays => {
-
-  // sort holidays by start date
-  holidays.sort( (a, b) => {
+export const sortHolidayByStartDate = holidays => {
+  return holidays.sort( (a, b) => {
     const dateOne = a.eventDates[0].startDate;
     const dateTwo = b.eventDates[0].startDate;
     return new Date(dateOne) - new Date(dateTwo);
   });
+};
+
+export const sortHolidayOrderByStatus = holidays => {
+
+  // sort holidays by start date
+  holidays = sortHolidayByStartDate(holidays);
 
   // split up pending holdays from all holidays 
   const pendingHolidays = [];
   const approvedHolidays = [];
   const rejectedHolidays = [];
   const cancelledHolidays = [];
-  
+
   holidays.map((holiday) => {
     if ( holiday.eventStatus.eventStatusId === holidayStatus.PENDING ) {
       pendingHolidays.push(holiday);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getEventsByStatus } from '../../services/eventService';
 import holidayStatus from '../../constants/holidayStatus';
 import eventTypes from '../../constants/eventTypes';
+import { sortHolidayByStartDate } from '../../utilities/holidayOrdering';
 
 export default Wrapped =>
   class extends Component {
@@ -19,11 +20,7 @@ export default Wrapped =>
         .then( ({data: pendingHolidays}) => {
 
           // sort pending holidays by start date
-          pendingHolidays.sort( (a, b) => {
-            let dateOne = a.eventDates[0].startDate;
-            let dateTwo = b.eventDates[0].startDate;
-            return new Date(dateOne) - new Date(dateTwo);
-          });
+          pendingHolidays = sortHolidayByStartDate(pendingHolidays);
 
           // update the pending holidays state
           this.setState({ pendingHolidays });

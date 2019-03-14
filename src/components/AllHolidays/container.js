@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getAllEvents } from '../../services/eventService';
-import { sortHolidayOrderByStatus } from '../../utilities/sortHolidayOrderByStatus';
+import { sortHolidayOrderByStatus } from '../../utilities/holidayOrdering';
 
 export default Wrapped =>
   class extends Component {
