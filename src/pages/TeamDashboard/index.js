@@ -9,7 +9,6 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faChild, faMap, faHome } from '@fortawesome/fontawesome-free-solid';
 
 const TeamDashboard = ({
-  history,
   clients,
   selectTeam,
   selectedTeam,
@@ -75,7 +74,6 @@ const TeamDashboard = ({
         <UserModal
           user={selectedUser}
           closeModal={closeUserModal}
-          history={history}
         />
       )}
       <Layout>
@@ -90,7 +88,6 @@ TeamDashboard.propTypes = {
   clients: PT.array.isRequired,
   selectTeam: PT.func.isRequired,
   selectedTeam: PT.object,
-  history: PT.object.isRequired,
   onUserSelect: PT.func.isRequired,
   selectedUser: PT.object,
   closeUserModal: PT.func.isRequired,

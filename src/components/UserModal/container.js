@@ -15,7 +15,6 @@ const UserModalContainer = Wrapped =>
     static propTypes = {
       user: PT.object,
       closeModal: PT.func,
-      history: PT.object,
       userDetails: PT.object.isRequired,
     };
 
@@ -61,7 +60,7 @@ const UserModalContainer = Wrapped =>
     };
 
     render() {
-      const { closeModal, userDetails, user, history } = this.props;
+      const { closeModal, userDetails, user } = this.props;
       const {
         approvedHolidays,
         pendingHolidays,
@@ -75,7 +74,6 @@ const UserModalContainer = Wrapped =>
           closeModal={closeModal}
           user={user}
           hasPermission={this.hasPermission}
-          history={history}
           approvedDays={approvedHolidays}
           pendingDays={pendingHolidays}
           availableDays={availableHolidays}

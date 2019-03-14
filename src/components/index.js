@@ -16,7 +16,6 @@ export { default as HolidayModal } from './HolidayModal';
 export { default as AllEmployees } from './AllEmployees';
 export { default as DataTable } from './DataTable';
 export { default as FullPageLoader } from './FullPageLoader';
-export { default as TeamOverview } from './TeamOverview';
 export { default as LoginLoader } from './LoginLoader';
 export { default as Messaging } from './Messaging';
 export { default as EditTeamModal } from './EditTeamModal';
