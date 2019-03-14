@@ -1,6 +1,6 @@
 import holidayStatus from '../constants/holidayStatus';
 
-export const sortHolidayByStartDate = holidays => {
+export const sortHolidaysByStartDate = holidays => {
   return holidays.sort( (a, b) => {
     const dateOne = a.eventDates[0].startDate;
     const dateTwo = b.eventDates[0].startDate;
@@ -8,10 +8,10 @@ export const sortHolidayByStartDate = holidays => {
   });
 };
 
-export const sortHolidayOrderByStatus = holidays => {
+export const sortHolidaysByStatus = holidays => {
 
   // sort holidays by start date
-  holidays = sortHolidayByStartDate(holidays);
+  holidays = sortHolidaysByStartDate(holidays);
 
   // split up pending holdays from all holidays 
   const pendingHolidays = [];

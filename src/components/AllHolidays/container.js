@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getAllEvents } from '../../services/eventService';
-import { sortHolidayOrderByStatus } from '../../utilities/holidayOrdering';
+import { sortHolidaysByStatus } from '../../utilities/holidayOrdering';
 
 export default Wrapped =>
   class extends Component {
@@ -17,7 +17,7 @@ export default Wrapped =>
       getAllEvents().then( ({data}) => {
 
         // add holidays in order of pending, approved, rejected, approved
-        const holidays = sortHolidayOrderByStatus(data);
+        const holidays = sortHolidaysByStatus(data);
 
         // update the holidays state
         this.setState({ holidays });
