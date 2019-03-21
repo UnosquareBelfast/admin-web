@@ -1,26 +1,35 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import UserForm from './CreateContractForms/user';
 import TeamForm from './CreateContractForms/team';
 import DateForm from './CreateContractForms/dates';
-import { Steps, Button } from '../common';
+import { Steps, Button, StepsUI } from '../common';
 import { CornerButton } from '../common_styled';
 import { ContractStyle } from './styled';
 
 export const CreateContract = props => {
-  const { step, nextStep, submit, contract, history } = props;
+  const { formRequirements, step, nextStep, submit, contract, history } = props;
 
   const {
-    selectedUser,
+    selectedEmployee,
     selectedTeam,
     selectedClient,
     startDate,
     endDate,
   } = contract;
 
+  const renderRedirect = () => {
+    const { employeesExist, teamsExist, clientsExist} = formRequirements;
+    if (!employeesExist && !teamsExist && !clientsExist) {
+      return <Redirect to="/admin" />;
+    }
+  };
+
   return (
     <div>
+      {renderRedirect()}
       <CornerButton>
         <Button
           onClick={() => history.replace('/admin/contracts')}
@@ -29,12 +38,12 @@ export const CreateContract = props => {
       </CornerButton>
       <h2>Create Contract</h2>
       <ContractStyle>
-        <h3>Contract</h3>
+        <h3>Contract Details</h3>
         <ul>
-          {selectedUser ? (
+          {selectedEmployee ? (
             <li>
               <span>Name: </span>
-              {selectedUser.displayValue}
+              {selectedEmployee.displayValue}
             </li>
           ) : (
             <li>No contract details entered yet.</li>
@@ -60,9 +69,11 @@ export const CreateContract = props => {
           ) : null}
         </ul>
       </ContractStyle>
+      <StepsUI stepNumber={step} stepCount={3} />
       <Steps
         current={step}
         steps={[
+          {},
           {
             title: 'Find Employee',
             component: <UserForm onSuccess={nextStep} />,
@@ -82,6 +93,7 @@ export const CreateContract = props => {
 };
 
 CreateContract.propTypes = {
+  formRequirements: PT.object,
   step: PT.number.isRequired,
   nextStep: PT.func.isRequired,
   submit: PT.func.isRequired,

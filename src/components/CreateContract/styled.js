@@ -5,7 +5,7 @@ export const ContractStyle = styled.div`
   padding: 20px;
   margin-bottom: 20px;
 
-  ul {
+  ul:not(.steps) {
     margin: 0;
     padding: 0;
     li {
