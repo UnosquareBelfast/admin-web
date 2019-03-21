@@ -1,49 +1,62 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { PropTypes as PT } from 'prop-types';
-import Swal from 'sweetalert2';
-import { getAllClients } from '../../services/clientService';
+import { updateSelectedClientId, fetchAllClients } from '../../store/actions/clients';
+import { getAllClients, getSelectedClientId, getClientsLoadingStatus } from '../../store/reducers';
 
-export default Wrapped =>
+const AllClientsContainer = Wrapped =>
   class extends Component {
     static propTypes = {
-      history: PT.object.isRequired,
-    };
-    constructor(props) {
-      super(props);
-      this.state = { clients: [], selectedClient: null };
-    }
-
-    componentDidMount() {
-      this.getClients();
-    }
-
-    getClients = () => {
-      getAllClients()
-        .then(response => {
-          const clients = response.data;
-          this.setState({ clients });
-        })
-        .catch(error => {
-          Swal('Error', `Error getting clients: ${error.message}`, 'error');
-        });
+      fetchAllClients: PT.func,
+      isUpdating: PT.bool,
+      selectedClientId: PT.oneOfType([
+        PT.string,
+        PT.number,
+      ]),
+      updateSelectedClientId: PT.func,
+      clients: PT.array,
     };
 
-    selectClient = (selectedClient, shouldRefresh) => {
-      this.setState({ selectedClient });
+    selectClientHandler = (updatedClientID, shouldRefresh) => {
+      this.props.updateSelectedClientId(updatedClientID);
       if (shouldRefresh) {
-        this.getClients();
+        this.props.fetchAllClients();
       }
     };
 
     render() {
+
+      const { clients, isUpdating, selectedClientId } = this.props;
+      let selectedClient = clients.filter(({clientId}) => clientId === selectedClientId)[0];
+    
       return (
         <Wrapped
           {...this.props}
-          clients={this.state.clients}
-          createNewClient={this.onCreateNewClient}
-          selectedClient={this.state.selectedClient}
-          selectClient={this.selectClient}
+          clients={clients}
+          isUpdating={isUpdating}
+          selectedClient={selectedClient}
+          selectClient={this.selectClientHandler}
         />
       );
     }
   };
+
+const mapStateToProps = state => {
+  return {
+    clients: getAllClients(state),
+    isUpdating: getClientsLoadingStatus(state),
+    selectedClientId: getSelectedClientId(state),
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchAllClients: () =>
+      dispatch(fetchAllClients()),
+    updateSelectedClientId: selectedClient =>
+      dispatch(updateSelectedClientId(selectedClient)),
+  };
+};
+
+export default compose(connect(mapStateToProps, mapDispatchToProps), AllClientsContainer);
