@@ -4,7 +4,7 @@ import { withFormik, Form, Field } from 'formik';
 
 import container from './container';
 import { InputField, SelectField } from '../../../common/Formik';
-import { Button, GhostButton, ButtonGroupSubmitReset } from '../../../common/Formik/styled';
+import { Button, GhostButton, ButtonGroupWithInput, ButtonGroupSubmitReset } from '../../../common/Formik/styled';
 import { FormContainer } from '../styled';
 
 const FormikEnhancer = withFormik({
@@ -17,23 +17,16 @@ const FormikEnhancer = withFormik({
   // validateOn
   mapPropsToValues: () => {
     return ({
-      firstName: '',
-      lastName: '',
-      selectedUserId: '-1',
+      fullName: '',
+      employeeId: '-1',
     });
   },
 
   // Custom sync validation
-  validate: ({ firstName, lastName, selectedUserId }) => {
+  validate: ({ employeeId }) => {
     let errors = {};
-    if (firstName === '') {
-      errors.firstName = 'First name cannot be empty.';
-    }
-    if (lastName === '') {
-      errors.lastName = 'Last name cannot be empty.';
-    }
-    if (selectedUserId === '-1') {
-      errors.selectedUserId = 'Please select a user';
+    if (employeeId === '-1') {
+      errors.employeeId = 'Please select an employee';
     }
     return errors;
   },
@@ -47,8 +40,8 @@ const FormikEnhancer = withFormik({
 export const UserForm = props => {
 
   const {
-    searchUser,
-    users,
+    searchEmployees,
+    employees,
     values,
     isValid,
     handleFormReset,
@@ -57,43 +50,34 @@ export const UserForm = props => {
 
   return (
     <FormContainer>
-      <h3>Find user for contract</h3>
+      <h3>Find employee for contract</h3>
       <Form>
 
-        <Field
-          component={InputField}
-          title="First Name"
-          name="firstName"
-          placeholder="Enter a first name"
-        />
-
-        <Field
-          component={InputField}
-          title="Last Name"
-          name="lastName"
-          placeholder="Enter a last name"
-        />
+        <ButtonGroupWithInput>
+          <Field
+            component={InputField}
+            title="Search Employee"
+            name="fullName"
+            placeholder="Enter a name"
+          />        
+          <Button 
+            type="button" 
+            disabled={values.fullName === ''}
+            onClick={() => searchEmployees(values.fullName)}>
+            Search Employee
+          </Button>
+        </ButtonGroupWithInput>
 
         {
-          users.length === 0 ?
-
-            <Button
-              type="button"
-              disabled={values.firstName === '' || values.lastName === ''}
-              onClick={() => searchUser(values.firstName, values.lastName)}
-            >
-              Search user
-            </Button>
-
-            :
+          employees.length > 0 &&
 
             <React.Fragment>
 
               <Field
                 component={SelectField}
-                title="Select a user"
-                name="selectedUserId"
-                options={users}
+                title={`Select Employee (${employees.length - 1} employee${employees.length > 2 ? 's' : ''} found)`}
+                name="employeeId"
+                options={employees}
               />
 
               <ButtonGroupSubmitReset>
@@ -113,14 +97,17 @@ export const UserForm = props => {
 };
 
 UserForm.propTypes = {
-  users: PT.array,
-  searchUser: PT.func,
+  employees: PT.array,
+  searchEmployees: PT.func,
 
 
   // Formik Props
   values: PT.shape({
-    firstName: PT.string,
-    surname: PT.string,
+    fullName: PT.string,
+    employeeId: PT.oneOfType([
+      PT.string,
+      PT.number,
+    ]),
   }),
   isValid: PT.bool.isRequired,
   handleFormReset: PT.func,
@@ -128,7 +115,7 @@ UserForm.propTypes = {
 };
 
 UserForm.defaultProps = {
-  users: [],
+  employees: [],
 };
 
 export default container(FormikEnhancer(UserForm));

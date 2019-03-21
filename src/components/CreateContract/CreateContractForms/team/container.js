@@ -1,54 +1,38 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { getAllClients } from '../../../../services/clientService';
-import { getTeamsFromClient } from '../../../../services/teamService';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-export default Wrapped =>
+import { updateSelectedTeamId } from '../../../../store/actions/teams';
+import { updateSelectedClientId } from '../../../../store/actions/clients';
+import { getClientOptions, getSelectedClientId, getTeamsOptions } from '../../../../store/reducers';
+
+
+const ContractTeamFormContainer = Wrapped =>
   class extends Component {
     static propTypes = {
+      updateSelectedClientId: PT.func,
+      updateSelectedTeamId: PT.func,
+      clientOptions: PT.array,
+      teamOptions: PT.array,
       onSuccess: PT.func,
     };
 
     constructor(props) {
       super(props);
       this.state = {
-        clients: [],
         teams: [],
         teamResults: '',
       };
     }
 
-    componentDidMount() {
-      this.getClients();
-    }
+    handleTeamSectionSubmit = ({ selectedClientId, selectedTeamId }) => {
 
-    getClients = () => {
-      getAllClients().then(response => {
-        const clients = response.data;
-        const clientsFormatted = clients.reduce((acc, client) => {
-          acc.push({
-            value: client.clientId,
-            displayValue: client.clientName,
-          });
-          return acc;
-        }, []);
-        clientsFormatted.unshift({
-          value: '-1',
-          displayValue: 'Please select a client',
-        });
-        this.setState({
-          clients: clientsFormatted,
-        });
-      });
-    };
-
-    handleTeamSectionSubmit = ({selectedClientId, selectedTeamId}) => {
-
-      let selectedClient = this.state.clients.filter(
+      let selectedClient = this.props.clientOptions.filter(
         user => user.value == selectedClientId
       )[0];
 
-      let selectedTeam = this.state.teams.filter(
+      let selectedTeam = this.props.teamOptions.filter(
         user => user.value == selectedTeamId
       )[0];
 
@@ -57,50 +41,32 @@ export default Wrapped =>
       return this.props.onSuccess(data);
     };
 
-    handleTeamSearch = selectedClientId => {
-
-      getTeamsFromClient(selectedClientId)
-        .then(response => {
-          const teams = response.data;
-          const teamsFormatted = teams.reduce((acc, team) => {
-            acc.push({
-              value: team.teamId,
-              displayValue: team.teamName,
-            });
-            return acc;
-          }, []);
-          teamsFormatted.unshift({
-            value: '-1',
-            displayValue: 'Please select a team',
-          });
-          this.setState({
-            teams: teamsFormatted,
-            teamResults: `${teams.length} ${teams.length > 1 ? 'teams' : 'team'} found.`,
-          });
-        })
-        .catch(() => {
-          this.setState({
-            teamResults: 'No Teams Found',
-          });
-        });
+    handleTeamSearch = clientId => {
+      this.props.updateSelectedClientId(clientId);
     };
 
     handleTeamFormReset = resetForm => {
       event.preventDefault();
+      const { updateSelectedTeamId, updateSelectedClientId } = this.props;
       this.setState({
-        teams: [],
         teamResults: '',
       }, () => {
+        updateSelectedTeamId(-1);
+        updateSelectedClientId(-1);
         resetForm();
       });
     };
 
     render() {
+      const { 
+        teamOptions, 
+        clientOptions,
+      } = this.props;
       return (
         <Wrapped
-          teams={this.state.teams}
+          teamOptions={teamOptions}
           teamResults={this.state.teamResults}
-          clients={this.state.clients}
+          clientOptions={clientOptions}
           handleTeamSectionSubmit={this.handleTeamSectionSubmit}
           searchTeam={this.handleTeamSearch}
           handleFormReset={this.handleTeamFormReset}
@@ -108,3 +74,33 @@ export default Wrapped =>
       );
     }
   };
+
+const mapStateToProps = state => {
+
+
+  const clientOptions = getClientOptions(state);
+
+  const selectedClientId = getSelectedClientId(state);
+  let teamOptions = [];
+  if (selectedClientId !== -1) {
+    const teams = getTeamsOptions(state, selectedClientId);
+    teamOptions = teams.teamOptions;
+  }
+
+  return {
+    clientOptions,
+    selectedClientId,
+    teamOptions,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateSelectedClientId: (selectedClientId) =>
+      dispatch(updateSelectedClientId(selectedClientId)),
+    updateSelectedTeamId: (selectedClientId) =>
+      dispatch(updateSelectedTeamId(selectedClientId)),
+  };
+};
+
+export default compose(connect(mapStateToProps, mapDispatchToProps), ContractTeamFormContainer);
