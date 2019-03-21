@@ -1,12 +1,8 @@
+import initialState from './initialState';
 import { SET_LOADING } from '../actions/actionTypes';
 
-export const initialState = {
-  loading: false,
-  startedAt: null,
-};
-
 // Reducer
-export default function loadingReducer(state = initialState, action) {
+export default function loadingReducer(state = initialState.loading, action) {
   const handler = ACTION_HANDLERS[action.type];
   return handler ? handler(state, action) : state;
 }
