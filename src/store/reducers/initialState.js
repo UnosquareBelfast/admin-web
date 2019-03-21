@@ -2,6 +2,18 @@ import moment from 'moment';
 import eventsView from '../../constants/eventsView';
 
 export default {
+  user: {
+    forename: null,
+    surname: null,
+    email: null,
+    countryId: null,
+    employeeId: null,
+    employeeRoleId: null,
+    employeeStatusId: null,
+    startDate: null,
+    totalHolidays: null,
+    holidays: {},
+  },
   dashboard: {
     eventView: eventsView.PERSONAL_EVENTS,
     allEvents: [],
