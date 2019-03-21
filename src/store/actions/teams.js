@@ -70,6 +70,11 @@ export const fetchAllTeams = () => dispatch => {
 export const postNewTeam = (data, resetForm) => dispatch => {
   dispatch(_postNewTeam());
 
+  /*
+    TODO
+    backend call is being updated to return new object with teamId.
+    It is static for the time being.
+  */
   const newTeam = {
     ...data,
     teamId: 10,

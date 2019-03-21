@@ -69,6 +69,11 @@ export const fetchAllClients = () => dispatch => {
 export const postNewClient = (data, resetForm) => dispatch => {
   dispatch(_postNewClient());
 
+  /*
+    TODO
+    backend call is being updated to return new object with clientId.
+    It is static for the time being.
+  */
   const newClient = {
     ...data,
     clientId: 10,
