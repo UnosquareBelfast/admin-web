@@ -1,48 +1,70 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { PropTypes as PT } from 'prop-types';
-import Swal from 'sweetalert2';
-import { getAllUsers } from '../../services/userService';
+import { getEmployeesLoading, getAllEmployees, getSelectedEmployeeId } from '../../store/reducers';
+import { updateSelectedEmployee } from '../../store/actions/employees';
 
 const AllEmployeesContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
+      updateSelectedEmployee: PT.func,
+      selectedEmployeeId: PT.oneOfType([
+        PT.string,
+        PT.number,
+      ]),
+      getEmployeesLoading: PT.object,
+      employees: PT.array,
       history: PT.object.isRequired,
     };
 
     constructor(props) {
       super(props);
       this.state = {
-        users: [],
-        selectedUser: {},
         userModalVisible: false,
       };
     }
 
-    componentDidMount() {
-      getAllUsers()
-        .then(({ data }) => this.setState({ users: data }))
-        .catch(error =>
-          Swal('Error', `There was an error: ${error.message}`, 'error')
-        );
+    selectEmployeeHandler = selectedEmployeeId => {
+      this.props.updateSelectedEmployee(selectedEmployeeId);
+      this.setState({ userModalVisible: true });
     }
 
-    selectUser = user => this.setState({ selectedUser: user, userModalVisible: true  });
-    
     closeUserModal = () => {
       this.setState({ userModalVisible: false });
     };
 
     render() {
+
+      const { userModalVisible } = this.state;
+      const { employees, selectedEmployeeId } = this.props;
+      let selectedEmployee = employees.filter(({employeeId}) => employeeId === selectedEmployeeId)[0];
+
       return (
         <Wrapped
-          users={this.state.users}
-          selectedUser={this.state.selectedUser}
-          selectUser={this.selectUser}
-          userModalVisible={this.state.userModalVisible}
+          employees={employees}
+          selectedEmployee={selectedEmployee}
+          selectEmployee={this.selectEmployeeHandler}
+          userModalVisible={userModalVisible}
           closeUserModal={this.closeUserModal}
         />
       );
     }
   };
 
-export default AllEmployeesContainer;
+const mapStateToProps = state => {
+  return {
+    getEmployeesLoading: getEmployeesLoading(state),
+    employees: getAllEmployees(state),
+    selectedEmployeeId: getSelectedEmployeeId(state),
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateSelectedEmployee: selectedClient =>
+      dispatch(updateSelectedEmployee(selectedClient)),
+  };
+};
+
+export default compose(connect(mapStateToProps, mapDispatchToProps), AllEmployeesContainer);

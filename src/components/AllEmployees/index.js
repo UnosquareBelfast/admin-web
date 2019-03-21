@@ -4,21 +4,30 @@ import { DataTable, UserModal } from '../';
 import UserCells from '../DataTable/Cells/users';
 import container from './container';
 
-const AllEmployees = ({ users, selectUser, selectedUser, closeUserModal, userModalVisible }) => {
+const AllEmployees = (
+  { 
+    employees,  
+    selectEmployee, 
+    selectedEmployee, 
+    closeUserModal, 
+    userModalVisible, 
+  }) => {
+
   return (
     <Fragment>
-      {userModalVisible && (
-        <UserModal
-          user={selectedUser}
-          closeModal={closeUserModal}
-        />
-      )}
+      {
+        userModalVisible && 
+          <UserModal
+            user={selectedEmployee}
+            closeModal={closeUserModal}
+          />
+      }
       <h2>Employees</h2>
       <DataTable
-        data={users}
+        data={employees}
         cells={UserCells}
         columns={['fullName', 'email', 'role', 'location']}
-        onRowClick={employee => selectUser(employee)}
+        onRowClick={({employeeId}) => selectEmployee(employeeId)}
         pageSize={20}
       />
     </Fragment>
@@ -26,9 +35,9 @@ const AllEmployees = ({ users, selectUser, selectedUser, closeUserModal, userMod
 };
 
 AllEmployees.propTypes = {
-  users: PT.array.isRequired,
-  selectUser: PT.func.isRequired,
-  selectedUser: PT.object.isRequired,
+  employees: PT.array.isRequired,
+  selectEmployee: PT.func.isRequired,
+  selectedEmployee: PT.object,
   userModalVisible: PT.bool.isRequired,
   closeUserModal: PT.func.isRequired,
 };
