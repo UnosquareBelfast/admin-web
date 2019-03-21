@@ -21,7 +21,6 @@ const ContractTeamFormContainer = Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        teams: [],
         teamResults: '',
       };
     }
