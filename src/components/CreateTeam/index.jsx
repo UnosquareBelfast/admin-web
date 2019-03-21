@@ -1,13 +1,22 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import CreateTeamForm from './form';
 import { Button } from '../common';
 import { CornerButton } from '../common_styled';
 
-export const CreateTeam = ({ clients, submitRequest, navigateTo }) => {
+export const CreateTeam = ({ clientOptions, submitRequest, navigateTo }) => {
+
+  const renderRedirect = () => {
+    if (clientOptions.length === 1) {
+      return <Redirect to="/admin" />;
+    }
+  };
+
   return (
     <div>
+      {renderRedirect()}
       <CornerButton>
         <Button
           onClick={() => navigateTo('/admin/teams')}
@@ -16,7 +25,7 @@ export const CreateTeam = ({ clients, submitRequest, navigateTo }) => {
       </CornerButton>
       <h2>Create Team</h2>
       <CreateTeamForm 
-        clients={clients} 
+        clientOptions={clientOptions} 
         handleFormSubmit={submitRequest} 
       />
     </div>
@@ -24,10 +33,13 @@ export const CreateTeam = ({ clients, submitRequest, navigateTo }) => {
 };
 
 CreateTeam.propTypes = {
-  clients: PT.arrayOf(
+  clientOptions: PT.arrayOf(
     PT.shape({
       displayValue: PT.string,
-      value: PT.string,
+      value: PT.oneOfType([
+        PT.string,
+        PT.number,
+      ]),
     }),
   ),
   submitRequest: PT.func.isRequired,
@@ -35,7 +47,7 @@ CreateTeam.propTypes = {
 };
 
 CreateTeam.defaultProps = {
-  clients: [],
+  clientOptions: [],
 };
 
 export default container(CreateTeam);
