@@ -25,6 +25,7 @@ const ProfileContainer = Wrapped =>
         holidaysLoading: false,
         contractsLoading: false,
         holidayStats: {},
+        selectedTab: 'My Holidays',
       };
     }
 
@@ -103,11 +104,17 @@ const ProfileContainer = Wrapped =>
       this.selectHoliday({});
     };
 
+    updateSelectedTab = (selectedTab) => {
+      this.setState({selectedTab});
+    }
+
     render() {
       return (
         <Wrapped
           {...this.props}
           {...this.state}
+          selectedTab={this.state.selectedTab}
+          updateSelectedTab={this.updateSelectedTab}
           userHolidays={this.state.holidays || []}
           selectHoliday={this.selectHoliday}
           selectedHoliday={this.state.selectedHoliday}
