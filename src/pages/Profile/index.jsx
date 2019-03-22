@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { MainContentContainer, Columns } from './styled';
+import { MainContentContainer } from './styled';
 import { DataTable, HolidayModal } from '../../components/';
+import { TabsUI } from '../../components/common';
 import ContractCells from '../../components/DataTable/Cells/contracts';
 import HolidayCells from '../../components/DataTable/Cells/holidays';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
@@ -56,9 +57,15 @@ const Profile = props => {
               </h4>
             </div>
           </div>
-          <Columns>
-            <div>
-              <h3>My holidays</h3>
+
+          <TabsUI 
+            selectedTab={props.selectedTab}
+            updateSelectedTab={props.updateSelectedTab}
+            tabs={['My Holidays', 'My Contracts']}
+          />
+
+          {
+            props.selectedTab === 'My Holidays' ?
               <DataTable
                 loading={holidaysLoading}
                 data={userHolidays}
@@ -66,9 +73,7 @@ const Profile = props => {
                 columns={['status', 'startDate', 'endDate', 'requestedDate']}
                 onRowClick={holiday => selectHoliday(holiday)}
               />
-            </div>
-            <div>
-              <h3>View Contracts </h3>
+              :
               <DataTable
                 loading={contractsLoading}
                 data={contracts}
@@ -76,8 +81,8 @@ const Profile = props => {
                 columns={['clientName', 'teamName', 'startDate', 'endDate']}
                 pageSize={10}
               />
-            </div>
-          </Columns>
+          }
+
         </div>
       </MainContentContainer>
     </Fragment>
@@ -94,6 +99,8 @@ Profile.propTypes = {
   contractsLoading: PT.bool.isRequired,
   holidaysLoading: PT.bool.isRequired,
   holidayStats: PT.object.isRequired,
+  selectedTab: PT.string.isRequired,
+  updateSelectedTab: PT.func.isRequired,
 };
 
 Profile.defaultProps = {

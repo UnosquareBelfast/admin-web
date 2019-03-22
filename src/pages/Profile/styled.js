@@ -5,29 +5,6 @@ export const Container = styled.div`
   width: 100%;
 `;
 
-export const Columns = styled.div`
-  display: flex;
-  margin-bottom: 20px;
-  flex-direction: column;
-  @media (min-width: ${props => props.theme.mediaQueries.lg}) {
-    justify-content: space-around;
-    flex-direction: row;
-    }
-
-  &:last-of-type > div {
-    margin: 15px 0;
-    @media (min-width: ${props => props.theme.mediaQueries.lg}) {
-      width: 50%;
-      :first-of-type {
-        margin: 0 10px 0 0;
-      }
-      :last-of-type {
-        margin: 0 0 0 10px;
-      }
-    }
-  }
-  `;
-
 export const MainContentContainer = styled.div`
   h2 {
     margin: 0;
@@ -66,5 +43,3 @@ export const MainContentContainer = styled.div`
     }
   }
 `;
-
-
