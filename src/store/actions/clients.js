@@ -68,23 +68,12 @@ export const fetchAllClients = () => dispatch => {
 
 export const postNewClient = (data, resetForm) => dispatch => {
   dispatch(_postNewClient());
-
-  /*
-    TODO
-    backend call is being updated to return new object with clientId.
-    It is static for the time being.
-  */
-  const newClient = {
-    ...data,
-    clientId: 10,
-  };
-
-  createClient(newClient)
-    .then(() => {
+  createClient(data)
+    .then(({data: newClient}) => {
       resetForm();
       Toast({
         type: 'success',
-        title: `${data.clientName} created sucessfully! 👍`,
+        title: `${newClient.clientName} created sucessfully! 👍`,
       });
       dispatch(_postNewClientSuccess(newClient));
     })

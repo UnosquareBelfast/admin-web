@@ -56,7 +56,6 @@ export const updateSelectedTeamId = (selectedTeamId) => {
 
 export const fetchAllTeams = () => dispatch => {
   dispatch(_fetchAllTeams());
-
   getTeams()
     .then(({ data: teams }) => {
       dispatch(_receiveAllTeams(teams, teams.length));
@@ -69,23 +68,12 @@ export const fetchAllTeams = () => dispatch => {
 
 export const postNewTeam = (data, resetForm) => dispatch => {
   dispatch(_postNewTeam());
-
-  /*
-    TODO
-    backend call is being updated to return new object with teamId.
-    It is static for the time being.
-  */
-  const newTeam = {
-    ...data,
-    teamId: 10,
-  };
-
-  createTeam(newTeam)
-    .then(() => {
+  createTeam(data)
+    .then(({data: newTeam}) => {
       resetForm();
       Toast({
         type: 'success',
-        title: `${data.teamName} created sucessfully! 👍`,
+        title: `${newTeam.teamName} created sucessfully! 👍`,
       });
       dispatch(_postNewTeamSuccess(newTeam));
     })
