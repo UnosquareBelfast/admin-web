@@ -61,6 +61,3 @@ const ACTION_HANDLERS = {
 export const getAllEvents = store => store.allEvents;
 export const getEventView = store => store.eventView;
 export const eventBeingUpdated = store => store.isEventBeingUpdated;
-//export const getBooking = store => store.booking;
-//export const bookingModalOpen = store => store.bookingModalOpen;
-//export const getBookingDuration = store => store.bookingDuration;

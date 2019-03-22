@@ -41,15 +41,6 @@ export const getAllEvents = store =>
 export const eventBeingUpdated = store =>
   FromDashboard.eventBeingUpdated(store[DASHBOARD]);
 
-// export const getBooking = store => 
-//   FromDashboard.getBooking(store[DASHBOARD]);
-
-// export const bookingModalOpen = store =>
-//   FromDashboard.bookingModalOpen(store[DASHBOARD]);
-
-// export const getBookingDuration = store =>
-//   FromDashboard.getBookingDuration(store[DASHBOARD]);
-
 // Employees
 export const getEmployeesLoading = store =>
   FromEmployees.getEmployeesLoading(store[EMPLOYEES]);
