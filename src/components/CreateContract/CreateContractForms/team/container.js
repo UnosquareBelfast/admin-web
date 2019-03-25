@@ -75,17 +75,13 @@ const ContractTeamFormContainer = Wrapped =>
   };
 
 const mapStateToProps = state => {
-
-
   const clientOptions = getClientOptions(state);
-
   const selectedClientId = getSelectedClientId(state);
   let teamOptions = [];
   if (selectedClientId !== -1) {
     const teams = getTeamsOptions(state, selectedClientId);
     teamOptions = teams.teamOptions;
   }
-
   return {
     clientOptions,
     selectedClientId,
