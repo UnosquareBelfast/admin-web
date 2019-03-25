@@ -38,14 +38,14 @@ const _postNewClientFailed = error => {
   };
 };
 
-const _postNewClientSuccess = (client) => {
+const _postNewClientSuccess = client => {
   return {
     type: actionTypes.CREATING_NEW_CLIENT_SUCCESS,
     client,
   };
 };
 
-export const updateSelectedClientId = (selectedClientId) => {
+export const updateSelectedClientId = selectedClientId => {
   return {
     type: actionTypes.UPDATE_SELECTED_CLIENT,
     selectedClientId,
