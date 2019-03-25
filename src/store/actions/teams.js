@@ -63,7 +63,6 @@ export const fetchAllTeams = () => dispatch => {
     .catch(error => {
       dispatch(_fetchAllTeamsFailed(error));
     });
-  return { type: actionTypes.FETCHING_TEAMS };
 };
 
 export const postNewTeam = (data, resetForm) => dispatch => {
