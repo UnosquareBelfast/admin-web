@@ -28,7 +28,7 @@ const AllClientsContainer = Wrapped =>
     render() {
 
       const { clients, isUpdating, selectedClientId } = this.props;
-      let selectedClient = clients.filter(({clientId}) => clientId === selectedClientId)[0];
+      let selectedClient = clients.find(({clientId}) => clientId === selectedClientId);
     
       return (
         <Wrapped
