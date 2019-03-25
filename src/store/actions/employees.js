@@ -24,7 +24,7 @@ const _receiveAllEmployees = (employees, count) => {
   };
 };
 
-export const updateSelectedEmployee = (selectedEmployeeId) => {
+export const updateSelectedEmployee = selectedEmployeeId => {
   return {
     type: actionTypes.UPDATE_SELECTED_EMPLOYEE,
     selectedEmployeeId,

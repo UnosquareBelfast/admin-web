@@ -38,14 +38,14 @@ const _postNewTeamFailed = error => {
   };
 };
 
-const _postNewTeamSuccess = (team) => {
+const _postNewTeamSuccess = team => {
   return {
     type: actionTypes.CREATING_NEW_TEAM_SUCCESS,
     team,
   };
 };
 
-export const updateSelectedTeamId = (selectedTeamId) => {
+export const updateSelectedTeamId = selectedTeamId => {
   return {
     type: actionTypes.UPDATE_SELECTED_TEAM,
     selectedTeamId,
