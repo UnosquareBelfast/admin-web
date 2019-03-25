@@ -27,13 +27,13 @@ const ContractTeamFormContainer = Wrapped =>
 
     handleTeamSectionSubmit = ({ selectedClientId, selectedTeamId }) => {
 
-      let selectedClient = this.props.clientOptions.filter(
+      let selectedClient = this.props.clientOptions.find(
         user => user.value == selectedClientId
-      )[0];
+      );
 
-      let selectedTeam = this.props.teamOptions.filter(
+      let selectedTeam = this.props.teamOptions.find(
         user => user.value == selectedTeamId
-      )[0];
+      );
 
       const data = { selectedTeam, selectedClient };
 
