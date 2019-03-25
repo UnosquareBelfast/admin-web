@@ -15,21 +15,28 @@ const AdminSection = (props) => {
     },
   } = props;
 
+  const disabledLink = text => <a className="disabled">{text}</a>;
+  const validLink = text => <Link to={linkTo}>{text}</Link>;
+  const sectionLink = () => {
+    if (isLoading) {
+      return disabledLink(`${title} are loading...`);
+    } else {
+      if (hasError) {
+        return disabledLink(error);
+      } else {
+        if (resultCount === 0) {
+          return  disabledLink(`No ${title} created`);
+        } else {
+          return validLink(`View All ${title} (${resultCount})`);
+        }
+      }
+    }
+  };
+
   return (
     <div>
       <h3>{title}</h3>
-      {
-        isLoading ?
-          <a className="disabled">{title} are loading...</a>
-          :
-          hasError ?
-            <a className="disabled">{error}</a>
-            :
-            resultCount === 0 ?
-              <a className="disabled">No {title} created</a>
-              :
-              <Link to={linkTo}>View All {title} ({resultCount})</Link>
-      }
+      {sectionLink()}
 
       {
         createLinkTo !== '/admin' &&
