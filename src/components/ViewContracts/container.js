@@ -79,11 +79,9 @@ const ViewContractsContainer = Wrapped =>
 
         if (searchByEmployees) {
           this._byEmployeeId(selectedEmployeeId);
-        }
-        else if (searchByTeams) {
+        } else if (searchByTeams) {
           this._byTeamId(selectedTeamId);
-        }
-        else if (searchByBoth) {
+        } else if (searchByBoth) {
           this._byEmployeeIdAndTeamId(selectedEmployeeId, selectedTeamId);
         } else {
           this.setState({ contracts: [] });
