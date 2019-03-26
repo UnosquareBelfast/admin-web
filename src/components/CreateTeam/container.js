@@ -41,7 +41,7 @@ const CreateContainer = Wrapped =>
 const mapStateToProps = state => {
   const clientOptions = getClientOptions(state);
   return {
-    clientOptions: clientOptions,
+    clientOptions,
   };
 };
 
