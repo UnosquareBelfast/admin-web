@@ -37,7 +37,7 @@ const AllEmployeesContainer = Wrapped =>
     render() {
       const { userModalVisible } = this.state;
       const { employees, selectedEmployeeId } = this.props;
-      let selectedEmployee = employees.filter(({employeeId}) => employeeId === selectedEmployeeId)[0];
+      const selectedEmployee = employees.find(({employeeId}) => employeeId === selectedEmployeeId);
 
       return (
         <Wrapped
