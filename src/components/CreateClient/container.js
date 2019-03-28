@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { PropTypes as PT } from 'prop-types';
+import { Toast } from '../../config/Notifications';
 import { postNewClient } from '../../store/actions/clients';
 
 const CreateClientContainer = Wrapped =>
@@ -12,8 +13,16 @@ const CreateClientContainer = Wrapped =>
       match: PT.object,
     };
 
+    onSuccess = (clientName, resetForm) => {
+      resetForm();
+      Toast({
+        type: 'success',
+        title: `${clientName} created sucessfully! 👍`,
+      });
+    }
+
     submitRequest = (data, resetForm) => {
-      this.props.postNewClient(data, resetForm);
+      this.props.postNewClient(data, this.onSuccess(data.clientName, resetForm));
     };
 
     render() {
@@ -29,8 +38,8 @@ const CreateClientContainer = Wrapped =>
 
 const mapDispatchToProps = dispatch => {
   return {
-    postNewClient: (data, resetForm) =>
-      dispatch(postNewClient(data, resetForm)),
+    postNewClient: (data, onSuccess) =>
+      dispatch(postNewClient(data, onSuccess)),
   };
 };
 
