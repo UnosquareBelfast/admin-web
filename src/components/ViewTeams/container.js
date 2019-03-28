@@ -57,7 +57,7 @@ const mapStateToProps = state => {
   const selectedClientId = getSelectedClientId(state);
   const { teams } = getTeamsOptions(state, selectedClientId);
   const selectedTeamId = getSelectedTeamId(state); 
-  const selectedTeam = teams.filter(({teamId}) => teamId === selectedTeamId)[0];
+  const selectedTeam = teams.find(({teamId}) => teamId === selectedTeamId);
 
   return {
     clientOptions,
