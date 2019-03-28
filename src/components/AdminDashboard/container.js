@@ -22,10 +22,10 @@ const AdminDashboardContainer = Wrapped =>
       this.getDashBoardInformation();
     }
     
-    getDashBoardInformation = async () => {
-      await this.props.fetchAllEmployees();
-      await this.props.fetchAllTeams();
-      await this.props.fetchAllClients();
+    getDashBoardInformation = () => {
+      this.props.fetchAllEmployees();
+      this.props.fetchAllTeams();
+      this.props.fetchAllClients();
     }
 
     render() {
