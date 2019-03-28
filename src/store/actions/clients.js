@@ -1,4 +1,3 @@
-import { Toast } from '../../config/Notifications';
 import * as actionTypes from './actionTypes';
 
 import { getAllClients, createClient } from '../../services/clientService';
@@ -66,15 +65,11 @@ export const fetchAllClients = () => dispatch => {
     });
 };
 
-export const postNewClient = (data, resetForm) => dispatch => {
+export const postNewClient = (data, onSuccess) => dispatch => {
   dispatch(_postNewClient());
   createClient(data)
     .then(({data: newClient}) => {
-      resetForm();
-      Toast({
-        type: 'success',
-        title: `${newClient.clientName} created sucessfully! 👍`,
-      });
+      onSuccess();
       dispatch(_postNewClientSuccess(newClient));
     })
     .catch(error => {

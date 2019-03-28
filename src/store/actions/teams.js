@@ -1,4 +1,3 @@
-import { Toast } from '../../config/Notifications';
 import * as actionTypes from './actionTypes';
 
 import { getTeams, createTeam } from '../../services/teamService';
@@ -65,15 +64,11 @@ export const fetchAllTeams = () => dispatch => {
     });
 };
 
-export const postNewTeam = (data, resetForm) => dispatch => {
+export const postNewTeam = (data, onSuccess) => dispatch => {
   dispatch(_postNewTeam());
   createTeam(data)
     .then(({data: newTeam}) => {
-      resetForm();
-      Toast({
-        type: 'success',
-        title: `${newTeam.teamName} created sucessfully! 👍`,
-      });
+      onSuccess();
       dispatch(_postNewTeamSuccess(newTeam));
     })
     .catch(error => {
