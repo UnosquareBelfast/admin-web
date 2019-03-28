@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { PropTypes as PT } from 'prop-types';
+import { Toast } from '../../config/Notifications';
 import { getClientOptions } from '../../store/reducers';
 import { postNewTeam } from '../../store/actions/teams';
 
@@ -16,12 +17,20 @@ const CreateContainer = Wrapped =>
       }),
     }
 
+    onSuccess = (teamName, resetForm) => {
+      resetForm();
+      Toast({
+        type: 'success',
+        title: `${teamName} created sucessfully! 👍`,
+      });
+    }
+
     submitRequest = ({ selectedClient, teamName }, resetForm) => {
       const request = {
         clientId: selectedClient,
         teamName: teamName,
       };
-      this.props.postNewTeam(request, resetForm);
+      this.props.postNewTeam(request, this.onSuccess(teamName, resetForm));
     };
 
     render() {
@@ -47,8 +56,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    postNewTeam: (data, resetForm) =>
-      dispatch(postNewTeam(data, resetForm)),
+    postNewTeam: (data, onSuccess) =>
+      dispatch(postNewTeam(data, onSuccess)),
   };
 };
 
