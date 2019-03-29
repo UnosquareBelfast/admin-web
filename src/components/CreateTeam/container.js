@@ -30,7 +30,7 @@ const CreateContainer = Wrapped =>
         clientId: selectedClient,
         teamName: teamName,
       };
-      this.props.postNewTeam(request, this.onSuccess(teamName, resetForm));
+      this.props.postNewTeam(request, () => this.onSuccess(teamName, resetForm));
     };
 
     render() {
