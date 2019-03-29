@@ -16,11 +16,11 @@ const _fetchAllEmployeesFailed = error => {
   };
 };
 
-const _fetchAllEmployeesSuccess = (employees, count) => {
+const _fetchAllEmployeesSuccess = (employees, resultCount) => {
   return {
     type: actionTypes.FETCHING_EMPLOYEES_SUCCESS,
     employees,
-    resultCount: count,
+    resultCount,
   };
 };
 
