@@ -22,7 +22,7 @@ const CreateClientContainer = Wrapped =>
     }
 
     submitRequest = (data, resetForm) => {
-      this.props.postNewClient(data, this.onSuccess(data.clientName, resetForm));
+      this.props.postNewClient(data, () => this.onSuccess(data.clientName, resetForm));
     };
 
     render() {
