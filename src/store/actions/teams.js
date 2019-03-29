@@ -16,7 +16,7 @@ const _fetchAllTeamsFailed = error => {
   };
 };
 
-const _receiveAllTeams = (teams, count) => {
+const _fetchAllTeamsSuccess = (teams, count) => {
   return {
     type: actionTypes.FETCHING_TEAMS_SUCCESS,
     teams,
@@ -57,7 +57,7 @@ export const fetchAllTeams = () => dispatch => {
   dispatch(_fetchAllTeams());
   getTeams()
     .then(({ data: teams }) => {
-      dispatch(_receiveAllTeams(teams, teams.length));
+      dispatch(_fetchAllTeamsSuccess(teams, teams.length));
     })
     .catch(error => {
       dispatch(_fetchAllTeamsFailed(error));

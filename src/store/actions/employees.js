@@ -16,7 +16,7 @@ const _fetchAllEmployeesFailed = error => {
   };
 };
 
-const _receiveAllEmployees = (employees, count) => {
+const _fetchAllEmployeesSuccess = (employees, count) => {
   return {
     type: actionTypes.FETCHING_EMPLOYEES_SUCCESS,
     employees,
@@ -38,7 +38,7 @@ export const fetchAllEmployees = () => dispatch => {
 
   getAllUsers()
     .then(({data: employees}) => {
-      dispatch(_receiveAllEmployees(employees, employees.length));
+      dispatch(_fetchAllEmployeesSuccess(employees, employees.length));
     })
     .catch( error => {
       dispatch(_fetchAllEmployeesFailed(error));

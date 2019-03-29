@@ -16,7 +16,7 @@ const _fetchAllClientsFailed = error => {
   };
 };
 
-const _receiveAllClients = (clients, count) => {
+const _fetchAllClientsSuccess = (clients, count) => {
   return {
     type: actionTypes.FETCHING_CLIENTS_SUCCESS,
     clients,
@@ -58,7 +58,7 @@ export const fetchAllClients = () => dispatch => {
 
   getAllClients()
     .then(({ data: clients }) => {
-      dispatch(_receiveAllClients(clients, clients.length));
+      dispatch(_fetchAllClientsSuccess(clients, clients.length));
     })
     .catch(error => {
       dispatch(_fetchAllClientsFailed(error));
