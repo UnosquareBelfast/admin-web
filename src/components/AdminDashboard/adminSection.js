@@ -18,19 +18,10 @@ const AdminSection = (props) => {
   const disabledLink = text => <a className="disabled">{text}</a>;
   const validLink = text => <Link to={linkTo}>{text}</Link>;
   const sectionLink = () => {
-    if (isLoading) {
-      return disabledLink(`${title} are loading...`);
-    } else {
-      if (hasError) {
-        return disabledLink(error);
-      } else {
-        if (resultCount === 0) {
-          return  disabledLink(`No ${title} created`);
-        } else {
-          return validLink(`View All ${title} (${resultCount})`);
-        }
-      }
-    }
+    if (isLoading) { return disabledLink(`${title} are loading...`); }
+    if (hasError) { return disabledLink(error); }
+    if (resultCount === 0) { return  disabledLink(`No ${title} created`); }
+    return validLink(`View All ${title} (${resultCount})`);
   };
 
   return (
