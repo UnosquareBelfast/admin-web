@@ -5,7 +5,7 @@ export { default as Modal } from './Modal';
 export { default as Errorbox } from './Errorbox';
 export { default as Event } from './Event';
 export { default as Steps } from './Steps';
-export { default as StepsUI } from './Steps';
+export { default as StepsUI } from './StepsUI';
 export { default as TabsUI } from './TabsUI';
 export { default as Table } from './Table';
 export { default as Spinner } from './Spinner';
