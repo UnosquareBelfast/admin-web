@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Redirect } from 'react-router-dom';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import ViewTeamsForm from './form';
@@ -8,19 +9,27 @@ import { Button } from '../common';
 import { CornerButton } from '../common_styled';
 
 export const ViewTeams = ({
-  clients,
+  clientOptions,
   selectTeam,
   selectedTeam,
   teamSearch,
   teams,
   navigateTo,
 }) => {
+
+  const renderRedirect = () => {
+    if (clientOptions.length === 1) {
+      return <Redirect to="/admin" />;
+    }
+  };
+
   return (
     <Fragment>
+      {renderRedirect()}
       {selectedTeam && (
-        <EditTeamModal 
-          team={selectedTeam} 
-          closeModal={selectTeam} 
+        <EditTeamModal
+          team={selectedTeam}
+          closeModal={selectTeam}
         />
       )}
       <div>
@@ -31,15 +40,15 @@ export const ViewTeams = ({
           />
         </CornerButton>
         <h2>View Teams</h2>
-        <ViewTeamsForm 
-          clients={clients} 
-          teamSearch={teamSearch} 
+        <ViewTeamsForm
+          clientOptions={clientOptions}
+          teamSearch={teamSearch}
         />
         <DataTable
           data={teams}
           cells={TeamCells}
           columns={['teamName']}
-          onRowClick={data => selectTeam(data)}
+          onRowClick={({ teamId }) => selectTeam(teamId)}
           pageSize={20}
         />
       </div>
@@ -48,7 +57,7 @@ export const ViewTeams = ({
 };
 
 ViewTeams.propTypes = {
-  clients: PT.array.isRequired,
+  clientOptions: PT.array.isRequired,
   selectTeam: PT.func.isRequired,
   selectedTeam: PT.object,
   teamSearch: PT.func.isRequired,

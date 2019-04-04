@@ -42,7 +42,7 @@ const FormikEnhancer = withFormik({
 export const CreateTeamForm = props => {
 
   const {
-    clients,
+    clientOptions,
     isValid,
   } = props;
 
@@ -54,7 +54,7 @@ export const CreateTeamForm = props => {
           component={SelectField}
           title="Select a Client"
           name="selectedClient"
-          options={clients}
+          options={clientOptions}
         />
 
         <Field
@@ -76,10 +76,13 @@ export const CreateTeamForm = props => {
 CreateTeamForm.propTypes = {
 
   // Props
-  clients: PT.arrayOf(
+  clientOptions: PT.arrayOf(
     PT.shape({
       displayValue: PT.string,
-      value: PT.string,
+      value: PT.oneOfType([
+        PT.string,
+        PT.number,
+      ]),
     }),
   ),
 
