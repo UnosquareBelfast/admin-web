@@ -1,15 +1,27 @@
 import React, { Component } from 'react';
+import { PropTypes as PT } from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { getEmployeeCount, getTeamCount, getClientCount } from '../../store/reducers';
+
 import { createContract } from '../../services/contractService';
 import swal from 'sweetalert2';
 import { Toast } from '../../config/Notifications';
 
-export default Wrapped =>
+const CreateContractContainer = Wrapped =>
   class extends Component {
+
+    static propTypes = {
+      employeeCount: PT.number.isRequired, 
+      teamCount: PT.number.isRequired, 
+      clientsCount: PT.number.isRequired,
+    }
+
     constructor(props) {
       super(props);
       this.state = {
         contractData: {},
-        step: 0,
+        step: 1,
       };
     }
 
@@ -39,7 +51,7 @@ export default Wrapped =>
       });
       this.setState({
         contractData: {},
-        step: 0,
+        step: 1,
       });
     };
 
@@ -52,16 +64,24 @@ export default Wrapped =>
           },
         },
         () => {
-          const { contractData } = this.state;
+          const { 
+            contractData:  {
+              selectedEmployee, 
+              selectedTeam, 
+              startDate, 
+              endDate, 
+              isOpenEnded,
+            },
+          } = this.state;
 
           const contractRequest = {
-            employeeId: contractData.selectedUser.value,
-            teamId: contractData.selectedTeam.value,
-            startDate: contractData.startDate.toISOString(),
-            endDate: contractData.endDate.toISOString(),
+            employeeId: selectedEmployee.value,
+            teamId: selectedTeam.value,
+            startDate: startDate.toISOString(),
+            endDate: endDate.toISOString(),
           };
 
-          if (contractData.isOpenEnded) {
+          if (isOpenEnded) {
             delete contractRequest.endDate;
           }
 
@@ -74,10 +94,20 @@ export default Wrapped =>
       );
     };
 
+    configFormRequirements = () => {
+      const { employeeCount, teamCount, clientsCount } = this.props; 
+      return {
+        employeesExist: employeeCount > 0,
+        teamsExist: teamCount > 0,
+        clientsExist: clientsCount > 0,
+      };
+    }
+
     render() {
       return (
         <Wrapped
           {...this.props}
+          formRequirements={this.configFormRequirements()}
           step={this.state.step}
           nextStep={this.nextStep}
           submit={this.submitContract}
@@ -86,3 +116,14 @@ export default Wrapped =>
       );
     }
   };
+
+const mapStateToProps = state => {
+  return {
+    employeeCount: getEmployeeCount(state),
+    teamCount: getTeamCount(state),
+    clientsCount: getClientCount(state),
+  };
+};
+
+export default compose(connect(mapStateToProps), CreateContractContainer);
+

@@ -17,18 +17,18 @@ const FormikEnhancer = withFormik({
   // validateOn
   mapPropsToValues: () => {
     return ({
-      selectedClientId: '-1',
-      selectedTeamId: '-1',
+      selectedClientId: -1,
+      selectedTeamId: -1,
     });
   },
 
   // Custom sync validation
   validate: ({ selectedClientId, selectedTeamId }) => {
     let errors = {};
-    if (selectedClientId === '-1') {
+    if (selectedClientId === -1) {
       errors.selectedClientId = 'Please select a client';
     }
-    if (selectedTeamId === '-1') {
+    if (selectedTeamId === -1) {
       errors.selectedTeamId = 'Please select a team';
     }
     return errors;
@@ -43,9 +43,9 @@ const FormikEnhancer = withFormik({
 
 export const TeamForm = props => {
   const {
-    clients,
+    clientOptions,
+    teamOptions,
     searchTeam,
-    teams,
     teamResults,
     values,
     isValid,
@@ -62,7 +62,7 @@ export const TeamForm = props => {
           component={SelectField}
           title="Select a Client"
           name="selectedClientId"
-          options={clients}
+          options={clientOptions}
         />
 
         {
@@ -71,11 +71,11 @@ export const TeamForm = props => {
         }
 
         {
-          teams.length === 0 ?
+          teamOptions.length === 0 ?
 
             <Button
               type="button"
-              disabled={values.selectedClientId === '-1'}
+              disabled={values.selectedClientId === -1}
               onClick={() => searchTeam(values.selectedClientId)}
             >
               Search teams
@@ -89,7 +89,7 @@ export const TeamForm = props => {
                 component={SelectField}
                 title="Select a Team"
                 name="selectedTeamId"
-                options={teams}
+                options={teamOptions}
               />
 
               <ButtonGroupSubmitReset>
@@ -109,15 +109,21 @@ export const TeamForm = props => {
 };
 
 TeamForm.propTypes = {
-  teams: PT.array,
+  teamOptions: PT.array,
   teamResults: PT.string,
   searchTeam: PT.func,
-  clients: PT.array,
+  clientOptions: PT.array,
 
   // Formik Props
   values: PT.shape({
-    selectedClientId: PT.string,
-    selectedTeamId: PT.string,
+    selectedClientId: PT.oneOfType([
+      PT.string,
+      PT.number,
+    ]),
+    selectedTeamId: PT.oneOfType([
+      PT.string,
+      PT.number,
+    ]),
   }),
   isValid: PT.bool.isRequired,
   handleFormReset: PT.func,
