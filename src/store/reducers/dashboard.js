@@ -1,3 +1,4 @@
+import initialState from './initialState';
 import {
   SET_EVENT_VIEW,
   SET_CALENDAR_EVENTS,
@@ -9,36 +10,9 @@ import {
   TOGGLE_BOOKING_MODAL,
   SET_IS_BEING_UPDATED,
 } from '../actions/actionTypes';
-import eventsView from '../../constants/eventsView';
-import moment from 'moment';
-
-const initialState = {
-  eventView: eventsView.PERSONAL_EVENTS,
-  allEvents: [],
-  booking: {
-    eventId: -1,
-    title: null,
-    start: new moment(),
-    end: new moment(),
-    isHalfday: false,
-    eventType: {
-      eventTypeId: 1,
-      description: 'Annual leave',
-    },
-    eventStatus: {
-      eventStatusId: 1,
-      description: 'Awaiting Approval',
-    },
-    employee: null,
-  },
-  bookingDuration: 1,
-  bookingModalOpen: false,
-  isEventBeingUpdated: false,
-  error: null,
-};
 
 // Reducer
-export default function dashboardReducer(state = initialState, action) {
+export default function dashboardReducer(state = initialState.dashboard, action) {
   const handler = ACTION_HANDLERS[action.type];
   return handler ? handler(state, action) : state;
 }
@@ -87,6 +61,3 @@ const ACTION_HANDLERS = {
 export const getAllEvents = store => store.allEvents;
 export const getEventView = store => store.eventView;
 export const eventBeingUpdated = store => store.isEventBeingUpdated;
-//export const getBooking = store => store.booking;
-//export const bookingModalOpen = store => store.bookingModalOpen;
-//export const getBookingDuration = store => store.bookingDuration;

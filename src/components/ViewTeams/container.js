@@ -1,76 +1,47 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { getTeamsFromClient } from '../../services/teamService';
-import { getAllClients } from '../../services/clientService';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { updateSelectedTeamId, fetchAllTeams } from '../../store/actions/teams';
+import { updateSelectedClientId } from '../../store/actions/clients';
+import { getClientOptions, getSelectedClientId, getTeamsOptions, getSelectedTeamId } from '../../store/reducers';
 
-import swal from 'sweetalert2';
-
-export default Wrapped =>
+const ViewteamsContainer = Wrapped =>
   class extends Component {
     static propTypes = {
+      fetchAllTeams: PT.func,
+      clientOptions: PT.array,
+      updateSelectedTeamId: PT.func,
+      updateSelectedClientId: PT.func,
+      teams: PT.array,
+      selectedTeam: PT.object,
       history: PT.object.isRequired,
     };
 
     constructor(props) {
       super(props);
       this.state = {
-        clients: [],
-        teams: [],
         selectedTeam: null,
       };
     }
 
-    componentDidMount() {
-
-      getAllClients()
-        .then(({data: clients}) => {
-          if (clients.length > 0) {
-            const formattedClients = clients.reduce((acc, client) => {
-              acc.push({
-                value: client.clientId,
-                displayValue: client.clientName,
-              });
-              return acc;
-            }, []);
-            formattedClients.unshift({
-              value: '-1',
-              displayValue: 'Please select a client',
-            });
-            this.setState(
-              {
-                clients: formattedClients,
-              });
-          }
-        })
-        .catch(error =>
-          swal('Error', `Could not retreive clients: ${error.message}`, 'error')
-        );
-    }
-
     teamSearch = clientId => {
-      getTeamsFromClient(clientId)
-        .then(({data}) => {
-          const teams = data || [];
-          this.setState({ teams });
-        })
-        .catch(error =>
-          swal('Error', `Could not get teams: ${error.message}`, 'error')
-        );
+      this.props.updateSelectedClientId(clientId);
     };
 
-    selectTeam = (selectedTeam, clientToRefresh) => {
-      this.setState({ selectedTeam });
+    selectTeam = (updatedTeamId, clientToRefresh) => {
+      this.props.updateSelectedTeamId(updatedTeamId);
       if (clientToRefresh) {
-        this.teamSearch(clientToRefresh);
+        this.props.fetchAllTeams();
       }
     };
 
     render() {
-      const { clients, teams, selectedTeam } = this.state;
+      const { clientOptions, teams, selectedTeam, history } = this.props;
       return (
         <Wrapped
-          navigateTo={this.props.history.push}
-          clients={clients}
+          navigateTo={history.push}
+          clientOptions={clientOptions}
           teamSearch={this.teamSearch}
           teams={teams}
           selectedTeam={selectedTeam}
@@ -79,3 +50,29 @@ export default Wrapped =>
       );
     }
   };
+
+const mapStateToProps = state => {
+
+  const clientOptions = getClientOptions(state);
+  const selectedClientId = getSelectedClientId(state);
+  const { teams } = getTeamsOptions(state, selectedClientId);
+  const selectedTeamId = getSelectedTeamId(state); 
+  const selectedTeam = teams.find(({teamId}) => teamId === selectedTeamId);
+
+  return {
+    clientOptions,
+    teams,
+    selectedTeamId,
+    selectedTeam,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchAllTeams: () => dispatch(fetchAllTeams()),
+    updateSelectedClientId: (selectedClientId) => dispatch(updateSelectedClientId(selectedClientId)),
+    updateSelectedTeamId: (selectedClientId) => dispatch(updateSelectedTeamId(selectedClientId)),
+  };
+};
+
+export default compose(connect(mapStateToProps, mapDispatchToProps), ViewteamsContainer);

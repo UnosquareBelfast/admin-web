@@ -15,22 +15,22 @@ const FormikEnhancer = withFormik({
   // validateOn
   mapPropsToValues: () => {
     return ({
-      selectedClient: '-1',
+      selectedClient: -1,
     });
   },
 
 });
 
 export const ViewTeamsForm = props => {
-  const { clients, teamSearch, setFieldValue } = props;
+  const { clientOptions, teamSearch, setFieldValue } = props;
 
   const updateTeam = (event) => {
-    const value = event.target.value;
-    teamSearch(event.target.value);
+    const value = parseInt(event.target.value);
+    teamSearch(value);
     setFieldValue('selectedClient', value);
   };
 
-  if (clients.length > 0) {
+  if (clientOptions.length > 0) {
     return (
       <FormContainer>
         <Form>
@@ -38,7 +38,7 @@ export const ViewTeamsForm = props => {
             component={SelectField}
             title="Select a Client"
             name="selectedClient"
-            options={clients}
+            options={clientOptions}
             onChange={updateTeam}
           />
         </Form>

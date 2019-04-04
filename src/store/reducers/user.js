@@ -1,20 +1,8 @@
 import { UPDATE_USER, RESET_USER } from '../actions/actionTypes';
-
-export const initialState = {
-  forename: null,
-  surname: null,
-  email: null,
-  countryId: null,
-  employeeId: null,
-  employeeRoleId: null,
-  employeeStatusId: null,
-  startDate: null,
-  totalHolidays: null,
-  holidays: {},
-};
+import initialState from './initialState';
 
 // Reducer
-export default function userReducer(state = initialState, action) {
+export default function userReducer(state = initialState.user, action) {
   const handler = ACTION_HANDLERS[action.type];
   return handler ? handler(state, action) : state;
 }

@@ -1,79 +1,64 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { PropTypes as PT } from 'prop-types';
-import { createTeam } from '../../services/teamService';
-import { getAllClients } from '../../services/clientService';
-import swal from 'sweetalert2';
 import { Toast } from '../../config/Notifications';
+import { getClientOptions } from '../../store/reducers';
+import { postNewTeam } from '../../store/actions/teams';
 
-export default Wrapped =>
+const CreateContainer = Wrapped =>
   class extends Component {
 
     static propTypes = {
+      postNewTeam: PT.func.isRequired,
+      clientOptions: PT.array,
       history: PT.shape({
         replace: PT.func.isRequired,
       }),
     }
 
-    state = {
-      clients: [],
+    onSuccess = (teamName, resetForm) => {
+      resetForm();
+      Toast({
+        type: 'success',
+        title: `${teamName} created sucessfully! 👍`,
+      });
     }
 
-    componentDidMount() {
-
-      getAllClients()
-        .then(response => {
-          const clients = response.data;
-          const formattedClients = clients.reduce((acc, client) => {
-            acc.push({
-              value: client.clientId.toString(),
-              displayValue: client.clientName,
-            });
-            return acc;
-          }, []);
-          formattedClients.unshift({
-            value: '-1',
-            displayValue: 'Please select a client',
-          });
-          this.setState({ clients: formattedClients });
-        })
-        .catch(error =>
-          swal(
-            'Error',
-            `Could not retreive clients: ${error.message}`,
-            'error',
-          ),
-        );
-    }
-
-    submitRequest = ({selectedClient, teamName}, resetForm) => {
+    submitRequest = ({ selectedClient, teamName }, resetForm) => {
       const request = {
         clientId: selectedClient,
         teamName: teamName,
       };
-      createTeam(request)
-        .then(() => {
-          resetForm();
-          Toast({
-            type: 'success',
-            title: `${teamName} team created successfully! 👍`,
-          });
-        })
-        .catch(error => {
-          swal('Error', `Error creating ${teamName} team: ${error.message}`, 'error');
-        });
+      this.props.postNewTeam(request, () => this.onSuccess(teamName, resetForm));
     };
 
     render() {
 
-      const { clients } = this.state;
-      const { history: { replace } } = this.props;
+      const { clientOptions, history: { replace } } = this.props;
 
       return (
-        <Wrapped 
-          clients={clients}
-          navigateTo={replace} 
-          submitRequest={this.submitRequest} 
+        <Wrapped
+          clientOptions={clientOptions}
+          navigateTo={replace}
+          submitRequest={this.submitRequest}
         />
       );
     }
   };
+
+const mapStateToProps = state => {
+  const clientOptions = getClientOptions(state);
+  return {
+    clientOptions,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    postNewTeam: (data, onSuccess) =>
+      dispatch(postNewTeam(data, onSuccess)),
+  };
+};
+
+export default compose(connect(mapStateToProps, mapDispatchToProps), CreateContainer);

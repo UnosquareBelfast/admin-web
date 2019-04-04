@@ -26,9 +26,18 @@ export const InnerLayout = styled.div`
             border-color: ${({ theme }) => theme.colours.unoBlue};
           }
         }
+
+        .disabled {
+          color: ${({ theme }) => theme.colours.grey};
+          :hover {
+            color: ${({ theme }) => theme.colours.grey};
+            background: transparent;
+            border-color: ${({ theme }) => theme.colours.grey};
+          }
+        }
       }
     }
-  } */}
+  }
 
   .columnWrap {
     display: flex;

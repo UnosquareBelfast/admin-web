@@ -6,7 +6,7 @@ import { InputField, SelectField } from '../common/Formik';
 import { Button, ButtonGroupWithInput } from '../common/Formik/styled';
 
 
-import { FormContainer } from './styled';
+import { FormContainer, Column } from './styled';
 
 const FormikEnhancer = withFormik({
 
@@ -19,65 +19,80 @@ const FormikEnhancer = withFormik({
   mapPropsToValues: () => {
     return ({
       fullName: '',
-      selectedUserId: '-1',
+      selectedEmployeeId: '-1',
+      selectedTeamId: '-1',
     });
   },
 
-  // Custom sync validation
-  validate: ({ fullName }) => {
-    let errors = {};
-    let nameArray = fullName.split(' ');
-    if (fullName === '') {
-      errors.fullName = 'First name cannot be empty.';
-    }
-    if (nameArray.length !== 2) {
-      errors.fullName = 'Please add both a first and last name';
-    }
-    return errors;
-  },
-
   handleSubmit: (payload, { props }) => {
-    props.searchUsers(payload);
+    props.searchEmployees(payload);
   },
 
 });
 
 
 export const SearchUserForm = props => {
-  const { users, isValid, setFieldValue, contractSearch } = props;
-  
-  const updateContract = (event) => {
-    const value = event.target.value;
-    contractSearch(event.target.value);
-    setFieldValue('selectedUserId', value);
+  const { employees, teams, isValid, setFieldValue, contractSearch } = props;
+
+  const updateContract = ({ target: { name, value } }) => {
+    const testIfValueIsANumber = parseInt(value);
+    if (!isNaN(testIfValueIsANumber)) {
+      contractSearch(name, value);
+      setFieldValue(name, value);
+    }
   };
-   
+
+  const createEmployeeLabelText = () => {
+    let title = 'Search for en employee in the text field above';
+    if (employees.length > 0) {
+      const employeesFound = employees.length - 1;
+      const employeeString = `employee${employees.length > 2 ? 's' : ''}`;
+      title = `Select Employee (${employeesFound} ${employeeString} found)`;
+    }
+    return title;
+  };
+
+
   return (
     <FormContainer>
       <Form>
 
-        <ButtonGroupWithInput>
-          <Field
-            component={InputField}
-            title="Search Employee's Full Name"
-            name="fullName"
-            placeholder="Enter a full name"
-          />        
-          <Button type="submit" disabled={!isValid}>
-            Search Employee
-          </Button>
-        </ButtonGroupWithInput>
+        <Column>
+          <ButtonGroupWithInput>
+            <Field
+              component={InputField}
+              title="Search Employee"
+              name="fullName"
+              placeholder="Enter a name"
+            />
+            <Button type="submit" disabled={!isValid}>
+              Search Employee
+            </Button>
+          </ButtonGroupWithInput>
 
-        {
-          users.length > 0 &&
+
           <Field
             component={SelectField}
-            title={`Select Employee (${users.length - 1} employee${users.length > 2 ? 's' : ''} found)`}
-            name="selectedUserId"
-            options={users}
+            title={createEmployeeLabelText()}
+            name="selectedEmployeeId"
+            options={employees}
+            onChange={updateContract}
+            disabled={employees.length === 0}
+          />
+
+        </Column>
+
+        <Column>
+          <Field
+            component={SelectField}
+            title="Select Team"
+            name="selectedTeamId"
+            options={teams}
             onChange={updateContract}
           />
-        }
+        </Column>
+
+
 
       </Form>
     </FormContainer>
@@ -86,7 +101,16 @@ export const SearchUserForm = props => {
 
 SearchUserForm.propTypes = {
   contractSearch: PT.func.isRequired,
-  users: PT.arrayOf(
+  teams: PT.arrayOf(
+    PT.shape({
+      displayValue: PT.string,
+      value: PT.oneOfType([
+        PT.string,
+        PT.number,
+      ]),
+    }),
+  ),
+  employees: PT.arrayOf(
     PT.shape({
       displayValue: PT.string,
       value: PT.oneOfType([
@@ -101,7 +125,8 @@ SearchUserForm.propTypes = {
 };
 
 SearchUserForm.defaultProps = {
-  users: [],
+  employees: [],
+  teams: [],
 };
 
 export default FormikEnhancer(SearchUserForm);

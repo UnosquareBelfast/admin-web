@@ -4,4 +4,8 @@ export const FilterContainer = styled.div`
   border: 1px solid lightgrey;
   border-bottom: none;
   padding: 10px;
+
+  > div {
+    max-width: 50%;
+  }
 `;

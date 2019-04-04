@@ -1,31 +1,43 @@
 import React from 'react';
+import { PropTypes as PT } from 'prop-types';
+import container from './container';
 import { Link } from 'react-router-dom';
 import { InnerLayout } from './styled';
+import AdminSection from './adminSection';
 
-const AdminDashboard = () => {
+const AdminDashboard = ({ clients, teams, employees }) => {
+
   return (
     <InnerLayout>
       <h2>Admin Dashboard</h2>
       <div className="columnWrap">
-        <div>
-          <h3>Employees</h3>
-          <Link to="/admin/employees">View Employees</Link>
-        </div>
+
+        <AdminSection
+          title="Employees"
+          linkTo="/admin/employees"
+          config={employees}
+        />
+
         <div>
           <h3>Holidays</h3>
           <Link to="/admin/holidays">View All Holidays</Link>
           <Link to="/admin/holidays/pending">View Pending Holidays</Link>
         </div>
-        <div>
-          <h3>Clients</h3>
-          <Link to="/admin/clients">View All Clients</Link>
-          <Link to="/admin/clients/new">Create Client</Link>
-        </div>
-        <div>
-          <h3>Teams</h3>
-          <Link to="/admin/teams">View All Teams</Link>
-          <Link to="/admin/teams/new">Create Team</Link>
-        </div>
+
+        <AdminSection
+          title="Clients"
+          linkTo="/admin/clients"
+          createLinkTo="/admin/clients/new"
+          config={clients}
+        />
+
+        <AdminSection
+          title="Teams"
+          linkTo="/admin/teams"
+          createLinkTo="/admin/teams/new"
+          config={teams}
+        />
+
         <div>
           <h3>Contracts</h3>
           <Link to="/admin/contracts">View Contracts</Link>
@@ -36,4 +48,10 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+AdminDashboard.propTypes = {
+  clients: PT.object,
+  teams: PT.object,
+  employees: PT.object,
+};
+
+export default container(AdminDashboard);

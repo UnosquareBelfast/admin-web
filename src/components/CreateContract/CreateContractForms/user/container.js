@@ -1,64 +1,61 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { PropTypes as PT } from 'prop-types';
-import swal from 'sweetalert2';
-import { getUserByName } from '../../../../services/userService';
+import { getAllEmployees } from '../../../../store/reducers';
 
-export default Wrapped =>
+const CreateContractFormsContainer = Wrapped =>
   class extends Component {
     static propTypes = {
+      employees: PT.array,
       onSuccess: PT.func,
     };
 
     state = {
-      users: [],
+      employeesOptions: [],
     };
 
-    handleUserSectionSubmit = ({selectedUserId}) => {
-      
-      let selectedUser = this.state.users.filter(
-        user => user.value == selectedUserId
-      );
-      selectedUser = selectedUser[0];
+    handleUserSectionSubmit = ({ employeeId }) => {
+
+      let selectedEmployee = this.state.employeesOptions.filter(
+        employee => employee.value == employeeId
+      )[0];
 
       const data = {
-        selectedUser,
+        selectedEmployee,
       };
 
       return this.props.onSuccess(data);
     };
 
-    handleUserSearch = (forename, surname) => {
+    handleSearchEmployees = (fullName) => {
 
-      getUserByName(forename, surname)
-        .then(response => {
-          const users = response.data;
-          const usersFormatted = users.reduce((acc, user) => {
-            acc.push({
-              value: parseInt(user.employeeId),
-              displayValue: `${user.forename} ${user.surname} (${user.email})`,
-            });
-            return acc;
-          }, []);
-          usersFormatted.unshift({
-            value: '-1',
-            displayValue: 'Please select a user',
-          });
-          this.setState({
-            users: usersFormatted,
-          });
-        })
-        .catch(error =>
-          swal(
-            'Error',
-            `Could not retreive clients: ${error.message}`,
-            'error',
-          ),
-        );
+      const employees = this.props.employees.filter(({ forename, surname }) => {
+        const fullname = `${forename} ${surname}`;
+        return fullname.includes(fullName);
+      });
+
+      const employeesOptions = employees.reduce((acc, employee) => {
+        acc.push({
+          value: employee.employeeId,
+          displayValue: `${employee.forename} ${employee.surname} (${employee.email})`,
+        });
+        return acc;
+      }, []);
+      employeesOptions.unshift({
+        value: '-1',
+        displayValue: 'Please select an employee',
+      });
+      this.setState(
+        {
+          employeesOptions,
+        }
+      );
     };
 
     handleUserFormReset = resetForm => {
       this.setState({
-        users: [],
+        employeesOptions: [],
       }, () => {
         resetForm();
       });
@@ -67,11 +64,19 @@ export default Wrapped =>
     render() {
       return (
         <Wrapped
-          users={this.state.users}
+          employees={this.state.employeesOptions}
           handleUserSectionSubmit={this.handleUserSectionSubmit}
-          searchUser={this.handleUserSearch}
+          searchEmployees={this.handleSearchEmployees}
           handleFormReset={this.handleUserFormReset}
         />
       );
     }
   };
+
+const mapStateToProps = state => {
+  return {
+    employees: getAllEmployees(state),
+  };
+};
+
+export default compose(connect(mapStateToProps), CreateContractFormsContainer);
