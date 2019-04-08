@@ -4,7 +4,7 @@
 2. Clone repo with `git clone https://github.com/UnosquareBelfast/admin-web.git`
 3. Navigate to `/admin-web/` with `cd admin-web`.
 4. Run `npm install` to get the dependencies for the project.
-5. Create a file `.env` inside `/web-app/` with the following line: `DOMAIN='http://localhost:8081'`. This points to the back-end. If you are using Docker Toolbox the domain may differ.
+5. Create a file `.env` inside `/web-app/` with the following line: `DOMAIN='http://localhost:80'`. This points to the back-end. If you are using Docker Toolbox the domain may differ.
 6. Run `npm start` to start the web-server.
 
 ### Code Styling
